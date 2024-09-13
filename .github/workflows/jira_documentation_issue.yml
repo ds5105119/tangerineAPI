@@ -60,11 +60,6 @@ jobs:
       - name: Log created issue
         run: echo "Jira Issue ${{ steps.issue-parser.outputs.parentKey }}/${{ steps.create.outputs.issue }} was created"
 
-      - name: Checkout develop code
-        uses: actions/checkout@v4
-        with:
-          ref: main
-
       - name: Create branch with Ticket number
         run: |
           git checkout -b ${{ steps.create.outputs.issue }}
