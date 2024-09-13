@@ -20,7 +20,7 @@ body:
     validations:
       required: true
 
-  - type: textarea
+  - type: markdown
     id: details
     attributes:
       label: '상세 내용(Details)'
