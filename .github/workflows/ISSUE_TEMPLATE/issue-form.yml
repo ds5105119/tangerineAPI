@@ -1,5 +1,5 @@
-name: 'SSDA Front 이슈 생성'
-description: 'SSDA Front Repo에 이슈를 생성하며, 생성된 이슈는 Jira와 연동됩니다.'
+name: 'tangerineFront 이슈 생성'
+description: 'tangerineFront Repo에 이슈를 생성하며, 생성된 이슈는 Jira와 연동됩니다.'
 labels: [order]
 title: '이슈 이름을 작성해주세요'
 body:
@@ -8,7 +8,7 @@ body:
     attributes:
       label: '상위 작업 Ticket Number'
       description: '상위 작업의 Ticket Number를 기입해주세요'
-      placeholder: 'DIAR-00'
+      placeholder: 'TG-00'
     validations:
       required: true
 
