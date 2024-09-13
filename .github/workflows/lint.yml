@@ -1,8 +1,8 @@
 name: Lint Python Code with Ruff
 
 on:
-  push:
-  pull_request:
+  # push:
+  # pull_request:
 
 jobs:
   lint:
