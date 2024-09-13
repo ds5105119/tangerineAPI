@@ -61,7 +61,7 @@ jobs:
       # 라벨이 "bug" 또는 "wontfix"가 아닐 경우 issuetype을 Task로 설정
       - name: Create Issue (if not bug or wontfix)
         id: create-task
-        if: "!contains(join(github.event.issue.labels.*.name, ','), 'bug')" && "!contains(join(github.event.issue.labels.*.name, ','), 'wontfix')"  # 라벨에 bug 또는 wontfix가 포함되지 않은 경우
+        if: "!contains(join(github.event.issue.labels.*.name, ','), 'bug,wontfix')"  # 라벨에 bug 또는 wontfix가 포함되지 않은 경우
         uses: atlassian/gajira-create@v3
         with:
           project: TG
@@ -80,9 +80,9 @@ jobs:
         run: echo "Jira Bug Issue ${{ steps.issue-parser.outputs.parentKey }}/${{ steps.create-bug.outputs.issue }} was created"
 
       - name: Log created issue (Task)
-        if: "!contains(join(github.event.issue.labels.*.name, ','), 'bug')" && "!contains(join(github.event.issue.labels.*.name, ','), 'wontfix')"  # 라벨에 bug 또는 wontfix가 없을 경우
+        if: "!contains(join(github.event.issue.labels.*.name, ','), 'bug,wontfix')"  # 라벨에 bug 또는 wontfix가 없을 경우
         run: echo "Jira Task Issue ${{ steps.issue-parser.outputs.parentKey }}/${{ steps.create-task.outputs.issue }} was created"
-
+      
       - name: Checkout develop code
         uses: actions/checkout@v4
         with:
