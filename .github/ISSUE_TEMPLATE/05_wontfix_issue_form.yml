@@ -1,7 +1,7 @@
 name: ' 🫥 고쳐지지 않았어요'
 description: 'tangerineFront Repo에 wontfix 이슈를 생성하며, 생성된 이슈는 Jira와 연동됩니다.'
 labels: [wontfix]
-projects: [tangerines]
+projects: [ds5105119/2]
 body:
   - type: input
     id: parentKey
