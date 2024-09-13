@@ -1,7 +1,7 @@
 name: ' 💡 기능 제안'
 description: 'tangerineFront Repo에 기능 제안 이슈를 생성하며, 생성된 이슈는 Jira와 연동됩니다.'
 labels: [issue]
-projects: [tangerines]
+projects: [ds5105119/2]
 body:
   - type: input
     id: parentKey
