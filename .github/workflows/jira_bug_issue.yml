@@ -1,11 +1,11 @@
-name: Create Bug Jira issue
+name: Create Jira Bug issue
 on:
   issues:
     types:
       - opened
 jobs:
   create-issue:
-    name: Create Bug Jira issue
+    name: Create Jira Bug issue
     runs-on: ubuntu-latest
     if: contains(join(github.event.issue.labels.*.name, ','), 'bug')
     steps:
