@@ -40,13 +40,3 @@ body:
         - [ ] Task2
     validations:
       required: true
-
-  - type: textarea
-    id: references
-    attributes:
-      label: '참조(References)'
-      description: '해당 이슈과 관련된 레퍼런스를 참조해주세요'
-      value: |
-        - Reference1
-    validations:
-      required: false
