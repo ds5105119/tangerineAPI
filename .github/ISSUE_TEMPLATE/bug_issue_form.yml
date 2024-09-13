@@ -1,7 +1,6 @@
 name: 'tangerineFront 버그 발견 이슈 생성'
 description: 'tangerineFront Repo에 버그 이슈를 생성하며, 생성된 이슈는 Jira와 연동됩니다.'
 labels: [bug]
-projects: [@tangerines]
 title: ''
 body:
   - type: input
