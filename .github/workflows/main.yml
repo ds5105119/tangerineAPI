@@ -7,6 +7,7 @@ jobs:
   create-issue:
     name: Create Jira issue
     runs-on: ubuntu-latest
+    if: contains(join(github.event.issue.labels.*.name, ','), 'bug')
     steps:
       - name: Login
         uses: atlassian/gajira-login@v3
@@ -24,7 +25,7 @@ jobs:
         uses: stefanbuck/github-issue-praser@v3
         id: issue-parser
         with:
-          template-path: .github/ISSUE_TEMPLATE/issue_form.yml
+          template-path: .github/ISSUE_TEMPLATE/01_bug_issue_form.yml
 
       - name: Log Issue Parser
         run: |
@@ -41,14 +42,12 @@ jobs:
             ${{ github.event.issue.body }}
           mode: md2jira
 
-      # 라벨이 "bug" 또는 "wontfix"일 때 issuetype을 Bug로 설정
-      - name: Create Issue (if label is bug or wontfix)
-        id: create-bug
-        if: contains(join(github.event.issue.labels.*.name, ','), 'bug') || contains(join(github.event.issue.labels.*.name, ','), 'wontfix')
+      - name: Create Issue
+        id: create
         uses: atlassian/gajira-create@v3
         with:
           project: TG
-          issuetype: Bug  # 라벨이 "bug" 또는 "wontfix"이면 issuetype을 Bug로 설정
+          issuetype: Task
           summary: "${{ github.event.issue.title }}"
           description: "${{ steps.md2jira.outputs.output-text }}"
           fields: |
@@ -58,31 +57,9 @@ jobs:
               }
             }
 
-      # 라벨이 "bug" 또는 "wontfix"가 아닐 경우 issuetype을 Task로 설정
-      - name: Create Issue (if not bug or wontfix)
-        id: create-task
-        if: "!contains(join(github.event.issue.labels.*.name, ','), 'bug,wontfix')"  # 라벨에 bug 또는 wontfix가 포함되지 않은 경우
-        uses: atlassian/gajira-create@v3
-        with:
-          project: TG
-          issuetype: Task  # 나머지 라벨일 경우 issuetype을 Task로 설정
-          summary: "${{ github.event.issue.title }}"
-          description: "${{ steps.md2jira.outputs.output-text }}"
-          fields: |
-            {
-              "parent": {
-                "key": "${{ steps.issue-parser.outputs.issueparser_parentKey }}"
-              }
-            }
+      - name: Log created issue
+        run: echo "Jira Issue ${{ steps.issue-parser.outputs.parentKey }}/${{ steps.create.outputs.issue }} was created"
 
-      - name: Log created issue (Bug)
-        if: contains(join(github.event.issue.labels.*.name, ','), 'bug') || contains(join(github.event.issue.labels.*.name, ','), 'wontfix')  # 라벨에 bug 또는 wontfix가 있을 경우
-        run: echo "Jira Bug Issue ${{ steps.issue-parser.outputs.parentKey }}/${{ steps.create-bug.outputs.issue }} was created"
-
-      - name: Log created issue (Task)
-        if: "!contains(join(github.event.issue.labels.*.name, ','), 'bug,wontfix')"  # 라벨에 bug 또는 wontfix가 없을 경우
-        run: echo "Jira Task Issue ${{ steps.issue-parser.outputs.parentKey }}/${{ steps.create-task.outputs.issue }} was created"
-      
       - name: Checkout develop code
         uses: actions/checkout@v4
         with:
