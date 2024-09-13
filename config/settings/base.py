@@ -66,7 +66,6 @@ THIRD_PARTY_APPS = [
     "corsheaders",  # django-cors-headers
     "rest_framework",  # Django Rest Framework
     "rest_framework.authtoken",  # Django Rest Framework
-    "django_elasticsearch_dsl",  # Django Elasticsearch integration
     "django_filters",  # Django Rest Framework Filter
     "rest_framework_simplejwt",  # SimpleJWT
     "rest_framework_simplejwt.token_blacklist",  # SimpleJWT
