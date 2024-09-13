@@ -1,11 +1,11 @@
-name: Create Jira issue
+name: Create Bug Jira issue
 on:
   issues:
     types:
       - opened
 jobs:
   create-issue:
-    name: Create Jira issue
+    name: Create Bug Jira issue
     runs-on: ubuntu-latest
     if: contains(join(github.event.issue.labels.*.name, ','), 'bug')
     steps:
@@ -47,7 +47,7 @@ jobs:
         uses: atlassian/gajira-create@v3
         with:
           project: TG
-          issuetype: Task
+          issuetype: Bug
           summary: "${{ github.event.issue.title }}"
           description: "${{ steps.md2jira.outputs.output-text }}"
           fields: |
