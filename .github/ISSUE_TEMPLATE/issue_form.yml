@@ -29,14 +29,3 @@ body:
         - About Details
     validations:
       required: true
-
-  - type: textarea
-    id: tasks
-    attributes:
-      label: '체크리스트(Tasks)'
-      description: '해당 이슈에 대해 필요한 작업목록을 작성해주세요'
-      value: |
-        - [ ] Task1
-        - [ ] Task2
-    validations:
-      required: true
