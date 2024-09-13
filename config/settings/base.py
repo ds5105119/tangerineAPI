@@ -92,7 +92,7 @@ MIDDLEWARE = [
     "allauth.account.middleware.AccountMiddleware",  # django-allauth
 ]
 
-ROOT_URLCONF = "blogAPI.urls"
+ROOT_URLCONF = "config.urls"
 
 TEMPLATES = [
     {
