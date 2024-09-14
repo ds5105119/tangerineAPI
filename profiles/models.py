@@ -1,6 +1,6 @@
 try:
-    from django.db import models
     from django.conf import settings
+    from django.db import models
 except ImportError:
     raise ImportError("django needs to be added to INSTALLED_APPS.")
 

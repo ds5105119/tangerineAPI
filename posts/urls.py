@@ -1,13 +1,13 @@
+from django.urls import include, path, register_converter
+from rest_framework.routers import DefaultRouter
+
 from .converters import HandleConverter
 from .views import (
     GetPresignedUrlView,
-    PostViewSet,
     LatestPostsAPIView,
     LatestPostsViaHandleAPIView,
+    PostViewSet,
 )
-from django.urls import path, include, register_converter
-from rest_framework.routers import DefaultRouter
-
 
 register_converter(HandleConverter, "handle")
 router = DefaultRouter()

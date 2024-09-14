@@ -1,6 +1,7 @@
-from .models import Post
 from rest_framework import serializers
-from taggit.serializers import TagListSerializerField, TaggitSerializer
+from taggit.serializers import TaggitSerializer, TagListSerializerField
+
+from .models import Post
 
 
 class PostSerializer(TaggitSerializer, serializers.ModelSerializer):
@@ -30,9 +31,5 @@ class PostSerializer(TaggitSerializer, serializers.ModelSerializer):
     def get_user(self, obj):
         return {
             "handle": obj.user.handle,
-            "profile_image": (
-                obj.user.profile.profile_image.url
-                if obj.user.profile.profile_image
-                else ""
-            ),
+            "profile_image": (obj.user.profile.profile_image.url if obj.user.profile.profile_image else ""),
         }

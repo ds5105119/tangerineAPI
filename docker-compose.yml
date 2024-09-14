@@ -4,8 +4,8 @@ services:
     container_name: blog_api_django
     entrypoint: ["sh", "-c"]
     command:
-    - "poetry run python manage.py makemigrations 
-    && poetry run python manage.py migrate 
+    - "poetry run python manage.py makemigrations
+    && poetry run python manage.py migrate
     && poetry run python manage.py runserver 0.0.0.0:8000"
     build:
       context: .

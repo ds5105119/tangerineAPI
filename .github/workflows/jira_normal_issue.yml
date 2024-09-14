@@ -65,7 +65,7 @@ jobs:
           JIRA_ISSUE_NUMBER=${{ steps.create.outputs.issue }}
           ISSUE_NUMBER=${{ github.event.issue.number }}
           BRANCH_NAME="${JIRA_ISSUE_NUMBER}--issue-${ISSUE_NUMBER}"
-          
+
           git checkout -b "${BRANCH_NAME}"
           git push origin "${BRANCH_NAME}"
 

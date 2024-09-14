@@ -1,18 +1,16 @@
-from .models import Comment, Reply
-from .serializers import CommentSerializer, ReplySerializer
-from api.permissions import UserReplyPermission
-from accounts.models import User
-from posts.models import Post
-
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import mixins, viewsets, status
+from rest_framework import mixins, status, viewsets
 from rest_framework.response import Response
 
+from api.permissions import UserReplyPermission
+from posts.models import Post
 
-class CommentListView(
-    mixins.CreateModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet
-):
+from .models import Comment
+from .serializers import CommentSerializer
+
+
+class CommentListView(mixins.CreateModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = (UserReplyPermission,)
@@ -23,15 +21,11 @@ class CommentListView(
         return Comment.objects.filter(post=post).order_by("-created_at")
 
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(
-            data=request.data, context={"request": request}
-        )
+        serializer = self.get_serializer(data=request.data, context={"request": request})
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
-        return Response(
-            serializer.data, status=status.HTTP_201_CREATED, headers=headers
-        )
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
 class CommentUserViewSet(

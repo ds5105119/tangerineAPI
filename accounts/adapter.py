@@ -3,11 +3,11 @@ from accounts.utils import generate_handle
 from profiles.models import Profile
 
 try:
-    from allauth.utils import valid_email_or_none
     from allauth.account.adapter import DefaultAccountAdapter
     from allauth.account.adapter import get_adapter as get_account_adapter
     from allauth.account.utils import user_email
     from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
+    from allauth.utils import valid_email_or_none
 except ImportError:
     raise ImportError("allauth needs to be added to INSTALLED_APPS.")
 
@@ -29,7 +29,8 @@ class SocialAccountAdapter(DefaultSocialAccountAdapter):
     """
 
     def pre_social_login(self, request, sociallogin):
-        user_data = sociallogin.account.extra_data
+        # user_data = sociallogin.account.extra_data
+        pass
 
     def save_user(self, request, sociallogin, form=None):
         user = sociallogin.user

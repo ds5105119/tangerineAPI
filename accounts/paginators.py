@@ -1,9 +1,7 @@
 try:
     from rest_framework.pagination import PageNumberPagination
 except ImportError:
-    raise ImportError(
-        "django-rest-framework needs to be added to INSTALLED_APPS."
-    )
+    raise ImportError("django-rest-framework needs to be added to INSTALLED_APPS.")
 
 
 class UserPagination(PageNumberPagination):

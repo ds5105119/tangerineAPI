@@ -1,16 +1,17 @@
-from .models import Post
-from .serializers import PostSerializer
-from .services import get_presigned_post
-from .permissions import PostPermissions
-from accounts.models import User
-
 from django.db.models import F
 from django.shortcuts import get_object_or_404
-from rest_framework import generics, mixins, viewsets, status
-from rest_framework.response import Response
-from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework.views import APIView
+from rest_framework import generics, mixins, status, viewsets
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from accounts.models import User
+
+from .models import Post
+from .permissions import PostPermissions
+from .serializers import PostSerializer
+from .services import get_presigned_post
 
 
 class UserPostPagination(PageNumberPagination):
@@ -92,7 +93,8 @@ class PostViewSet(
     lookup_field = "uuid"
 
     def perform_create(self, serializer):
-        post = serializer.save(user=self.request.user)
+        # post = serializer.save(user=self.request.user)
+        pass
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()

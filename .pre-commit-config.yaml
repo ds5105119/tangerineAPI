@@ -11,8 +11,3 @@ repos:
       - id: ruff
         args: ["--fix"]
       - id: ruff-format
-  - repo: https://github.com/PyCQA/isort
-    rev: 5.11.2
-    hooks:
-      - id: isort
-        exclude: ^.*\b(migrations)\b.*$

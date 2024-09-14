@@ -1,10 +1,8 @@
 from accounts.managers import UserManager
-from follows.models import Follow
 
 try:
-    from django.db import models
-    from django.db.models import Subquery, OuterRef
     from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+    from django.db import models
 except ImportError:
     raise ImportError("django needs to be added to INSTALLED_APPS.")
 

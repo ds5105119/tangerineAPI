@@ -1,10 +1,10 @@
-from follows.models import Follow
 from accounts.serializers import UserSerializer
+from follows.models import Follow
 
 try:
     from rest_framework import serializers
 except ImportError:
-    raise ImportError('django, django-rest-framework, dj-rest-accounts needs to be added to INSTALLED_APPS.')
+    raise ImportError("django, django-rest-framework, dj-rest-accounts needs to be added to INSTALLED_APPS.")
 
 
 class FollowSerializer(serializers.ModelSerializer):
@@ -14,18 +14,18 @@ class FollowSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Follow
-        fields = ('follower', 'user', 'created_at')
+        fields = ("follower", "user", "created_at")
 
 
 class FollowerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Follow
-        fields = ('follower', 'created_at')
-        read_only_fields = ['follower', 'created_at']
+        fields = ("follower", "created_at")
+        read_only_fields = ["follower", "created_at"]
 
 
 class FollowingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Follow
-        fields = ('user', 'created_at')
-        read_only_fields = ['user', 'created_at']
+        fields = ("user", "created_at")
+        read_only_fields = ["user", "created_at"]

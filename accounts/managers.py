@@ -1,10 +1,10 @@
 from profiles.models import Profile
 
 try:
-    from django.contrib.auth.models import BaseUserManager
     from django.contrib.auth.hashers import make_password
+    from django.contrib.auth.models import BaseUserManager
 except ImportError:
-    raise ImportError('django needs to be added to INSTALLED_APPS.')
+    raise ImportError("django needs to be added to INSTALLED_APPS.")
 
 
 class UserManager(BaseUserManager):
@@ -12,15 +12,16 @@ class UserManager(BaseUserManager):
     Custom user model manager where email and username
     See django.contrib.accounts.model.BaseUserManager
     """
+
     use_in_migrations = True
 
     def create_user(self, username, email=None, password=None, **extra_fields):
         if not email:
-            raise ValueError('Users must have an email address')
+            raise ValueError("Users must have an email address")
 
         extra_fields.setdefault("is_staff", False)
         extra_fields.setdefault("is_superuser", False)
-        extra_fields.setdefault('is_active', True)
+        extra_fields.setdefault("is_active", True)
 
         email = self.normalize_email(email)
         user = self.model(username=username, email=email, **extra_fields)
