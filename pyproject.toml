@@ -87,8 +87,35 @@ uvicorn = "0.30.6"
 vine = "5.1.0"
 wcwidth = "0.2.13"
 psycopg2-binary = "^2.9.9"
+pre-commit = "^3.8.0"
+ruff = "^0.6.5"
+isort = "^5.13.2"
 
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[pre-commit]
+# ref: https://beta.ruff.rs/docs/rules/
+select = ["B", "C4", "E", "F", "N", "I", "W", "UP"]
+ignore = ["F403","F405","E501","E402"]
+
+# Allow autofix for all enabled rules (when `--fix`) is provided.
+fixable = ["A", "B", "C", "D", "E", "F", "I", "UP"]
+unfixable = []
+
+per-file-ignores = {}
+
+# Same as Black.
+line-length = 120
+
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+# Assume Python 3.9.
+target-version = "py39"
+
+[tool.ruff.mccabe]
+# Unlike Flake8, default to a complexity level of 10.
+max-complexity = 10
