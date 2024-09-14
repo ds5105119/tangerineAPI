@@ -1,4 +1,4 @@
-from accounts.serializers import UserSelfSerializer, UserExternalSerializer
+from accounts.serializers import UserExternalSerializer, UserSelfSerializer
 from profiles.models import Profile
 
 try:

@@ -87,8 +87,20 @@ uvicorn = "0.30.6"
 vine = "5.1.0"
 wcwidth = "0.2.13"
 psycopg2-binary = "^2.9.9"
+pre-commit = "^3.8.0"
+ruff = "^0.6.5"
+isort = "^5.13.2"
 
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+select = ["B", "C4", "E", "F", "N", "I", "W", "UP"]
+ignore = ["F403","F405","E501","E402","B904"]
+fixable = ["A", "B", "C", "D", "E", "F", "I", "UP"]
+unfixable = []
+per-file-ignores = {}
+line-length = 120
+target-version = "py39"

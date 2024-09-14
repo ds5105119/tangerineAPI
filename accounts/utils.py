@@ -9,7 +9,7 @@ def generate_handle():
     20자의 경우: 0.00000126852 %
     :return: str
     """
-    return ''.join(SystemRandom().choice('abcdefghijklmnopqrstuvwxyz1234567890._') for _ in range(18))
+    return "".join(SystemRandom().choice("abcdefghijklmnopqrstuvwxyz1234567890._") for _ in range(18))
 
 
 if __name__ == "__main__":

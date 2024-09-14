@@ -1,15 +1,12 @@
 from accounts.views import GoogleLogin, UserHandleCreateView, UserViewSet
 
 try:
+    from dj_rest_auth.views import LogoutView
     from django.urls import include, path
     from rest_framework.routers import DefaultRouter
-    from rest_framework_simplejwt.views import TokenVerifyView, TokenRefreshView
-    from dj_rest_auth.registration.views import SocialAccountListView
-    from dj_rest_auth.views import LogoutView
+    from rest_framework_simplejwt.views import TokenRefreshView, TokenVerifyView
 except ImportError:
-    raise ImportError(
-        "django, django rest framework, simplejwt needs to be added to INSTALLED_APPS."
-    )
+    raise ImportError("django, django rest framework, simplejwt needs to be added to INSTALLED_APPS.")
 
 
 router = DefaultRouter()

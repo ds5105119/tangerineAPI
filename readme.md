@@ -12,24 +12,24 @@ DRF로 만든 팀 프로젝트의 백엔드입니다.
 
 ## 사용 기술 및 선택 이유
 
-<div align=center> 
-  <img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white"> 
-  <img src="https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white"> 
+<div align=center>
+  <img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white">
+  <img src="https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white">
   <br>
-  
-  <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white"> 
-  <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white"> 
-  <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> 
+
+  <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white">
+  <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white">
+  <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
   <br>
-  
-  <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black"> 
+
+  <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black">
   <img src="https://img.shields.io/badge/reactquery-FF4154?style=for-the-badge&logo=reactquery&logoColor=white">
   <img src="https://img.shields.io/badge/nextdotjs-000000?style=for-the-badge&logo=nextdotjs&logoColor=white">
   <img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white">
   <br>
 
   <img src="https://img.shields.io/badge/django-092E20?style=for-the-badge&logo=django&logoColor=white">
-  <img src="https://img.shields.io/badge/amazonaws-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white"> 
+  <img src="https://img.shields.io/badge/amazonaws-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white">
   <br>
 </div>
 
@@ -68,7 +68,7 @@ DRF로 만든 팀 프로젝트의 백엔드입니다.
 
 ## 기능
 
-**1. 사용자 인증 및 프로필** 
+**1. 사용자 인증 및 프로필**
 
 - 커스텀 유저
     - AbstractBaseUser 상속을 통한 커스텀 유저 기능 구현
@@ -80,7 +80,7 @@ DRF로 만든 팀 프로젝트의 백엔드입니다.
 - 게시물 CRUD
 - 게시물 LIST
 
-**3. 댓글 시스템** 
+**3. 댓글 시스템**
 
 - 댓글 작성, 수정, 삭제
 
@@ -90,14 +90,14 @@ DRF로 만든 팀 프로젝트의 백엔드입니다.
 - 태그 상세 정보 페이지
 
 ## 후기
-본 프로젝트는 Django Rest Framework(DRF)와 Next.js 프레임워크를 동시에 활용하여 개발된 풀스택 어플리케이션입니다. 
+본 프로젝트는 Django Rest Framework(DRF)와 Next.js 프레임워크를 동시에 활용하여 개발된 풀스택 어플리케이션입니다.
 백엔드 개발자로서의 커리어를 목표로 하고 있지만, 프론트엔드와 백엔드 사이의 데이터 흐름에 대한 이해를 위해 풀스택 개발을 선택하였습니다.
 
 이 과정에서 약 100개에 달하는 다양한 라이브러리를 적용하며, 현대적인 웹 개발 생태계의 복잡성과 다양성을 직접 경험할 수 있었습니다.
 DRF의 시리얼라이저를 사용해보면서 이는 백엔드와 프론트엔드 간 데이터가 직렬화-역직렬화 되는 과정을 심도 높게 이해할 수 있었습니다.
 
 또한 DRF의 페이지네이션 클래스를 커스터마이징하여 클라이언트의 요구사항에 맞는 유연한 데이터 제공 방식을 구현했습니다. 이 과정에서 백엔드의 성능 최적화와 프론트엔드의 사용자 경험 향상이 어떻게 맞물리는지 깊이 있게 고민할 수 있었습니다.
-Dj-rest-auth, allauth, simpleJWT를 사용한 소셜 로그인 연동, JWT 기반 로그인 설계를 하면서 프론트엔드에서 AXIOS 인스턴스까지 유기적으로 연결되는 구조를 매우 상세히 배울 수 있었습니다. 
+Dj-rest-auth, allauth, simpleJWT를 사용한 소셜 로그인 연동, JWT 기반 로그인 설계를 하면서 프론트엔드에서 AXIOS 인스턴스까지 유기적으로 연결되는 구조를 매우 상세히 배울 수 있었습니다.
 덕분에 프론트엔드와 백엔드 간의 효과적인 협업 방식도 이번 프로젝트를 통해 체득할 수 있었습니다.
 트러블슈팅 과정에서는 다양한 도구와 기술을 활용했습니다. Django에서는 로깅을 사용하였으며, 프론트에서는 React-Query의 Devtools를 사용하였고, console또한 사용하였습니다.
 

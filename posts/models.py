@@ -1,11 +1,12 @@
 import uuid
-from .managers import PublishedManager
 
-from django.db import models
 from django.conf import settings
+from django.db import models
 from django.utils.translation import gettext_lazy as _
 from taggit.managers import TaggableManager
 from taggit.models import GenericUUIDTaggedItemBase, TaggedItemBase
+
+from .managers import PublishedManager
 
 
 class UUIDTaggedItem(GenericUUIDTaggedItemBase, TaggedItemBase):
@@ -54,11 +55,12 @@ class Post(models.Model):
     ]
 
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True)
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="posts"
-    )
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="posts")
     category = models.ForeignKey(
-        Category, on_delete=models.SET(get_undefined_category), null=True, related_name="posts"
+        Category,
+        on_delete=models.SET(get_undefined_category),
+        null=True,
+        related_name="posts",
     )
     status = models.CharField(max_length=20, choices=POST_STATUS, default="published")
     mdx = models.TextField()

@@ -1,12 +1,10 @@
 from profiles.views import ProfileViewSet, PublicProfileDetailView
 
 try:
-    from django.urls import path, include
+    from django.urls import path
     from rest_framework.routers import DefaultRouter
 except ImportError:
-    raise ImportError(
-        "django and django rest framework needs to be added to INSTALLED_APPS."
-    )
+    raise ImportError("django and django rest framework needs to be added to INSTALLED_APPS.")
 
 
 router = DefaultRouter()

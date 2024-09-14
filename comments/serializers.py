@@ -1,9 +1,10 @@
-from .models import Comment, Reply
-from accounts.serializers import UserSerializer
-from rest_framework import serializers
-from posts.serializers import PostSerializer
 from django.contrib.auth import get_user_model
+from rest_framework import serializers
+
+from accounts.serializers import UserSerializer
 from posts.models import Post
+
+from .models import Comment, Reply
 
 User = get_user_model()
 
@@ -23,9 +24,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
         post = Post.objects.get(uuid=post_uuid)
 
-        comment = Comment.objects.create(
-            content=validated_data["content"], post=post, user=user
-        )
+        comment = Comment.objects.create(content=validated_data["content"], post=post, user=user)
         return comment
 
 

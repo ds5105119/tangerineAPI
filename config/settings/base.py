@@ -10,11 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
-import environ
 import os
-from pathlib import Path
 from datetime import timedelta
+from pathlib import Path
 
+import environ
 
 env = environ.Env()
 
@@ -119,13 +119,13 @@ APPEND_SLASH = True
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('POSTGRES_DB'),
-        'USER': os.environ.get('POSTGRES_USER'),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-        'HOST': os.environ.get('POSTGRES_HOST'),
-        'PORT': os.environ.get('POSTGRES_PORT'),
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.environ.get("POSTGRES_DB"),
+        "USER": os.environ.get("POSTGRES_USER"),
+        "PASSWORD": os.environ.get("POSTGRES_PASSWORD"),
+        "HOST": os.environ.get("POSTGRES_HOST"),
+        "PORT": os.environ.get("POSTGRES_PORT"),
     }
 }
 
@@ -275,9 +275,7 @@ SOCIALACCOUNT_PROVIDERS = {
 # If set value to True, the token will be saved
 # But compatibility issues raise between allauth and dj-rest-auth
 # Only change to True in situations where access_type must be set to offline
-SOCIALACCOUNT_STORE_TOKENS = (
-    False  # SOCIALACCOUNT_EMAIL_AUTHENTICATION Access Token Store
-)
+SOCIALACCOUNT_STORE_TOKENS = False  # SOCIALACCOUNT_EMAIL_AUTHENTICATION Access Token Store
 
 REST_AUTH = {
     "USE_JWT": True,  # dj_rest_auth.views.LoginView use JWT
@@ -289,10 +287,10 @@ REST_AUTH = {
 
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'IIH Blog API',
-    'DESCRIPTION': 'DRF, ElasticSearch Blog Backend',
-    'VERSION': '0.0.1',
-    'SERVE_INCLUDE_SCHEMA': False,
+    "TITLE": "IIH Blog API",
+    "DESCRIPTION": "DRF, ElasticSearch Blog Backend",
+    "VERSION": "0.0.1",
+    "SERVE_INCLUDE_SCHEMA": False,
 }
 
 

@@ -1,14 +1,12 @@
 from accounts.models import User
 
 try:
-    from rest_framework import serializers
-    from django.utils.translation import gettext_lazy as _
     from dj_rest_auth.registration.serializers import *
     from dj_rest_auth.registration.serializers import SocialLoginSerializer
+    from django.utils.translation import gettext_lazy as _
+    from rest_framework import serializers
 except ImportError:
-    raise ImportError(
-        "django, django-rest-framework, dj-rest-accounts needs to be added to INSTALLED_APPS."
-    )
+    raise ImportError("django, django-rest-framework, dj-rest-accounts needs to be added to INSTALLED_APPS.")
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -82,7 +80,7 @@ class CustomSocialLoginSerializer(SocialLoginSerializer):
     def validate(self, attrs):
         try:
             return super().validate(attrs)
-        except TypeError as e:
+        except TypeError:
             return self.custom_validate(attrs)
 
     def custom_validate(self, attrs):
@@ -125,7 +123,6 @@ class CustomSocialLoginSerializer(SocialLoginSerializer):
                     _("Define client_class in view"),
                 )
 
-            provider = adapter.get_provider()
             client = self.client_class(
                 request,
                 app.client_id,
@@ -160,9 +157,7 @@ class CustomSocialLoginSerializer(SocialLoginSerializer):
 
         try:
             if adapter.provider_id == "google" and not code:
-                login = self.get_social_login(
-                    adapter, app, social_token, response={"id_token": id_token}
-                )
+                login = self.get_social_login(adapter, app, social_token, response={"id_token": id_token})
             else:
                 login = self.get_social_login(adapter, app, social_token, token)
             ret = complete_social_login(request, login)

@@ -1,6 +1,5 @@
 from .base import *
 
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -15,9 +14,9 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
@@ -70,6 +69,6 @@ ELASTICSEARCH_DSL = {
             env("ELASTICSEARCH_DSL_USERNAME"),
             env("ELASTICSEARCH_DSL_PASSWORD"),
         ),
-        "ca_certs": os.path.join(BASE_DIR, "elasticsearch_ca.crt")
+        "ca_certs": os.path.join(BASE_DIR, "elasticsearch_ca.crt"),
     }
 }

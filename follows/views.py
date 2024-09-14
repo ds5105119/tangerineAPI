@@ -5,16 +5,12 @@ from follows.serializers import FollowerSerializer, FollowingSerializer
 
 try:
     from django.db.models import F
-    from django.conf import settings
     from django.shortcuts import get_object_or_404
-    from rest_framework import status, mixins, generics, viewsets
+    from rest_framework import mixins, status, viewsets
     from rest_framework.exceptions import ValidationError
     from rest_framework.response import Response
-    from rest_framework.permissions import AllowAny
 except ImportError:
-    raise ImportError(
-        "django, django-rest-framework, allauth, dj-rest-accounts needs to be added to INSTALLED_APPS."
-    )
+    raise ImportError("django, django-rest-framework, allauth, dj-rest-accounts needs to be added to INSTALLED_APPS.")
 
 
 class FollowingViewSet(
@@ -70,9 +66,7 @@ class FollowingViewSet(
             user_to_follow.refresh_from_db()
 
         serializer.save(follower=user, user=user_to_follow)
-        return Response(
-            {"detail": "Successfully followed."}, status=status.HTTP_204_NO_CONTENT
-        )
+        return Response({"detail": "Successfully followed."}, status=status.HTTP_204_NO_CONTENT)
 
     def destroy(self, request, *args, **kwargs):
         user = request.user
@@ -87,9 +81,7 @@ class FollowingViewSet(
             )
 
         if delete_option == "follower":
-            follow_instance = Follow.objects.filter(
-                user=user, follower=instance
-            ).first()
+            follow_instance = Follow.objects.filter(user=user, follower=instance).first()
             if follow_instance:
                 follow_instance.delete()
                 return Response(
@@ -102,9 +94,7 @@ class FollowingViewSet(
             )
 
         elif delete_option == "following":
-            follow_instance = Follow.objects.filter(
-                user=instance, follower=user
-            ).first()
+            follow_instance = Follow.objects.filter(user=instance, follower=user).first()
             if follow_instance:
                 follow_instance.delete()
                 return Response(
@@ -116,6 +106,4 @@ class FollowingViewSet(
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        return Response(
-            {"detail": "Invalid delete option."}, status=status.HTTP_400_BAD_REQUEST
-        )
+        return Response({"detail": "Invalid delete option."}, status=status.HTTP_400_BAD_REQUEST)

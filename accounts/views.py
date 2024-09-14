@@ -4,18 +4,14 @@ from accounts.permissions import HandlePermission
 from accounts.serializers import CustomSocialLoginSerializer, UserSerializer
 
 try:
+    from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+    from allauth.socialaccount.providers.oauth2.client import OAuth2Client
+    from dj_rest_auth.registration.views import SocialLoginView
     from django.conf import settings
     from django.shortcuts import get_object_or_404
-    from rest_framework import generics, status, permissions, viewsets
-    from rest_framework.response import Response
-    from rest_framework.serializers import ValidationError
-    from dj_rest_auth.registration.views import SocialLoginView
-    from allauth.socialaccount.providers.oauth2.client import OAuth2Client
-    from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+    from rest_framework import generics, permissions, viewsets
 except ImportError:
-    raise ImportError(
-        "django, django-rest-framework, allauth, dj-rest-accounts needs to be added to INSTALLED_APPS."
-    )
+    raise ImportError("django, django-rest-framework, allauth, dj-rest-accounts needs to be added to INSTALLED_APPS.")
 
 
 class GoogleLogin(SocialLoginView):

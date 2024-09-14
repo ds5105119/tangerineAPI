@@ -1,7 +1,8 @@
+from uuid import uuid4
+
 import boto3
 from botocore.exceptions import ClientError
 from django.conf import settings
-from uuid import uuid4
 
 
 def get_presigned_post():
@@ -36,7 +37,10 @@ def get_presigned_post():
             Bucket=settings.AWS_STORAGE_BUCKET_NAME,
             Key=filename,
             Fields={"Content-Type": "image/jpeg"},
-            Conditions=[{"Content-Type": "image/jpeg"}, ["content-length-range", 1, 1024 * 200]],
+            Conditions=[
+                {"Content-Type": "image/jpeg"},
+                ["content-length-range", 1, 1024 * 200],
+            ],
             ExpiresIn=60,
         )
 

@@ -1,8 +1,3 @@
-from django_elasticsearch_dsl import Document, fields
-from django_elasticsearch_dsl.registries import registry
-from posts.models import Category, Post
-from accounts.models import (User)
-
 """
 @registry.register_document
 class PostDocument(Document):
