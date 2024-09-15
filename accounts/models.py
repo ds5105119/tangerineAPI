@@ -1,4 +1,5 @@
 from accounts.managers import UserManager
+from profiles.models import Profile
 
 try:
     from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
@@ -16,8 +17,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     # User Field
     handle = models.CharField(max_length=30, unique=True, null=True, blank=False)
-    username = models.CharField(max_length=30, null=False, blank=False)
+    username = models.CharField(max_length=30, unique=False, null=False, blank=False)
     email = models.EmailField(max_length=30, unique=True, null=False, blank=False)
+    profile = models.OneToOneField(Profile, on_delete=models.CASCADE, related_name="user")
 
     # Manager Field
     is_active = models.BooleanField(default=True)

@@ -1,4 +1,3 @@
-from accounts.serializers import UserExternalSerializer, UserSelfSerializer
 from profiles.models import Profile
 
 try:
@@ -8,12 +7,9 @@ except ImportError:
 
 
 class ProfileSelfSerializer(serializers.ModelSerializer):
-    user = UserSelfSerializer(read_only=True)
-
     class Meta:
         model = Profile
         fields = (
-            "user",
             "bio",
             "link_1",
             "link_2",
@@ -22,12 +18,9 @@ class ProfileSelfSerializer(serializers.ModelSerializer):
 
 
 class ProfileExternalSerializer(serializers.ModelSerializer):
-    user = UserExternalSerializer(read_only=True)
-
     class Meta:
         model = Profile
         fields = (
-            "user",
             "bio",
             "link_1",
             "link_2",

@@ -1,7 +1,6 @@
-from accounts.models import User
-from accounts.paginators import UserPagination
-from accounts.permissions import HandlePermission
-from accounts.serializers import CustomSocialLoginSerializer, UserSerializer
+from accounts.paginators import *
+from accounts.permissions import *
+from accounts.serializers import *
 
 try:
     from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
@@ -25,12 +24,16 @@ class GoogleLogin(SocialLoginView):
     serializer_class = CustomSocialLoginSerializer
 
 
-class UserHandleCreateView(generics.UpdateAPIView):
+class UserUpdateView(generics.UpdateAPIView):
     """
-    POST /accounts/handle/: {handle: string} Change Owner's Handle
+    사용자의 정보 업데이트
+    PUT
+    PATCH
     """
 
-    permission_classes = (HandlePermission,)
+    permission_classes = (UserDataUpdatePermission,)
+    queryset = User.objects.all()
+    serializer_class = WriteableUserSelfSerializer
 
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):

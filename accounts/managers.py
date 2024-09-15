@@ -1,5 +1,3 @@
-from profiles.models import Profile
-
 try:
     from django.contrib.auth.hashers import make_password
     from django.contrib.auth.models import BaseUserManager
@@ -27,8 +25,6 @@ class UserManager(BaseUserManager):
         user = self.model(username=username, email=email, **extra_fields)
         user.password = make_password(password)
         user.save(using=self._db)
-
-        Profile.objects.create(user=user)
 
         return user
 

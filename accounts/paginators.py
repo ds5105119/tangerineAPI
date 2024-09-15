@@ -6,7 +6,7 @@ except ImportError:
 
 class UserPagination(PageNumberPagination):
     """
-    Pagination for UserViewSet
+    Pagination for User
     """
 
     page_size = 20
