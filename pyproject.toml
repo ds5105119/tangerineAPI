@@ -97,10 +97,10 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.ruff]
-select = ["B", "C4", "E", "F", "N", "I", "W", "UP"]
-ignore = ["F403","F405","E501","E402","B904"]
-fixable = ["A", "B", "C", "D", "E", "F", "I", "UP"]
-unfixable = []
-per-file-ignores = {}
+lint.select = ["B", "C4", "E", "F", "N", "I", "W", "UP"]
+lint.ignore = ["F403","F405","E501","E402","B904"]
+lint.fixable = ["A", "B", "C", "D", "E", "F", "I", "UP"]
+lint.unfixable = []
+lint.per-file-ignores = {}
 line-length = 120
 target-version = "py39"
