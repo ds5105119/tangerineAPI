@@ -1,4 +1,5 @@
 from accounts.models import User
+from profiles.serializers import *
 
 try:
     from dj_rest_auth.registration.serializers import *
@@ -15,12 +16,15 @@ class UserSerializer(serializers.ModelSerializer):
     FOR INTERNAL USE ONLY
     """
 
+    profile = ProfileSelfSerializer()
+
     class Meta:
         model = User
         fields = (
             "handle",
             "username",
             "email",
+            "profile",
             "created_at",
             "updated_at",
             "is_staff",
@@ -30,10 +34,28 @@ class UserSerializer(serializers.ModelSerializer):
         )
 
 
-class UserSelfSerializer(serializers.ModelSerializer):
+class WriteableUserSelfSerializer(serializers.ModelSerializer):
     """
-    Serializer for the User model=
+    유저 자신이 수정 가능한 유저 모델의 필드를 정의합니다.
     """
+
+    profile = ProfileSelfSerializer()
+
+    class Meta:
+        model = User
+        fields = (
+            "handle",
+            "username",
+            "profile",
+        )
+
+
+class ReadOnlyUserSelfSerializer(serializers.ModelSerializer):
+    """
+    읽을 수 있는 유저 자신의 유저 모델 필드를 정의합니다.
+    """
+
+    profile = ProfileSelfSerializer()
 
     class Meta:
         model = User
@@ -41,6 +63,7 @@ class UserSelfSerializer(serializers.ModelSerializer):
             "handle",
             "username",
             "email",
+            "profile",
             "created_at",
             "updated_at",
             "is_staff",
@@ -50,16 +73,19 @@ class UserSelfSerializer(serializers.ModelSerializer):
         )
 
 
-class UserExternalSerializer(serializers.ModelSerializer):
+class ReadOnlyUserExternalSerializer(serializers.ModelSerializer):
     """
-    Serializer for the User model==
+    읽을 수 있는 다른 유저들의 유저 모델 필드를 정의합니다.
     """
+
+    profile = ProfileExternalSerializer()
 
     class Meta:
         model = User
         fields = (
             "handle",
             "username",
+            "profile",
             "created_at",
             "updated_at",
             "is_public",

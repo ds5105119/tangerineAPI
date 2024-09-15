@@ -1,4 +1,4 @@
-from accounts.views import GoogleLogin, UserHandleCreateView, UserViewSet
+from accounts.views import *
 
 try:
     from dj_rest_auth.views import LogoutView
@@ -17,6 +17,6 @@ urlpatterns = [
     path("token/verify/", TokenVerifyView.as_view(), name="token_verify"),
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("logout/", LogoutView.as_view(), name="rest_logout"),
-    path("handle/", UserHandleCreateView.as_view(), name="handle"),
+    path("update/", UserUpdateView.as_view(), name="handle"),
     path("", include(router.urls), name="user"),
 ]
