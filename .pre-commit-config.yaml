@@ -3,18 +3,25 @@ repos:
     rev: v4.6.0
     hooks:
       - id: check-yaml
+        name: "📝 YAML syntax check"
       - id: end-of-file-fixer
+        name: "📜 Ensure newline at end of file"
       - id: trailing-whitespace
+        name: "✂️ Remove trailing whitespace"
+
   - repo: https://github.com/charliermarsh/ruff-pre-commit
     rev: v0.6.5
     hooks:
       - id: ruff
+        name: "🐍 Python code analysis"
         args: ["--fix"]
       - id: ruff-format
+        name: "🪚 Format Python code"
+
   - repo: local
     hooks:
       - id: pytest-check
-        name: pytest-check
+        name: "🧪 Run pytest tests"
         entry: pytest -p no:warnings -s
         language: system
         pass_filenames: false
