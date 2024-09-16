@@ -3,8 +3,6 @@ from .base import *
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-WSGI_APPLICATION = "config.wsgi.prod.application.application"
-
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=[])
 
 ADMIN_ENABLED = False
