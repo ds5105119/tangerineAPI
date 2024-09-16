@@ -21,7 +21,6 @@ router.register(r"", UserViewSet, basename="user")
 # 사용자 정의 urlpatterns
 urlpatterns = [
     path("google/login/", GoogleLogin.as_view(), name="google_login"),
-    path("update/", UserUpdateView.as_view(), name="handle"),
     path("users/", include(router.urls), name="user"),
 ]
 
