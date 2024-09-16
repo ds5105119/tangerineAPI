@@ -114,6 +114,8 @@ SITE_ID = 1  # Use Only 1 Site
 
 APPEND_SLASH = True
 
+WSGI_APPLICATION = "config.wsgi.application"
+
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
@@ -285,19 +287,29 @@ REST_AUTH = {
     "JWT_AUTH_COOKIE_USE_CSRF": True,
 }
 
+# spectacular
 
 SPECTACULAR_SETTINGS = {
-    "TITLE": "IIH Blog API",
-    "DESCRIPTION": "DRF, ElasticSearch Blog Backend",
-    "VERSION": "0.0.1",
+    "TITLE": "Tangerine API",
+    "DESCRIPTION": "DRF, ElasticSearch High-level Backend forked from BlogAPI",
+    "VERSION": "0.0.2",
     "SERVE_INCLUDE_SCHEMA": False,
+    "CONTACT": {
+        "name": "tangerinenee",
+        "url": "https://github.com/orgs/tangerinenee",
+    },
+    "LICENSE": {
+        "name": "Internal Use Only License (IUOL)",
+        "url": "https://github.com/ds5105119/tangerineAPI",
+    },
+    "SWAGGER_UI_DIST": "//unpkg.com/swagger-ui-dist@5.17.14",
 }
 
 
 # BlogAPI
 
 FILE_UPLOAD_PERMISSIONS = "rest_framework.permissions.IsAuthenticated"
-FILE_UPLOAD_MAX_MEMORY_SIZE = 1 * (1024**2)  # 1MB
+FILE_UPLOAD_MAX_MEMORY_SIZE = 1 * (1024**2)  # 1M
 
 BlogAPI = {"UserPostWritable": True}
 
