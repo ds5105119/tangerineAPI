@@ -83,7 +83,7 @@ typing-extensions = "4.12.2"
 tzdata = "2024.1"
 uritemplate = "4.1.1"
 urllib3 = "2.2.2"
-uvicorn = "0.30.6"
+uvicorn = {extras = ["standard"], version = "^0.30.6"}
 vine = "5.1.0"
 wcwidth = "0.2.13"
 psycopg2-binary = "^2.9.9"
@@ -92,6 +92,8 @@ ruff = "^0.6.5"
 isort = "^5.13.2"
 pytest = "^8.3.3"
 pytest-django = "^4.9.0"
+channels = "^4.1.0"
+channels-redis = "^4.2.0"
 
 
 [build-system]
