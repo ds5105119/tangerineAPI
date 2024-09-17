@@ -35,6 +35,7 @@ class UserViewSet(
     permission_classes = (UserPermission,)
     pagination_class = UserPagination
     lookup_field = "handle"
+    lookup_value_regex = r"[\w.]+"
 
     def get_queryset(self):
         fields = self.get_serializer_class().Meta.fields

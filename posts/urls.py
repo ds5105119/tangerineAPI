@@ -16,7 +16,7 @@ urlpatterns = [
     path("presigned/", GetPresignedUrlView.as_view(), name="presigned"),
     path("latest/", LatestPostsAPIView.as_view(), name="latest"),
     re_path(
-        r"latest/(?P<handle>[\w.@+-]+)/",
+        r"latest/(?P<handle>[\w.]+)/",
         LatestPostsViaHandleAPIView.as_view(),
         name="user-latest-posts",
     ),

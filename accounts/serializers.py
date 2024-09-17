@@ -1,13 +1,16 @@
-from accounts.models import User
 from profiles.serializers import *
 
 try:
     from dj_rest_auth.registration.serializers import *
     from dj_rest_auth.registration.serializers import SocialLoginSerializer
+    from django.contrib.auth import get_user_model
     from django.utils.translation import gettext_lazy as _
     from rest_framework import serializers
 except ImportError:
     raise ImportError("django, django-rest-framework, dj-rest-accounts needs to be added to INSTALLED_APPS.")
+
+
+User = get_user_model()
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -48,6 +51,16 @@ class WriteableUserSelfSerializer(serializers.ModelSerializer):
             "username",
             "profile",
         )
+
+
+class HandleOnlySerializer(serializers.ModelSerializer):
+    """
+    외부에서 유저의 handle로만 접근하는 것을 도와주는 시리얼라이저입니다.
+    """
+
+    class Meta:
+        model = User
+        fields = ("handle",)
 
 
 class ReadOnlyUserSelfSerializer(serializers.ModelSerializer):

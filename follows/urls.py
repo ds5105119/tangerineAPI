@@ -1,20 +1,16 @@
 from follows.views import FollowingViewSet
 
 try:
-    from django.urls import path
+    from django.urls import include, path
     from rest_framework.routers import DefaultRouter
 except ImportError:
     raise ImportError("django needs to be added to INSTALLED_APPS.")
 
 
 router = DefaultRouter()
-router.register(r"follow", FollowingViewSet, basename="follow")
+router.register(r"", FollowingViewSet, basename="follow")
 
 
 urlpatterns = [
-    path(
-        "",
-        FollowingViewSet.as_view({"get": "list", "post": "create", "delete": "destroy"}),
-        name="user_follow",
-    ),
+    path(r"", include(router.urls), name="follows"),
 ]

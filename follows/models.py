@@ -15,6 +15,7 @@ class Follow(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
+        db_table = "follow"
         constraints = [models.UniqueConstraint(fields=["user", "follower"], name="unique_followers")]
         ordering = ["-created_at"]
 
