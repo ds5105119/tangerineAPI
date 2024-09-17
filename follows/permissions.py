@@ -2,28 +2,26 @@ from rest_framework.permissions import BasePermission
 
 
 class FollowPermission(BasePermission):
+    """
+    create: 로그인 한 사용자 또는 스태프만 가능
+    follows, followers: 모두가 사용 가능
+    unfollow, unfollower: 유저 자신 또는 스태프만 사용 가능
+    """
+
     def has_permission(self, request, view):
-        if request.user.is_superuser:
+        if view.action in ["follows", "followers"]:
             return True
-        elif view.action == "list":
-            return True
-        elif view.action in ["create", "Destroy"]:
-            return request.user.is_authenticated
+        elif view.action in ["create", "unfollow", "unfollower"]:
+            return request.user.is_authenticated or request.user.is_staff
         else:
             return False
 
     def has_object_permission(self, request, view, obj):
-        if request.user.is_superuser:
+        if view.action in ["follows", "followers", "create"]:
             return True
-        elif view.action == "create":
-            # 자기 자신을 팔로우할 수 없음
-            return obj.user != request.user
-        elif view.action == "destroy":
-            delete_option = request.data.get("delete")
-            # 자신의 팔로워만 제거 가능
-            if delete_option == "follower":
-                return obj.user == request.user
-            # 자신이 팔로우한 사람만 언팔로우 가능
-            elif delete_option == "following":
-                return obj.follower == request.user
-        return False
+        elif view.action == "unfollow":
+            return obj.follower == request.user or request.user.is_staff
+        elif view.action == "unfollow":
+            return obj.user == request.user or request.user.is_staff
+        else:
+            return False
