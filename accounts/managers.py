@@ -14,7 +14,7 @@ class UserManager(BaseUserManager):
     use_in_migrations = True
 
     def get_queryset(self):
-        return super().get_queryset().filter(is_delete=True)
+        return super().get_queryset().filter(is_delete=False)
 
     def create_user(self, username, email=None, password=None, **extra_fields):
         if not email:
