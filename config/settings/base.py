@@ -62,6 +62,7 @@ PROJECT_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
+    "channels",  # django-channels
     "taggit",  # django-taggit
     "corsheaders",  # django-cors-headers
     "rest_framework",  # Django Rest Framework
@@ -115,6 +116,7 @@ SITE_ID = 1  # Use Only 1 Site
 APPEND_SLASH = True
 
 WSGI_APPLICATION = "config.wsgi.application"
+ASGI_APPLICATION = "config.asgi.application"
 
 
 # Database
@@ -123,12 +125,21 @@ WSGI_APPLICATION = "config.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ.get("POSTGRES_DB"),
-        "USER": os.environ.get("POSTGRES_USER"),
-        "PASSWORD": os.environ.get("POSTGRES_PASSWORD"),
-        "HOST": os.environ.get("POSTGRES_HOST"),
-        "PORT": os.environ.get("POSTGRES_PORT"),
+        "NAME": env("POSTGRES_DB"),
+        "USER": env("POSTGRES_USER"),
+        "PASSWORD": env("POSTGRES_PASSWORD"),
+        "HOST": env("POSTGRES_HOST"),
+        "PORT": env("POSTGRES_PORT"),
     }
+}
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": (env("REDIS_HOST"), 6379),
+        },
+    },
 }
 
 
