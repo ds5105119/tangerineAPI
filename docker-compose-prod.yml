@@ -16,7 +16,7 @@ services:
       db:
         condition: service_healthy
     environment:
-      DJANGO_SETTINGS_MODULE: config.settings.docker-dev
+      DJANGO_SETTINGS_MODULE: config.settings.docker_dev
       POSTGRES_HOST: db
     ports:
       - "8000:8000"
