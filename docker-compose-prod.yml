@@ -1,21 +1,37 @@
-version: '3.9'
 services:
   django:
+    container_name: blog_api_django
+    restart: always
+    entrypoint: [ "sh", "-c" ]
+    command:
+      - "poetry run python manage.py makemigrations
+    && poetry run python manage.py migrate
+    && poetry run python manage.py runserver 0.0.0.0:8000 --reload"
     build:
-      context: ./docker/django
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: docker/django/Dockerfile
+    volumes:
+      - .:/app
     depends_on:
       db:
         condition: service_healthy
+    environment:
+      DJANGO_SETTINGS_MODULE: config.settings.docker-dev
+      POSTGRES_HOST: db
     ports:
       - "8000:8000"
 
   db:
+    container_name: blog_api_db
     image: postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     restart: always
     shm_size: 128mb
     volumes:
-      - db-data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}" ]
       interval: 10s
@@ -23,4 +39,4 @@ services:
       start_period: 30s
       timeout: 10s
     ports:
-      - "8002:8000"
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"

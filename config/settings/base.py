@@ -38,6 +38,13 @@ ALLOWED_HOSTS = []
 
 ADMIN_ENABLED = False  # for Turn on and off Admin
 
+SITE_ID = 1  # Use Only 1 Site
+
+APPEND_SLASH = True
+
+WSGI_APPLICATION = "config.wsgi.application"
+ASGI_APPLICATION = "config.asgi.application"
+
 
 # Application definition
 
@@ -111,13 +118,6 @@ TEMPLATES = [
     },
 ]
 
-SITE_ID = 1  # Use Only 1 Site
-
-APPEND_SLASH = True
-
-WSGI_APPLICATION = "config.wsgi.application"
-ASGI_APPLICATION = "config.asgi.application"
-
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
@@ -133,13 +133,28 @@ DATABASES = {
     }
 }
 
+# https://github.com/django/channels_redis
+
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": (env("REDIS_HOST"), 6379),
+            "hosts": [(env("REDIS_HOST"), env("REDIS_PORT"))],
         },
     },
+}
+
+# https://github.com/jazzband/django-redis
+
+CACHE = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": f"redis://{env("REDIS_HOST")}:{env("REDIS_PORT")}/{env("REDIS_CACHE_DB")}",
+        "OPTION": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "PICKLE_VERSION": -1,
+        },
+    }
 }
 
 
@@ -219,7 +234,7 @@ REST_FRAMEWORK = {
     },
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
-    "PAGE_SIZE": 10,
+    "PAGE_SIZE": 20,
 }
 
 

@@ -1,10 +1,9 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
-from accounts.serializers import UserSerializer
+from accounts.serializers import *
+from comments.models import *
 from posts.models import Post
-
-from .models import Comment, Reply
 
 User = get_user_model()
 
@@ -35,3 +34,11 @@ class ReplySerializer(serializers.ModelSerializer):
     class Meta:
         model = Reply
         fields = ["comment", "user", "content"]
+
+
+class ReadOnlyCommentSerializer(serializers.ModelSerializer):
+    user = ReadOnlyUserExternalSerializer(read_only=True)
+
+    class Meta:
+        model = Comment
+        fields = ["content", "user", "created_at"]

@@ -3,7 +3,7 @@ LABEL authors="IIH"
 MAINTAINER ds5105119@gmail.com
 
 # 프로젝트 폴더
-WORKDIR /blogapi
+WORKDIR /app
 
 ENV PYTHONUNBUFFERED=1 \
     POETRY_VERSION=1.8.2 \

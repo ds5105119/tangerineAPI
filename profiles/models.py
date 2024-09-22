@@ -16,4 +16,4 @@ class Profile(models.Model):
     bio = models.TextField(blank=True, default="")
     link_1 = models.URLField(blank=True, default="")
     link_2 = models.URLField(blank=True, default="")
-    profile_image = models.URLField(max_length=500, blank=True, default="")
+    profile_image = models.URLField(max_length=300, blank=True, default="")
