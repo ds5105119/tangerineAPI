@@ -1,10 +1,11 @@
-version: '3.9'
 services:
+  # k8s Start
   django:
     container_name: blog_api_django
+    restart: always
     entrypoint: ["sh", "-c"]
     command:
-    - "poetry run python manage.py makemigrations
+    - "poetry run python manage.py makemigrations --noinput
     && poetry run python manage.py migrate
     && poetry run python manage.py runserver 0.0.0.0:8000"
     build:
@@ -14,18 +15,23 @@ services:
       db:
         condition: service_healthy
     environment:
-      DJANGO_SETTINGS_MODULE: config.settings.dev
+      DJANGO_SETTINGS_MODULE: config.settings.docker_dev
       POSTGRES_HOST: db
     ports:
       - "8000:8000"
+    networks:
+      - backend
+      - frontend
+  # k8s end
 
   db:
     container_name: blog_api_db
-    image: postgres
+    image: postgres:alpine
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    restart: always
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}" ]
       interval: 10s
@@ -34,6 +40,26 @@ services:
       timeout: 10s
     ports:
       - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+    networks:
+      - backend
+
+  redis:
+    container_name: blog_api_redis
+    image: redis:alpine
+    restart: always
+    command: redis-server --port ${REDIS_PORT}
+    networks:
+      - backend
 
   # elastic:
   #   image: elasticsearch:8.15.0
+
+networks:
+  backend:
+    driver: bridge
+    internal: true
+  frontend:
+    driver: bridge
+
+volumes:
+  postgres_data:

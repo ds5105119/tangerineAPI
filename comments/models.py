@@ -28,8 +28,9 @@ class Comment(models.Model):
     content = models.TextField()
 
     class Meta:
-        verbose_name = "Comment"
-        verbose_name_plural = "Comments"
+        db_table = "comment"
+        verbose_name = "comment"
+        verbose_name_plural = "comments"
 
     def __str__(self):
         return f"Comment by {self.user} on post {self.post}"
@@ -57,8 +58,9 @@ class Reply(models.Model):
     content = models.TextField()
 
     class Meta:
-        verbose_name = "Reply"
-        verbose_name_plural = "Replies"
+        db_table = "reply"
+        verbose_name = "reply"
+        verbose_name_plural = "replies"
 
     def __str__(self):
         return f"Reply by {self.user} on post {self.comment}"
