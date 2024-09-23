@@ -176,6 +176,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
@@ -256,7 +258,7 @@ SIMPLE_JWT = {
     "LEEWAY": 0,
     "AUTH_HEADER_TYPES": ("Bearer",),
     "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
-    "USER_ID_FIELD": "id",
+    "USER_ID_FIELD": "handle",
     "USER_ID_CLAIM": "user_id",
     "USER_AUTHENTICATION_RULE": "rest_framework_simplejwt.authentication.default_user_authentication_rule",
     "AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
@@ -273,10 +275,12 @@ SIMPLE_JWT = {
 # https://docs.allauth.org/en/latest/socialaccount/provider_configuration.html
 
 
+ACCOUNT_ADAPTER = "accounts.adapter.AccountAdapter"
 SOCIALACCOUNT_ADAPTER = "accounts.adapter.SocialAccountAdapter"
 AUTH_USER_MODEL = "accounts.User"  # Change Default User Model
 ACCOUNT_EMAIL_REQUIRED = True  # email 필드 사용 o
 ACCOUNT_AUTHENTICATION_METHOD = "email"  # 인증 메소드
+ACCOUNT_EMAIL_VERIFICATION = "none"  # email 인증 안함 사용하는 경우 mandatory
 
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
