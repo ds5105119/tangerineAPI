@@ -92,6 +92,8 @@ class ReadOnlyUserExternalSerializer(serializers.ModelSerializer):
     """
 
     profile = ProfileExternalSerializer()
+    is_following = serializers.BooleanField()
+    is_follower = serializers.BooleanField()
 
     class Meta:
         model = User
@@ -104,6 +106,8 @@ class ReadOnlyUserExternalSerializer(serializers.ModelSerializer):
             "is_public",
             "follows_count",
             "followers_count",
+            "is_following",
+            "is_follower",
         )
 
 
