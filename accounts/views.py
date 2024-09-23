@@ -1,12 +1,14 @@
 from accounts.paginators import *
 from accounts.permissions import *
 from accounts.serializers import *
+from follows.models import Follow
 
 try:
     from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
     from allauth.socialaccount.providers.oauth2.client import OAuth2Client
     from dj_rest_auth.registration.views import SocialLoginView
     from django.conf import settings
+    from django.db.models import Exists, OuterRef
     from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_schema
     from rest_framework import mixins, viewsets
     from rest_framework.exceptions import MethodNotAllowed
@@ -38,12 +40,20 @@ class UserViewSet(
     lookup_value_regex = r"[\w.]+"
 
     def get_queryset(self):
+        user = self.request.user
         fields = self.get_serializer_class().Meta.fields
         foreign_fields = ["profile"]
         non_foreign_fields = [field for field in fields if field not in foreign_fields]
 
+        following_exists = Follow.objects.filter(user=OuterRef("pk"), follower=user)
+        follower_exists = Follow.objects.filter(user=user, follower=OuterRef("pk"))
+
         if self.action in ["retrieve", "list", "partial_update", "update", "destroy"]:
-            return User.objects.select_related("profile").only(*non_foreign_fields)
+            return (
+                User.objects.select_related("profile")
+                .only(*non_foreign_fields)
+                .annotate(is_following=Exists(following_exists), is_follower=Exists(follower_exists))
+            )
         raise MethodNotAllowed(self.action)
 
     def get_serializer_class(self):
