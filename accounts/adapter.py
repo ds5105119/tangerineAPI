@@ -3,7 +3,7 @@ from profiles.models import *
 
 try:
     from allauth.account.adapter import DefaultAccountAdapter
-    from allauth.account.utils import user_email, user_username
+    from allauth.account.utils import user_email
     from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
     from allauth.utils import valid_email_or_none
     from django.contrib.auth import get_user_model
@@ -35,7 +35,7 @@ class AccountAdapter(DefaultAccountAdapter):
         profile = Profile.objects.create()
 
         user.email = email
-        user_username(user, username)
+        user.username = username
         if "password1" in data:
             user.set_password(data["password1"])
         elif "password" in data:

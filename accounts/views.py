@@ -41,28 +41,32 @@ class UserViewSet(
 
     def get_queryset(self):
         user = self.request.user
+
         fields = self.get_serializer_class().Meta.fields
-        foreign_fields = ["profile"]
-        non_foreign_fields = [field for field in fields if field not in foreign_fields]
+        annotated_fields = ["is_following", "is_follower"]
+        model_fields = [field for field in fields if field not in annotated_fields]
 
         following_exists = Follow.objects.filter(user=OuterRef("pk"), follower=user)
         follower_exists = Follow.objects.filter(user=user, follower=OuterRef("pk"))
 
-        if self.action in ["retrieve", "list", "partial_update", "update", "destroy"]:
+        if self.action in ["retrieve", "list"]:
             return (
                 User.objects.select_related("profile")
-                .only(*non_foreign_fields)
+                .only(*model_fields)
                 .annotate(is_following=Exists(following_exists), is_follower=Exists(follower_exists))
             )
+        elif self.action in ["partial_update", "update", "destroy"]:
+            return User.objects.select_related("profile").only(*fields)
         raise MethodNotAllowed(self.action)
 
     def get_serializer_class(self):
         if self.action == "retrieve":
-            if self.get_object().user == self.request.user:
+            obj = User.objects.get(handle=self.kwargs.get(self.lookup_field))
+            if obj == self.request.user:
                 return ReadOnlyUserSelfSerializer
-            return ReadOnlyUserExternalSerializer
+            return ReadOnlyUserInternalSerializer
         elif self.action == "list":
-            return ReadOnlyUserExternalSerializer
+            return ReadOnlyUserInternalSerializer
         elif self.action in ["partial_update", "update"]:
             return WriteableUserSelfSerializer
         raise MethodNotAllowed(self.action)

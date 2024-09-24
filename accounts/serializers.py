@@ -3,6 +3,7 @@ from profiles.serializers import *
 try:
     from dj_rest_auth.registration.serializers import *
     from dj_rest_auth.registration.serializers import SocialLoginSerializer
+    from dj_rest_auth.serializers import LoginSerializer as DefaultLoginSerializer
     from django.contrib.auth import get_user_model
     from django.utils.translation import gettext_lazy as _
     from rest_framework import serializers
@@ -52,6 +53,16 @@ class WriteableUserSelfSerializer(serializers.ModelSerializer):
             "profile",
         )
 
+    def update(self, instance, validated_data):
+        instance.username = validated_data.get("username", instance.username)
+
+        profile_data = validated_data.pop("profile")
+        profile_serializer = ProfileSelfSerializer(instance.profile, data=profile_data, partial=True)
+        if profile_serializer.is_valid(raise_exception=True):
+            profile_serializer.save()
+
+        return instance
+
 
 class HandleOnlySerializer(serializers.ModelSerializer):
     """
@@ -86,7 +97,7 @@ class ReadOnlyUserSelfSerializer(serializers.ModelSerializer):
         )
 
 
-class ReadOnlyUserExternalSerializer(serializers.ModelSerializer):
+class ReadOnlyUserInternalSerializer(serializers.ModelSerializer):
     """
     읽을 수 있는 다른 유저들의 유저 모델 필드를 정의합니다.
     """
@@ -109,6 +120,32 @@ class ReadOnlyUserExternalSerializer(serializers.ModelSerializer):
             "is_following",
             "is_follower",
         )
+
+
+class ReadOnlyUserExternalSerializer(serializers.ModelSerializer):
+    """
+    읽을 수 있는 다른 유저들의 유저 모델 필드를 정의합니다.
+    """
+
+    profile = ProfileExternalSerializer()
+
+    class Meta:
+        model = User
+        fields = (
+            "handle",
+            "username",
+            "profile",
+            "created_at",
+            "updated_at",
+            "is_public",
+            "follows_count",
+            "followers_count",
+        )
+
+
+class LoginSerializer(DefaultLoginSerializer):
+    email = serializers.EmailField(required=True, allow_blank=False)
+    password = serializers.CharField(style={"input_type": "password"})
 
 
 class CustomSocialLoginSerializer(SocialLoginSerializer):

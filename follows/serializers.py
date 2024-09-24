@@ -2,24 +2,21 @@ from accounts.serializers import *
 from follows.models import *
 
 try:
+    from django.contrib.auth import get_user_model
     from rest_framework import serializers
 except ImportError:
     raise ImportError("django, django-rest-framework, dj-rest-accounts needs to be added to INSTALLED_APPS.")
 
 
+User = get_user_model()
+
+
 class WritableFollowSelfSerializer(serializers.ModelSerializer):
-    user = HandleOnlySerializer()
+    handle = serializers.CharField()
 
     class Meta:
         model = Follow
-        fields = ("user",)
-
-    def validate_user(self, value):
-        try:
-            user = User.objects.get(handle=value["handle"])
-        except User.DoesNotExist:
-            raise serializers.ValidationError("User with this handle does not exist.")
-        return user
+        fields = ("handle",)
 
 
 class ReadOnlyFollowerExternalSerializer(serializers.ModelSerializer):
