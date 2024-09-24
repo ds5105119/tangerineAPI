@@ -58,14 +58,15 @@ DJANGO_APPS = [
 ]
 
 PROJECT_APPS = [
-    "api",  # api app
+    "api",
     "search_indexes",  # Elasticsearch integration with the Django
-    "accounts.apps.AccountsConfig",  # accounts app
-    "comments.apps.CommentsConfig",  # comments app
-    "follows.apps.FollowsConfig",  # follows app
-    "likes.apps.LikesConfig",  # likes app
-    "posts.apps.PostsConfig",  # posts app
-    "profiles.apps.ProfilesConfig",  # profiles app
+    "accounts.apps.AccountsConfig",
+    "chats.apps.ChatsConfig",
+    "comments.apps.CommentsConfig",
+    "follows.apps.FollowsConfig",
+    "likes.apps.LikesConfig",
+    "posts.apps.PostsConfig",
+    "profiles.apps.ProfilesConfig",
 ]
 
 THIRD_PARTY_APPS = [
@@ -240,6 +241,14 @@ REST_FRAMEWORK = {
 }
 
 
+# https://github.com/Tivix/django-rest-auth/issues/298
+
+AUTHENTICATION_BACKENDS = (
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
+
+
 # Django Simple JWT setting
 # https://django-rest-framework-simplejwt.readthedocs.io/en/latest/settings.html
 
@@ -281,6 +290,7 @@ AUTH_USER_MODEL = "accounts.User"  # Change Default User Model
 ACCOUNT_EMAIL_REQUIRED = True  # email 필드 사용 o
 ACCOUNT_AUTHENTICATION_METHOD = "email"  # 인증 메소드
 ACCOUNT_EMAIL_VERIFICATION = "none"  # email 인증 안함 사용하는 경우 mandatory
+ACCOUNT_USER_MODEL_USERNAME_FIELD = "handle"  # 유저네임은 중복 불가능
 
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
@@ -302,7 +312,7 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 
-# dj-rest-accounts
+# dj-rest-auth
 
 # If set value to True, the token will be saved
 # But compatibility issues raise between allauth and dj-rest-auth
@@ -310,6 +320,7 @@ SOCIALACCOUNT_PROVIDERS = {
 SOCIALACCOUNT_STORE_TOKENS = False  # SOCIALACCOUNT_EMAIL_AUTHENTICATION Access Token Store
 
 REST_AUTH = {
+    "LOGIN_SERIALIZER": "accounts.serializers.LoginSerializer",
     "USE_JWT": True,  # dj_rest_auth.views.LoginView use JWT
     "JWT_AUTH_HTTPONLY": True,
     "JWT_AUTH_COOKIE": "access",
