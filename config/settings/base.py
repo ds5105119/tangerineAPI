@@ -61,7 +61,7 @@ PROJECT_APPS = [
     "api",
     "search_indexes",  # Elasticsearch integration with the Django
     "accounts.apps.AccountsConfig",
-    # "chats.apps.ChatsConfig",
+    "chats.apps.ChatsConfig",
     "comments.apps.CommentsConfig",
     "follows.apps.FollowsConfig",
     "likes.apps.LikesConfig",
