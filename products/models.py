@@ -21,7 +21,7 @@ class Product(models.Model):
     objects = models.Manager()
 
     class Meta:
-        verbose_name = "Product"
+        verbose_name = "product"
         verbose_name_plural = "Products"
         default_manager_name = "objects"
         ordering = ["-created_at"]

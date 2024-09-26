@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from accounts.models import User
 
 from .models import Product
-from .permissions import ProductPermissions
+from .permissions import ProductPermission
 from .serializers import ProductSerializer
 from .services import get_presigned_product
 
@@ -91,7 +91,7 @@ class ProductViewSet(
     DELETE /product/p/{uuid}: Delete product[uuid]
     """
 
-    permission_classes = (ProductPermissions,)
+    permission_classes = (ProductPermission,)
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
     lookup_field = "uuid"

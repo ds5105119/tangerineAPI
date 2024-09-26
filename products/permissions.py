@@ -48,4 +48,4 @@ class UserProductProhibit(BasePermission):
 
 
 UserProductWritable = getattr(settings, "tangerineAPI", {}).get("UserProductWritable", True)
-ProductPermissions = UserProductAllow if UserProductWritable else UserProductProhibit
+ProductPermission = UserProductAllow if UserProductWritable else UserProductProhibit
