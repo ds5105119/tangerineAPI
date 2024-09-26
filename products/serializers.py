@@ -27,6 +27,7 @@ class ProductBaseSerializer(serializers.ModelSerializer):
             "user",
             "name",
             "price",
+            "product_image_link",
             "product_link",
             "created_at",
         ]

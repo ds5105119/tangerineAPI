@@ -14,6 +14,7 @@ class Product(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="products")
     name = models.CharField(max_length=15, validators=[MinLengthValidator(2)])
     price = models.IntegerField(default=0)
+    product_image_link = models.URLField()
     product_link = models.URLField()
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True)
