@@ -18,9 +18,9 @@ class UserProductPagination(PageNumberPagination):
     Pagination for UserViewSet
     """
 
-    page_size = 3
+    page_size = 10
     page_size_query_param = None
-    max_page_size = 3
+    max_page_size = 10
 
 
 class GetPresignedUrlView(APIView):
