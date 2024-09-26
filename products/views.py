@@ -6,11 +6,11 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from accounts.models import User
+from posts.services import get_presigned_post
 
 from .models import Product
 from .permissions import ProductPermission
 from .serializers import ProductSerializer
-from .services import get_presigned_product
 
 
 class UserProductPagination(PageNumberPagination):
@@ -25,7 +25,7 @@ class UserProductPagination(PageNumberPagination):
 
 class GetPresignedUrlView(APIView):
     """
-    POST /Products/presigned/: get AWS S3 Bucket presigned Product url
+    POST /Products/presigned/: get AWS S3 Bucket presigned post url
     """
 
     permission_classes = (IsAuthenticated,)
@@ -33,7 +33,7 @@ class GetPresignedUrlView(APIView):
 
     def product(self, request):
         try:
-            presigned_url = get_presigned_product()
+            presigned_url = get_presigned_post()
             return Response(presigned_url)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -61,7 +61,7 @@ class LatestProductsViaHandleAPIView(generics.ListAPIView):
     def get_queryset(self):
         handle = self.kwargs.get("handle")
         user = get_object_or_404(User, handle=handle)
-        return Product.filter(user=user).order_by("-created_at")
+        return Product.objects.filter(user=user).order_by("-created_at")
 
 
 class LatestProductsAPIView(generics.ListAPIView):
