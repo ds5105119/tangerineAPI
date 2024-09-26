@@ -61,7 +61,7 @@ class LatestProductsViaHandleAPIView(generics.ListAPIView):
     def get_queryset(self):
         handle = self.kwargs.get("handle")
         user = get_object_or_404(User, handle=handle)
-        return Product.public_objects.filter(user=user).order_by("-created_at")
+        return Product.filter(user=user).order_by("-created_at")
 
 
 class LatestProductsAPIView(generics.ListAPIView):
