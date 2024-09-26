@@ -1,6 +1,7 @@
 from accounts.views import *
 
 try:
+    from allauth.socialaccount.views import signup
     from dj_rest_auth.app_settings import api_settings
     from dj_rest_auth.views import (
         LoginView,
@@ -24,17 +25,18 @@ urlpatterns = [
     path("users/", include(router.urls), name="user"),
 ]
 
-# dj-rest-auth urls(일부만 사용)
+# allauth, dj-rest-auth urls(일부만 사용)
 urlpatterns += [
     path("password/reset/", PasswordResetView.as_view(), name="rest_password_reset"),
     path("password/reset/confirm/", PasswordResetConfirmView.as_view(), name="rest_password_reset_confirm"),
     path("password/change/", PasswordChangeView.as_view(), name="rest_password_change"),
     path("login/", LoginView.as_view(), name="rest_login"),
     path("logout/", LogoutView.as_view(), name="rest_logout"),
+    path("social/signup/", signup, name="socialaccount_signup"),
     path("registration/", include("dj_rest_auth.registration.urls")),
 ]
 
-# JWT 사용 시 추가
+# SimpleJWT
 if api_settings.USE_JWT:
     from dj_rest_auth.jwt_auth import get_refresh_view
     from rest_framework_simplejwt.views import TokenVerifyView
