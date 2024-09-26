@@ -1,7 +1,7 @@
 services:
   # k8s Start
   django:
-    container_name: blog_api_django
+    container_name: tangerine_api_django
     restart: always
     entrypoint: ["sh", "-c"]
     command:
@@ -28,7 +28,7 @@ services:
   # k8s end
 
   db:
-    container_name: blog_api_db
+    container_name: tangerine_api_db
     image: postgres:alpine
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
@@ -47,7 +47,7 @@ services:
       - backend
 
   redis:
-    container_name: blog_api_redis
+    container_name: tangerine_api_redis
     image: redis:alpine
     command: >
       redis-server
@@ -62,8 +62,24 @@ services:
         limits:
           memory: 1.5gb
 
-  # elastic:
-  #   image: elasticsearch:8.15.0
+  kafka:
+    container_name: tangerine_api_kafka
+    image: apache/kafka:latest
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: PLAINTEXT://localhost:9092,CONTROLLER://localhost:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@localhost:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_NUM_PARTITIONS: 1
+    networks:
+      - backend
 
 networks:
   backend:
