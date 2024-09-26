@@ -2,18 +2,23 @@ from django.urls import include, path, re_path
 from rest_framework.routers import DefaultRouter
 
 from .views import (
-    LatestProductsViaHandleAPIView,  # 사용자 핸들로 최신 제품을 조회하는 뷰
-    ProductViewSet,  # 제품 관련 CRUD 작업을 수행하는 뷰셋
+    LatestProductsViaHandleAPIView,
+    ProductViewSet,
+    RecommendProductsAPIView,
 )
 
-# 기본 라우터 생성 및 제품 뷰셋 등록
 router = DefaultRouter()
 router.register(r"products", ProductViewSet, basename="product")
 urlpatterns = [
-    path("", include(router.urls)),  # 등록된 뷰셋의 URL 포함
+    path("", include(router.urls)),
     re_path(
         r"latest/(?P<handle>[\w.]+)/",
         LatestProductsViaHandleAPIView.as_view(),
         name="user-latest-products",
+    ),
+    re_path(
+        r"recommend/(?P<handle>[\w.]+)/",
+        RecommendProductsAPIView.as_view(),
+        name="user-recommend-products",
     ),
 ]
