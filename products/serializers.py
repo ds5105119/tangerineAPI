@@ -10,7 +10,6 @@ class UserSerializer(serializers.Serializer):
     """
 
     handle = serializers.CharField()
-    profile_image = serializers.URLField()
 
 
 class ProductBaseSerializer(serializers.ModelSerializer):
