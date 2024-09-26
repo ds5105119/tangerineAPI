@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
 from .models import Product
@@ -92,8 +93,11 @@ class ProductCreateUpdateSerializer(ProductBaseSerializer):
         """
         Helper method to assign user based on handle.
         """
+        user_model = get_user_model()
+
         try:
-            user = settings.AUTH_USER_MODEL.objects.get(handle=user_data["handle"])
+            handle = user_data.handle if isinstance(user_data, user_model) else user_data["handle"]
+            user = user_model.objects.get(handle=handle)
             product_instance.user = user
         except settings.AUTH_USER_MODEL.DoesNotExist:
             raise serializers.ValidationError({"user": "User with this handle does not exist."})
