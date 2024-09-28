@@ -7,6 +7,7 @@ try:
     from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
     from allauth.utils import valid_email_or_none
     from django.contrib.auth import get_user_model
+    from django.core.exceptions import ValidationError
 except ImportError:
     raise ImportError("allauth needs to be added to INSTALLED_APPS.")
 
@@ -19,6 +20,12 @@ class AccountAdapter(DefaultAccountAdapter):
     Custom Account Adapter
     """
 
+    def clean_email(self, email):
+        email = super().clean_email(email)
+        if User.objects.filter(email=email).exists():
+            raise ValidationError("이미 사용 중인 이메일 주소입니다.")
+        return email
+    
     def save_user(self, request, user, form, commit=True):
         """
         Saves a new `User` instance using information provided in the
@@ -61,8 +68,14 @@ class SocialAccountAdapter(DefaultSocialAccountAdapter):
     """
 
     def pre_social_login(self, request, sociallogin):
-        # user_data = sociallogin.account.extra_data
-        pass
+        """
+        같은 이메일로 가입된 일반 계정이 존재하는 경우 소셜 로그인 계정을 연동합니다.
+        """
+        email = sociallogin.account.extra_data.get("email", None)
+        if email:
+            existing_user = User.objects.filter(email=email).first()
+            if existing_user:
+                sociallogin.connect(request, existing_user)
 
     def populate_user(self, request, sociallogin, data):
         """
