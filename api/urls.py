@@ -7,6 +7,7 @@ from drf_spectacular.views import (
 
 urlpatterns = [
     path("accounts/", include("accounts.urls")),
+    path("chats/", include("chats.urls")),
     path("posts/", include("posts.urls")),
     path("products/", include("products.urls")),
     path("follows/", include("follows.urls")),

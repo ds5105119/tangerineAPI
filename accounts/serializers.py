@@ -73,6 +73,12 @@ class HandleOnlySerializer(serializers.ModelSerializer):
         model = User
         fields = ("handle",)
 
+    def validate(self, data):
+        handle = data.get("handle")
+        if not User.objects.filter(handle=handle).exists():
+            raise serializers.ValidationError(f"User with handle {handle} does not exist.")
+        return data
+
 
 class ReadOnlyUserSelfSerializer(serializers.ModelSerializer):
     """

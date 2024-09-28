@@ -21,7 +21,7 @@ User = get_user_model()
 class FollowingViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     permission_classes = (FollowPermission,)
     lookup_field = "handle"
-    lookup_value_regex = r"[\w.]+"
+    lookup_value_regex = r"[a-z0-9_.]+"
 
     def get_serializer_class(self):
         if self.action == "create":

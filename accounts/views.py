@@ -37,7 +37,7 @@ class UserViewSet(
     permission_classes = (UserPermission,)
     pagination_class = UserPagination
     lookup_field = "handle"
-    lookup_value_regex = r"[\w.]+"
+    lookup_value_regex = r"[a-z0-9_.]+"
 
     def get_queryset(self):
         user = self.request.user

@@ -135,16 +135,6 @@ DATABASES = {
     }
 }
 
-# https://github.com/django/channels_redis
-
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [(env("REDIS_HOST"), env("REDIS_PORT"))],
-        },
-    },
-}
 
 # https://github.com/jazzband/django-redis
 
@@ -215,7 +205,6 @@ REST_FRAMEWORK = {
         "rest_framework.renderers.BrowsableAPIRenderer",
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework.authentication.TokenAuthentication",
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
     "DEFAULT_PERMISSION_CLASSES": [
