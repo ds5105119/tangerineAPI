@@ -8,9 +8,11 @@ except ImportError:
 
 
 router = DefaultRouter()
-router.register(r"", ChatRoomViewSet, basename="follow")
+router.register(r"rooms", ChatRoomViewSet, basename="chat_room")
+router.register(r"members", ChatMemberViewSet, basename="chat_member")
+router.register(r"messages", ChatMessageViewSet, basename="chat_message")
 
 
 urlpatterns = [
-    path(r"rooms/", include(router.urls), name="follows"),
+    path(r"", include(router.urls)),
 ]

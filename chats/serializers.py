@@ -4,8 +4,8 @@ from chats.models import *
 try:
     from django.contrib.auth import get_user_model
     from django.db import transaction
-    from django.db.models import Prefetch
     from rest_framework import serializers
+    from rest_framework.exceptions import ValidationError
 except ImportError:
     raise ImportError("django, django-rest-framework, dj-rest-accounts needs to be added to INSTALLED_APPS.")
 
@@ -13,26 +13,49 @@ except ImportError:
 User = get_user_model()
 
 
-class WriteableChatRoomSelfSerializer(serializers.Serializer):
+class ReadOnlyChatMemberSerializer(serializers.ModelSerializer):
+    user = ReadOnlyUserExternalSerializer(read_only=True)
+
+    class Meta:
+        model = ChatMember
+        fields = ["user"]
+        read_only_fields = ["user"]
+
+
+class ReadOnlyChatRoomSelfSerializer(serializers.ModelSerializer):
+    uuid = serializers.UUIDField()
+    members = ReadOnlyChatMemberSerializer(many=True, source="chat_members_as_room")
+
+    class Meta:
+        model = ChatRoom
+        fields = ["uuid", "owner", "created_at", "updated_at", "members"]
+        read_only_fields = ["owner", "created_at", "updated_at", "members"]
+
+
+class WriteableChatRoomSelfSerializer(serializers.ModelSerializer):
     handles = serializers.ListField(child=serializers.CharField(), write_only=True)
-    members = serializers.SerializerMethodField()
+    members = ReadOnlyChatMemberSerializer(many=True, source="chat_members_as_room")
 
     class Meta:
         model = ChatRoom
         fields = ["uuid", "owner", "created_at", "handles", "members"]
         read_only_fields = ["uuid", "owner", "created_at", "members"]
 
-    def get_members(self, obj):
-        return list(obj.chatmember_set.values_list("user__handle", flat=True))
-
     @transaction.atomic
     def create(self, validated_data):
         handles = validated_data.pop("handles")
         current_user = self.context["request"].user
-
-        chat_room = ChatRoom.objects.create(owner=current_user)
-
+        handles.append(current_user.handle)
         users = User.objects.filter(handle__in=handles)
+
+        if users.count() != len(handles):
+            raise ValidationError("Unavailable handle is included")
+
+        if users.count() == 2:
+            chat_room = ChatRoom.objects.create()
+        else:
+            chat_room = ChatRoom.objects.create(owner=current_user)
+
         chat_members = [ChatMember(room=chat_room, user=user) for user in users]
         ChatMember.objects.bulk_create(chat_members)
 
@@ -40,11 +63,16 @@ class WriteableChatRoomSelfSerializer(serializers.Serializer):
 
     @transaction.atomic
     def update(self, instance, validated_data):
-        handles = validated_data.pop("handles")
-        existing_members = instance.chatmember_set.values_list("user__handle", flat=True)
+        handles = set(validated_data.pop("handles"))
+        existing_members = set(instance.chatmember_set.values_list("user__handle", flat=True))
 
         to_add = handles - existing_members
         to_remove = existing_members - handles
+
+        if len(existing_members) == 2 and len(to_add) - len(to_remove) > 0:
+            current_user = self.context["request"].user
+            instance.owner = current_user
+            instance.save()
 
         if to_add:
             users = User.objects.filter(handle__in=to_add)
@@ -56,13 +84,9 @@ class WriteableChatRoomSelfSerializer(serializers.Serializer):
 
         return instance
 
-    @classmethod
-    def setup_eager_loading(cls, queryset):
-        return queryset.prefetch_related(
-            Prefetch(
-                "chatmember_set",
-                queryset=ChatMember.objects.select_related("user", "user__profile").only(
-                    "user__handle",
-                ),
-            )
-        )
+
+class ReadOnlyChatMessageSelfSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ChatMessage
+        fields = ["member", "text", "created_at"]
+        read_only_fields = ["member", "text", "created_at"]
