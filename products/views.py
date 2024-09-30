@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import generics, mixins, viewsets
+from rest_framework import generics, mixins, serializers, viewsets
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -21,7 +21,7 @@ class UserProductPagination(PageNumberPagination):
     max_page_size = 10
 
 
-class LatestProductsViaHandleAPIView(generics.ListAPIView):
+class LatestProductsViaHandleViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     """
     GET /products/latest/{handle}: return latest product via user
     /products/latest/{handle}/?page=2: return latest product via user and pagination
@@ -30,6 +30,8 @@ class LatestProductsViaHandleAPIView(generics.ListAPIView):
     serializer_class = ProductRetrieveSerializer
     pagination_class = UserProductPagination
     permission_classes = (AllowAny,)
+    lookup_field = "handle"
+    lookup_value_regex = r"[a-z0-9_.]+"
 
     def get_queryset(self):
         handle = self.kwargs.get("handle")
@@ -79,6 +81,8 @@ class ProductViewSet(
         return ProductRetrieveSerializer
 
     def perform_create(self, serializer):
+        if not self.request.user.is_authenticated:
+            raise serializers.ValidationError("로그인이 필요합니다.")
         serializer.save(user=self.request.user)
 
     def list(self, request, *args, **kwargs):

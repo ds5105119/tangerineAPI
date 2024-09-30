@@ -19,8 +19,6 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True)
 
-    objects = models.Manager()
-
     class Meta:
         verbose_name = "product"
         verbose_name_plural = "Products"
