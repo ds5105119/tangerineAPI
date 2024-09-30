@@ -25,7 +25,7 @@ class AccountAdapter(DefaultAccountAdapter):
         if User.objects.filter(email=email).exists():
             raise ValidationError("이미 사용 중인 이메일 주소입니다.")
         return email
-    
+
     def save_user(self, request, user, form, commit=True):
         """
         Saves a new `User` instance using information provided in the
