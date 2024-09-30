@@ -22,6 +22,10 @@ LOGGING = {
         },
     },
     "loggers": {
+        "django.db.backends": {
+            "level": "DEBUG",
+            "handlers": ["console"],
+        },
         "django.request": {
             "handlers": ["console"],
             "level": "DEBUG",  # 요청 관련 로그
@@ -40,11 +44,6 @@ LOGGING = {
         "requests_oauthlib": {
             "handlers": ["console"],
             "level": "DEBUG",  # OAuth 인증 요청 및 응답 로그
-            "propagate": True,
-        },
-        "myapp": {
-            "handlers": ["console"],
-            "level": "DEBUG",
             "propagate": True,
         },
     },

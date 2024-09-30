@@ -288,6 +288,7 @@ SIMPLE_JWT = {
 ACCOUNT_ADAPTER = "accounts.adapter.AccountAdapter"
 SOCIALACCOUNT_ADAPTER = "accounts.adapter.SocialAccountAdapter"
 AUTH_USER_MODEL = "accounts.User"  # Change Default User Model
+SOCIALACCOUNT_AUTO_SIGNUP = True  # 자동 소셜 로그인 가입
 ACCOUNT_EMAIL_REQUIRED = True  # email 필드 사용 o
 ACCOUNT_AUTHENTICATION_METHOD = "email"  # 인증 메소드
 ACCOUNT_EMAIL_VERIFICATION = "none"  # email 인증 안함 사용하는 경우 mandatory
