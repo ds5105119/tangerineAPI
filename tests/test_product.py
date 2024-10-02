@@ -5,7 +5,7 @@ from rest_framework import status
 from products.models import Product
 from products.serializers import ProductCreateUpdateSerializer, ProductRetrieveSerializer
 
-pytestmark = pytest.mark.django_db
+pytestmark = pytest.mark.django_db(transaction=True)
 
 
 class TestProductModel:
@@ -84,11 +84,14 @@ class TestProductViews:
         response = client_1.delete(url)
         assert response.status_code == status.HTTP_204_NO_CONTENT
 
-    # def test_list_latest_products(self, client_1, sample_user_1, sample_product):
-    #     url = reverse("user-latest-products", kwargs={"handle": sample_user_1.handle})
-    #     response = client_1.get(url)
-    #     assert response.status_code == status.HTTP_200_OK
-    #     assert len(response.data["results"]) > 0
+    def test_list_latest_products(self, client_1, sample_user_1, sample_product):
+        client_1.force_authenticate(user=sample_user_1)
+        url = reverse("user-latest-products", kwargs={"handle": sample_user_1.handle})
+        response = client_1.get(url)
+        assert response.status_code == status.HTTP_200_OK
+        assert "results" in response.data
+        assert len(response.data["results"]) > 0
+        assert response.data["results"][0]["name"] == sample_product.name
 
 
 class TestProductPermissions:
@@ -107,12 +110,12 @@ class TestProductPermissions:
         print(response.json())
         assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
-    # def test_non_owner_cannot_update_product(self, client_1, sample_product):
-    #     """
-    #     Test that products cannot be modified by users when they are not logged in or are not authenticated
-    #     """
-    #     client_1.force_authenticate(user=sample_user_1)
-    #     url = reverse("product-detail", kwargs={"uuid": sample_product.uuid})
-    #     data = {"name": "Unauthorized Update"}
-    #     response = client_1.patch(url, data)
-    #     assert response.status_code == status.HTTP_403_FORBIDDEN
+    def test_non_owner_cannot_update_product(self, client_1, sample_user_2, sample_product):
+        """
+        Test that products cannot be modified by users when they are not logged in or are not authenticated
+        """
+        client_1.force_authenticate(user=sample_user_2)
+        url = reverse("product-detail", kwargs={"uuid": sample_product.uuid})
+        data = {"name": "Unauthorized Update"}
+        response = client_1.patch(url, data)
+        assert response.status_code == status.HTTP_403_FORBIDDEN

@@ -12,6 +12,7 @@ class ProductBaseSerializer(serializers.ModelSerializer):
         model = Product
         fields = [
             "uuid",
+            # "user",
             "name",
             "price",
             "product_image_link",

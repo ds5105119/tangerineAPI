@@ -15,7 +15,7 @@ urlpatterns = [
     path("recommend/", RecommendProductsAPIView.as_view(), name="user-recommend-products"),
     re_path(
         r"latest/(?P<handle>[\w.]+)/",
-        LatestProductsViaHandleViewSet.as_view({"get": "retrieve"}),
+        LatestProductsViaHandleViewSet.as_view({"get": "list"}),
         name="user-latest-products",
     ),
 ]
