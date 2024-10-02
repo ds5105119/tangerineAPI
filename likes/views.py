@@ -117,6 +117,7 @@ class CommentLikeViewSet(
     mixins.CreateModelMixin,
     mixins.DestroyModelMixin,
     mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
     viewsets.GenericViewSet,
 ):
     queryset = CommentLike.objects.all()
@@ -208,11 +209,28 @@ class CommentLikeViewSet(
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
 
+    @extend_schema(
+        summary="Get like count for a comment",
+        description="Retrieve the number of likes for a specific comment",
+        responses={
+            200: OpenApiTypes.INT,
+            404: OpenApiResponse(description="Comment not found"),
+        },
+    )
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            comment = Comment.objects.get(uuid=kwargs.get("uuid"))
+            like_count = CommentLike.objects.filter(comment=comment).count()
+            return Response({"like_count": like_count}, status=status.HTTP_200_OK)
+        except ObjectDoesNotExist:
+            return Response({"detail": "Comment not found"}, status=status.HTTP_404_NOT_FOUND)
+
 
 class ReplyLikeViewSet(
     mixins.CreateModelMixin,
     mixins.DestroyModelMixin,
     mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
     viewsets.GenericViewSet,
 ):
     queryset = ReplyLike.objects.all()
@@ -290,5 +308,18 @@ class ReplyLikeViewSet(
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
 
-
-# Create your views here.
+    @extend_schema(
+        summary="Get like count for a reply",
+        description="Retrieve the number of likes for a specific reply",
+        responses={
+            200: OpenApiTypes.INT,
+            404: OpenApiResponse(description="Reply not found"),
+        },
+    )
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            reply = Reply.objects.get(uuid=kwargs.get("uuid"))
+            like_count = ReplyLike.objects.filter(reply=reply).count()
+            return Response({"like_count": like_count}, status=status.HTTP_200_OK)
+        except ObjectDoesNotExist:
+            return Response({"detail": "Reply not found"}, status=status.HTTP_404_NOT_FOUND)
