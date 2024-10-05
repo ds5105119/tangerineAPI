@@ -24,7 +24,7 @@ class ReadOnlyChatMemberSerializer(serializers.ModelSerializer):
 
 class ReadOnlyChatRoomSelfSerializer(serializers.ModelSerializer):
     uuid = serializers.UUIDField()
-    members = ReadOnlyChatMemberSerializer(many=True, source="chat_members_as_room")
+    members = ReadOnlyChatMemberSerializer(many=True, source="chat_members_as_room", read_only=True)
 
     class Meta:
         model = ChatRoom
@@ -34,7 +34,7 @@ class ReadOnlyChatRoomSelfSerializer(serializers.ModelSerializer):
 
 class WriteableChatRoomSelfSerializer(serializers.ModelSerializer):
     handles = serializers.ListField(child=serializers.CharField(), write_only=True)
-    members = ReadOnlyChatMemberSerializer(many=True, source="chat_members_as_room")
+    members = ReadOnlyChatMemberSerializer(many=True, source="chat_members_as_room", read_only=True)
 
     class Meta:
         model = ChatRoom

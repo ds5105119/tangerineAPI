@@ -3,6 +3,7 @@ from chats.permissions import *
 from chats.serializers import *
 
 try:
+    from django.db.models import Prefetch
     from rest_framework import mixins, status, viewsets
     from rest_framework.exceptions import MethodNotAllowed
     from rest_framework.response import Response

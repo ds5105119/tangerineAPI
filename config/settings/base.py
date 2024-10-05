@@ -72,7 +72,7 @@ PROJECT_APPS = [
 
 THIRD_PARTY_APPS = [
     "channels",  # django-channels
-    "taggit",  # django-taggit
+    "channels_pulsar",  # channels-pulsar
     "corsheaders",  # django-cors-headers
     "rest_framework",  # Django Rest Framework
     "rest_framework.authtoken",  # Django Rest Framework
@@ -238,7 +238,6 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend",
 )
 
-
 # Django Simple JWT setting
 # https://django-rest-framework-simplejwt.readthedocs.io/en/latest/settings.html
 
@@ -337,8 +336,22 @@ SPECTACULAR_SETTINGS = {
     "SWAGGER_UI_DIST": "//unpkg.com/swagger-ui-dist@5.17.14",
 }
 
+# channels
 
-# BlogAPI
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_pulsar.layer.PulsarChannelLayer",
+        "CONFIG": {
+            "pulsar_client_url": "pulsar://broker:6650",
+            "admin_url": "http://broker:8080/admin/v2",
+            "topic_type": "non-persistent",
+            "topic_tenant": "public",
+            "topic_namespace": "default",
+        },
+    },
+}
+
+# TangerineAPI
 
 FILE_UPLOAD_PERMISSIONS = "rest_framework.permissions.IsAuthenticated"
 FILE_UPLOAD_MAX_MEMORY_SIZE = 1 * (1024**2)  # 1M
