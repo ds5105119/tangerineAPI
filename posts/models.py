@@ -3,13 +3,11 @@ import uuid
 from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from taggit.managers import TaggableManager
-from taggit.models import GenericUUIDTaggedItemBase, TaggedItemBase
 
 from .managers import PublishedManager
 
 
-class UUIDTaggedItem(GenericUUIDTaggedItemBase, TaggedItemBase):
+class UUIDTaggedItem(models.Model):
     """
     for uuid pk field
     If you only inherit GenericUUIDTaggedItemBase, you need to define
@@ -65,7 +63,7 @@ class Post(models.Model):
     status = models.CharField(max_length=20, choices=POST_STATUS, default="published")
     mdx = models.TextField()
     text = models.TextField()
-    tags = TaggableManager(blank=True, through=UUIDTaggedItem)
+    tags = models.TextField()
     views_count = models.IntegerField(default=0)
     likes_count = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True, editable=False)

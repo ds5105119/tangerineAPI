@@ -3,7 +3,7 @@ from .base import *
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 ADMIN_ENABLED = True
 
@@ -44,6 +44,11 @@ LOGGING = {
         "requests_oauthlib": {
             "handlers": ["console"],
             "level": "DEBUG",  # OAuth 인증 요청 및 응답 로그
+            "propagate": True,
+        },
+        "default": {
+            "handlers": ["console"],
+            "level": "DEBUG",
             "propagate": True,
         },
     },

@@ -11,6 +11,8 @@ ENV PYTHONUNBUFFERED=1 \
     POETRY_VIRTUALENVS_IN_PROJECT=false \
     POETRY_NO_INTERACTION=1
 
+ENV PATH="$POETRY_HOME/bin:$PATH"
+
 # 시스템 패키지 설치 및 Poetry 설치
 RUN apt-get update \
     && apt-get install -y --no-install-recommends gcc libpq-dev curl \

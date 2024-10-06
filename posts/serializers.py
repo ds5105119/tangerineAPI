@@ -1,16 +1,14 @@
 from rest_framework import serializers
-from taggit.serializers import TaggitSerializer, TagListSerializerField
 
 from .models import Post
 
 
-class PostSerializer(TaggitSerializer, serializers.ModelSerializer):
+class PostSerializer(serializers.ModelSerializer):
     """
     Post Model Serializer
     Django-taggit support
     """
 
-    tags = TagListSerializerField()
     user = serializers.SerializerMethodField()
 
     class Meta:
