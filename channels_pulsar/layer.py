@@ -1,15 +1,11 @@
 import asyncio
 import json
-import logging
 import time
 import uuid
 
 from channels.layers import BaseChannelLayer
 
 from channels_pulsar.manager import PulsarChannelManager
-
-logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger("default")
 
 
 class PulsarChannelLayer(BaseChannelLayer):
@@ -54,14 +50,11 @@ class PulsarChannelLayer(BaseChannelLayer):
         assert "__asgi_channel__" not in message
 
         producer = await self.pulsar_manager.get_producer(group)
-
-        logger.debug(f"메지시 전송 시작, 프로듀서: {producer.topic()}")
         await producer.send(json.dumps(message))
 
     async def receive(self, channel):
         """
         channel에 도착한 메시지를 반환합니다.
-        같은 채널에 코루틴이 두 개 이상 생성될 경우에, 안전을 보장하지 않습니다.
         """
         assert self.valid_channel_name(channel)
         await self._clean_expired()
@@ -78,10 +71,9 @@ class PulsarChannelLayer(BaseChannelLayer):
             else:
                 await asyncio.sleep(1)
 
-        message = consumer.receive()
+        message = await asyncio.to_thread(consumer.receive)
+        consumer.acknowledge(message)
         message = json.loads(message.data())
-
-        logging.debug(f"메시지 도착: {str(message)}")
 
         return message
 
@@ -135,10 +127,8 @@ class PulsarChannelLayer(BaseChannelLayer):
         assert self.valid_group_name(group), "Group name not valid"
         assert self.valid_channel_name(channel), "Channel name not valid"
 
-        producer = await self.pulsar_manager.get_producer(group)
-        consumer = await self.pulsar_manager.get_consumer(channel, group)
-
-        logging.debug(f"그룹 add 이후 producer: {producer}" f"그룹 add 이후 consumer: {consumer}")
+        await self.pulsar_manager.get_producer(group)
+        await self.pulsar_manager.get_consumer(channel, group)
 
         self.groups.setdefault(group, {})
         self.groups[group][channel] = time.time()  # 그룹 채팅을 연 시간

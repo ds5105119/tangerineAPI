@@ -103,45 +103,17 @@ class PulsarChannelManager:
         if group:
             self.channels[channel].add(topic)
 
-        logger.debug(f"처음 토픽: {topic}")
-        logger.debug(f"처음 채널: {channel}")
-        logger.debug(f"처음 그룹: {group}")
-        logger.debug(f"처음 채널 상태: {self.channels}")
-        logger.debug(f"처음 컨슈머 상태: {self.consumers}")
-        logger.debug(f"처음 프로듀서 상태: {self.consumers.get(channel)}")
-
         if group or force_update:
             topics = self.channels[channel].copy()
             await self.close_channel(channel)
-
-            logger.debug(f"중간 토픽: {topic}")
-            logger.debug(f"중간 채널: {channel}")
-            logger.debug(f"중간 그룹: {group}")
-            logger.debug(f"중간 채널 상태: {self.channels}")
-            logger.debug(f"중간 컨슈머 상태: {self.consumers}")
-            logger.debug(f"중간 프로듀서 상태: {self.consumers.get(channel)}")
-
             async with self._consumer_lock:
-                # try:
-                #     self.channels[channel] = topics
-                #     self.consumers[channel] = self.client.subscribe(
-                #         topic=list(topics),
-                #         subscription_name=channel,
-                #         schema=self.schema
-                #     )
-                # except pulsar.PulsarException as e:
-                #     raise e
-                self.channels[channel] = topics
-                self.consumers[channel] = self.client.subscribe(
-                    topic=list(topics), subscription_name=channel, schema=self.schema
-                )
-
-        logger.debug(f"마지막 토픽: {topic}")
-        logger.debug(f"마지막 채널: {channel}")
-        logger.debug(f"마지막 그룹: {group}")
-        logger.debug(f"마지막 채널 상태: {self.channels}")
-        logger.debug(f"마지막 컨슈머 상태: {self.consumers}")
-        logger.debug(f"마지막 프로듀서 상태: {self.consumers.get(channel)}")
+                try:
+                    self.channels[channel] = topics
+                    self.consumers[channel] = self.client.subscribe(
+                        topic=list(topics), subscription_name=channel, schema=self.schema
+                    )
+                except pulsar.PulsarException as e:
+                    raise e
 
         if channel not in self.consumers.keys():
             return None
@@ -171,7 +143,7 @@ class PulsarChannelManager:
         """
         DO NOT USE WITHOUT LOCK
         """
-        if channel in self.channels:
+        if channel in self.channels.keys():
             del self.channels[channel]
 
         if channel in self.consumers.keys():
