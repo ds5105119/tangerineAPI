@@ -30,7 +30,8 @@ class LatestProductsViaHandleViewSet(mixins.RetrieveModelMixin, viewsets.Generic
     serializer_class = ProductRetrieveSerializer
     pagination_class = UserProductPagination
     permission_classes = (AllowAny,)
-    lookup_field = "handle"
+    lookup_field = "user"
+    lookup_url_kwarg = "handle"
     lookup_value_regex = r"[a-z0-9_.]+"
 
     def get_queryset(self):
@@ -38,8 +39,17 @@ class LatestProductsViaHandleViewSet(mixins.RetrieveModelMixin, viewsets.Generic
         user = get_object_or_404(User, handle=handle)
         return Product.objects.filter(user=user).order_by("-created_at")
 
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
-class RecommendProductsAPIView(generics.ListAPIView):
+
+class RecommendProductsAPIViewSet(generics.ListAPIView):
     """
     GET /products/recommend: return recommended products
     """
