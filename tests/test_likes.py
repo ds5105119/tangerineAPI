@@ -12,51 +12,22 @@ from likes.serializers import (
     ReplyLikeSerializer,
 )
 from posts.models import Post
-from profiles.models import Profile
 
 User = get_user_model()
-
-
-@pytest.fixture
-def create_user_and_profile():
-    def _create_user_and_profile(handle, username, email, password):
-        profile = Profile.objects.create(
-            bio="Test bio",
-            link_1="http://test.com",
-            link_2="http://test2.com",
-            profile_image="http://test.com/image.png",
-        )
-        user = User.objects.create_user(
-            handle=handle,
-            username=username,
-            email=email,
-            password=password,
-            profile=profile,
-        )
-        return user
-
-    return _create_user_and_profile
-
-
-@pytest.fixture
-def post(db, user):
-    """테스트용 게시물 생성"""
-    return Post.objects.create(title="Test Post", content="Test Content", user=user)
 
 
 # views.py
 
 
 @pytest.mark.django_db
-def test_post_like_create(create_user_and_profile):
+def test_post_like_create(sample_user_1):
     client = APIClient()
 
-    # Create user and post
-    user = create_user_and_profile("testuser", "Test User", "testuser@example.com", "password123")
-    post = Post.objects.create(uuid=uuid.uuid4(), text="Test Post", likes_count=0, user=user)
+    # Create post with sample_user_1
+    post = Post.objects.create(uuid=uuid.uuid4(), text="Test Post", likes_count=0, user=sample_user_1)
 
     # Authenticate the request
-    client.force_authenticate(user=user)
+    client.force_authenticate(user=sample_user_1)
 
     # Like the post
     response = client.post(f"/likes/post-likes/?uuid={post.uuid}")
@@ -64,16 +35,16 @@ def test_post_like_create(create_user_and_profile):
     post.refresh_from_db()  # Refresh to get the latest state from the database
 
     assert response.status_code == 201
-    assert PostLike.objects.filter(post=post, like_user=user).exists()
+    assert PostLike.objects.filter(post=post, like_user=sample_user_1).exists()
     assert post.likes_count == 1  # Verify likes_count incremented
 
 
 @pytest.mark.django_db
-def test_post_like_destroy(create_user_and_profile):
+def test_post_like_destroy(sample_user_1):
     client = APIClient()
 
     # Create user, post, and like
-    user = create_user_and_profile("testuser", "Test User", "testuser@example.com", "password123")
+    user = sample_user_1
     post = Post.objects.create(uuid=uuid.uuid4(), text="Test Post", likes_count=1, user=user)
     PostLike.objects.create(post=post, like_user=user)
 
@@ -92,11 +63,11 @@ def test_post_like_destroy(create_user_and_profile):
 
 # PostLike list() test
 @pytest.mark.django_db
-def test_post_like_list(create_user_and_profile):
+def test_post_like_list(sample_user_1):
     client = APIClient()
 
     # Create user and post
-    user = create_user_and_profile("testuser", "Test User", "testuser@example.com", "password123")
+    user = sample_user_1
     post = Post.objects.create(uuid=uuid.uuid4(), text="Test Post", likes_count=0, user=user)
 
     # Authenticate the request
@@ -113,11 +84,11 @@ def test_post_like_list(create_user_and_profile):
 
 
 @pytest.mark.django_db
-def test_comment_like_create(create_user_and_profile):
+def test_comment_like_create(sample_user_1):
     client = APIClient()
 
     # 사용자와 댓글 생성
-    user = create_user_and_profile("testuser", "Test User", "testuser@example.com", "password123")
+    user = sample_user_1
     comment = Comment.objects.create(
         uuid=uuid.uuid4(),
         content="Test Comment",
@@ -136,11 +107,11 @@ def test_comment_like_create(create_user_and_profile):
 
 
 @pytest.mark.django_db
-def test_comment_like_destroy(create_user_and_profile):
+def test_comment_like_destroy(sample_user_1):
     client = APIClient()
 
     # 사용자, 댓글, 좋아요 생성
-    user = create_user_and_profile("testuser", "Test User", "testuser@example.com", "password123")
+    user = sample_user_1
     comment = Comment.objects.create(
         uuid=uuid.uuid4(),
         content="Test Comment",
@@ -160,11 +131,11 @@ def test_comment_like_destroy(create_user_and_profile):
 
 
 @pytest.mark.django_db
-def test_comment_like_list(create_user_and_profile):
+def test_comment_like_list(sample_user_1):
     client = APIClient()
 
     # 사용자와 댓글 생성
-    user = create_user_and_profile("testuser", "Test User", "testuser@example.com", "password123")
+    user = sample_user_1
     comment = Comment.objects.create(
         uuid=uuid.uuid4(),
         content="Test Comment",
@@ -185,11 +156,11 @@ def test_comment_like_list(create_user_and_profile):
 
 
 @pytest.mark.django_db
-def test_comment_like_retrieve(create_user_and_profile):
+def test_comment_like_retrieve(sample_user_1):
     client = APIClient()
 
-    # Create user and comment like
-    user = create_user_and_profile("testuser", "Test User", "testuser@example.com", "password123")
+    # 사용자와 댓글 좋아요 생성
+    user = sample_user_1
     comment = Comment.objects.create(
         uuid=uuid.uuid4(),
         content="Test Comment",
@@ -199,22 +170,22 @@ def test_comment_like_retrieve(create_user_and_profile):
 
     CommentLike.objects.create(comment=comment, like_user=user)
 
-    # Authenticate the request
+    # 사용자 인증
     client.force_authenticate(user=user)
 
-    # Retrieve the like count for the comment
+    # 댓글 좋아요 수 조회
     response = client.get(f"/likes/comment-likes/{comment.uuid}/")
 
     assert response.status_code == 200
-    assert response.data["like_count"] == 1  # Verify the correct like count
+    assert response.data["like_count"] == 1  # 올바른 좋아요 수 확인
 
 
 @pytest.mark.django_db
-def test_reply_like_create(create_user_and_profile):
+def test_reply_like_create(sample_user_1):
     client = APIClient()
 
     # 사용자와 답글 생성
-    user = create_user_and_profile("testuser", "Test User", "testuser@example.com", "password123")
+    user = sample_user_1
     reply = Reply.objects.create(
         uuid=uuid.uuid4(),
         content="Test Reply",
@@ -233,11 +204,11 @@ def test_reply_like_create(create_user_and_profile):
 
 
 @pytest.mark.django_db
-def test_reply_like_destroy(create_user_and_profile):
+def test_reply_like_destroy(sample_user_1):
     client = APIClient()
 
     # 사용자, 답글, 좋아요 생성
-    user = create_user_and_profile("testuser", "Test User", "testuser@example.com", "password123")
+    user = sample_user_1
     reply = Reply.objects.create(
         uuid=uuid.uuid4(),
         content="Test Reply",
@@ -257,11 +228,11 @@ def test_reply_like_destroy(create_user_and_profile):
 
 
 @pytest.mark.django_db
-def test_reply_like_list(create_user_and_profile):
+def test_reply_like_list(sample_user_1):
     client = APIClient()
 
     # 사용자와 답글 생성
-    user = create_user_and_profile("testuser", "Test User", "testuser@example.com", "password123")
+    user = sample_user_1
     reply = Reply.objects.create(
         uuid=uuid.uuid4(),
         content="Test Reply",
@@ -282,11 +253,11 @@ def test_reply_like_list(create_user_and_profile):
 
 
 @pytest.mark.django_db
-def test_reply_like_retrieve(create_user_and_profile):
+def test_reply_like_retrieve(sample_user_1):
     client = APIClient()
 
-    # Create user and reply like
-    user = create_user_and_profile("testuser", "Test User", "testuser@example.com", "password123")
+    # 사용자와 답글 좋아요 생성
+    user = sample_user_1
     reply = Reply.objects.create(
         uuid=uuid.uuid4(),
         content="Test Reply",
@@ -296,22 +267,22 @@ def test_reply_like_retrieve(create_user_and_profile):
 
     ReplyLike.objects.create(reply=reply, like_user=user)
 
-    # Authenticate the request
+    # 사용자 인증
     client.force_authenticate(user=user)
 
-    # Retrieve the like count for the reply
+    # 답글 좋아요 수 조회
     response = client.get(f"/likes/reply-likes/{reply.uuid}/")
 
     assert response.status_code == 200
-    assert response.data["like_count"] == 1  # Verify the correct like count
+    assert response.data["like_count"] == 1  # 올바른 좋아요 수 확인
 
 
 # models.py
 
 
 @pytest.mark.django_db
-def test_create_post_like(create_user_and_profile):
-    user = create_user_and_profile("testuser", "Test User", "testuser@example.com", "password123")
+def test_create_post_like(sample_user_1):
+    user = sample_user_1
     post = Post.objects.create(uuid=uuid.uuid4(), text="Test Post", likes_count=0, user=user)
     post_like = PostLike.objects.create(post=post, like_user=user)
     assert post_like.post == post
@@ -319,8 +290,8 @@ def test_create_post_like(create_user_and_profile):
 
 
 @pytest.mark.django_db
-def test_create_comment_like(create_user_and_profile):
-    user = create_user_and_profile("testuser", "Test User", "testuser@example.com", "password123")
+def test_create_comment_like(sample_user_1):
+    user = sample_user_1
     comment = Comment.objects.create(
         uuid=uuid.uuid4(),
         content="Test Comment",
@@ -333,8 +304,8 @@ def test_create_comment_like(create_user_and_profile):
 
 
 @pytest.mark.django_db
-def test_create_reply_like(create_user_and_profile):
-    user = create_user_and_profile("testuser", "Test User", "testuser@example.com", "password123")
+def test_create_reply_like(sample_user_1):
+    user = sample_user_1
     reply = Reply.objects.create(
         uuid=uuid.uuid4(),
         content="Test Reply",
@@ -350,8 +321,8 @@ def test_create_reply_like(create_user_and_profile):
 
 
 @pytest.mark.django_db
-def test_post_like_serializer_valid(create_user_and_profile):
-    user = create_user_and_profile("testuser", "Test User", "testuser@example.com", "password123")
+def test_post_like_serializer_valid(sample_user_1):
+    user = sample_user_1
     post = Post.objects.create(uuid=uuid.uuid4(), text="Test Content", user=user)
     data = {
         "post_uuid": str(post.uuid),
@@ -370,8 +341,8 @@ from rest_framework.test import APIRequestFactory
 
 
 @pytest.mark.django_db
-def test_comment_like_serializer_valid(create_user_and_profile):
-    user = create_user_and_profile("testuser", "Test User", "testuser@example.com", "password123")
+def test_comment_like_serializer_valid(sample_user_1):
+    user = sample_user_1
     comment = Comment.objects.create(
         uuid=uuid.uuid4(),
         content="Test Comment",
@@ -398,8 +369,8 @@ def test_comment_like_serializer_valid(create_user_and_profile):
 
 
 @pytest.mark.django_db
-def test_reply_like_serializer_valid(create_user_and_profile):
-    user = create_user_and_profile("testuser", "Test User", "testuser@example.com", "password123")
+def test_reply_like_serializer_valid(sample_user_1):
+    user = sample_user_1
     reply = Reply.objects.create(
         uuid=uuid.uuid4(),
         content="Test Reply",

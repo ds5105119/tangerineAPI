@@ -1,6 +1,6 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
-from django.db.models import F
+from django.db.models import Count, F
 from drf_spectacular.utils import (
     OpenApiParameter,
     OpenApiResponse,
@@ -126,10 +126,12 @@ class CommentLikeViewSet(
     lookup_value_regex = r"[0-9a-z\-]+"
 
     def get_queryset(self):
-        uuid = self.request.query_params.get("uuid")
-        if uuid:
-            return CommentLike.objects.filter(comment__uuid=uuid)
-        return CommentLike.objects.none()
+        if self.action in ["list", "retrieve"]:
+            uuid = self.request.query_params.get("uuid")
+            if uuid:
+                return CommentLike.objects.filter(comment__uuid=uuid)
+            return CommentLike.objects.none()
+        return CommentLike.objects.none()  # create(), destroy()일 때는 빈 쿼리셋
 
     @extend_schema(
         summary="Add like for a comment",
@@ -219,9 +221,8 @@ class CommentLikeViewSet(
     )
     def retrieve(self, request, *args, **kwargs):
         try:
-            comment = Comment.objects.get(uuid=kwargs.get("uuid"))
-            like_count = CommentLike.objects.filter(comment=comment).count()
-            return Response({"like_count": like_count}, status=status.HTTP_200_OK)
+            comment = Comment.objects.annotate(like_count=Count("likes")).get(uuid=kwargs.get("uuid"))
+            return Response({"like_count": comment.like_count}, status=status.HTTP_200_OK)
         except ObjectDoesNotExist:
             return Response({"detail": "Comment not found"}, status=status.HTTP_404_NOT_FOUND)
 
@@ -239,9 +240,11 @@ class ReplyLikeViewSet(
     lookup_value_regex = r"[0-9a-z\-]+"
 
     def get_queryset(self):
-        uuid = self.request.query_params.get("uuid")
-        if uuid:
-            return ReplyLike.objects.filter(reply__uuid=uuid)
+        if self.action in ["list", "retrieve"]:
+            uuid = self.request.query_params.get("uuid")
+            if uuid:
+                return ReplyLike.objects.filter(reply__uuid=uuid)
+            return ReplyLike.objects.none()
         return ReplyLike.objects.none()
 
     @extend_schema(
@@ -318,8 +321,7 @@ class ReplyLikeViewSet(
     )
     def retrieve(self, request, *args, **kwargs):
         try:
-            reply = Reply.objects.get(uuid=kwargs.get("uuid"))
-            like_count = ReplyLike.objects.filter(reply=reply).count()
-            return Response({"like_count": like_count}, status=status.HTTP_200_OK)
+            reply = Reply.objects.annotate(like_count=Count("likes")).get(uuid=kwargs.get("uuid"))
+            return Response({"like_count": reply.like_count}, status=status.HTTP_200_OK)
         except ObjectDoesNotExist:
             return Response({"detail": "Reply not found"}, status=status.HTTP_404_NOT_FOUND)
