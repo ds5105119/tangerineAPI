@@ -30,6 +30,7 @@ class PulsarChannelLayer(BaseChannelLayer):
         )
         self.groups = {}
         self.group_expiry = group_expiry
+        self.topic_type = topic_type
         self.pulsar_manager = PulsarChannelManager(
             pulsar_client_url, admin_url, topic_type, topic_tenant, topic_namespace, pulsar_ttl
         )
@@ -72,7 +73,8 @@ class PulsarChannelLayer(BaseChannelLayer):
                 await asyncio.sleep(1)
 
         message = await asyncio.to_thread(consumer.receive)
-        consumer.acknowledge(message)
+        if self.topic_type == "persistent":
+            consumer.acknowledge(message)
         message = json.loads(message.data())
 
         return message

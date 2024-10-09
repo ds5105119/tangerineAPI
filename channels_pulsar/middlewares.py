@@ -1,3 +1,5 @@
+import copy
+
 from channels.db import database_sync_to_async
 from channels.middleware import BaseMiddleware
 from django.conf import settings
@@ -44,24 +46,32 @@ class UserLazyObject(LazyObject):
 
 
 class JWTAuthMiddleware(BaseMiddleware):
-    def populate_scope(self, scope):
-        # Make sure we have a session
-        if "headers" not in scope:
-            raise ValueError("AuthMiddleware cannot find header in scope. " "JWTMiddleware must be above it.")
-        if b"authorization" not in dict(scope["headers"]):
-            raise ValueError("AuthMiddleware cannot find authorization in header. " "JWTMiddleware must be above it.")
-        # Add it to the scope if it's not there already
-        if "user" not in scope:
-            scope["user"] = UserLazyObject()
-
-    async def resolve_scope(self, scope):
-        scope["user"]._wrapped = await get_user(dict(scope["headers"])[b"authorization"])
-
     async def __call__(self, scope, receive, send):
-        scope = dict(scope)
-        # Scope injection/mutation per this middleware's needs.
-        self.populate_scope(scope)
-        # Grab the finalized/resolved scope
-        await self.resolve_scope(scope)
+        scope_copy = copy.deepcopy(scope)
 
-        return await super().__call__(scope, receive, send)
+        try:
+            # Verify headers exist
+            if "headers" not in scope_copy:
+                raise ValueError("AuthMiddleware cannot find headers in scope.")
+
+            headers = dict(scope_copy["headers"])
+            authorization = headers.get(b"authorization")
+
+            if not authorization:
+                raise ValueError("AuthMiddleware cannot find authorization in headers.")
+
+            # Initialize user if not present
+            if "user" not in scope_copy:
+                scope_copy["user"] = UserLazyObject()
+
+            # Resolve user
+            user = await get_user(authorization)
+            scope_copy["user"]._wrapped = user
+
+            return await super().__call__(scope_copy, receive, send)
+
+        except Exception as e:
+            # Log the error if you have logging configured
+            print(f"Error in JWTAuthMiddleware: {str(e)}")
+            # You might want to handle different types of errors differently
+            return await super().__call__(scope, receive, send)

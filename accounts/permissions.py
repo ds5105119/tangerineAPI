@@ -19,7 +19,7 @@ class UserPermission(BasePermission):
         return False
 
     def has_object_permission(self, request, view, obj):
-        if view.action == "retrieve":
+        if view.action in ["retrieve", "list"]:
             return True
         if view.action in ["partial_update", "update", "destroy"]:
             return obj == request.user or request.user.is_staff

@@ -8,6 +8,7 @@ try:
     from allauth.socialaccount.providers.oauth2.client import OAuth2Client
     from dj_rest_auth.registration.views import SocialLoginView
     from django.conf import settings
+    from django.db import transaction
     from django.db.models import Exists, OuterRef
     from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_schema
     from rest_framework import mixins, viewsets
@@ -38,25 +39,31 @@ class UserViewSet(
     pagination_class = UserPagination
     lookup_field = "handle"
     lookup_value_regex = r"[a-z0-9_.]+"
+    queryset = User.objects.all()
 
     def get_queryset(self):
+        queryset = super().get_queryset()
         user = self.request.user
 
-        fields = self.get_serializer_class().Meta.fields
-        annotated_fields = ["is_following", "is_follower"]
-        model_fields = [field for field in fields if field not in annotated_fields]
+        if self.action != "destroy":
+            fields = self.get_serializer_class().Meta.fields
+            annotated_fields = ["is_following", "is_follower"]
+            model_fields = [field for field in fields if field not in annotated_fields]
 
-        following_exists = Follow.objects.filter(user=OuterRef("pk"), follower=user)
-        follower_exists = Follow.objects.filter(user=user, follower=OuterRef("pk"))
+            if self.action in ["retrieve", "list"]:
+                following_exists = Follow.objects.filter(user=OuterRef("pk"), follower=user)
+                follower_exists = Follow.objects.filter(user=user, follower=OuterRef("pk"))
 
-        if self.action in ["retrieve", "list"]:
-            return (
-                User.objects.select_related("profile")
-                .only(*model_fields)
-                .annotate(is_following=Exists(following_exists), is_follower=Exists(follower_exists))
-            )
-        elif self.action in ["partial_update", "update", "destroy"]:
-            return User.objects.select_related("profile").only(*fields)
+                return (
+                    queryset.select_related("profile")
+                    .only(*model_fields)
+                    .annotate(is_following=Exists(following_exists), is_follower=Exists(follower_exists))
+                )
+            elif self.action in ["partial_update", "update"]:
+                return queryset.select_related("profile").only(*fields)
+        else:
+            return queryset
+
         raise MethodNotAllowed(self.action)
 
     def get_serializer_class(self):
@@ -128,3 +135,8 @@ class UserViewSet(
     )
     def destroy(self, request, *args, **kwargs):
         return super().destroy(request, *args, **kwargs)
+
+    @transaction.atomic
+    def perform_destroy(self, instance):
+        instance.is_delete = True
+        instance.save()
