@@ -8,10 +8,10 @@ find "$PROJECT_ROOT" -path "*/migrations/*.py" -not -name "__init__.py" -not -pa
 find "$PROJECT_ROOT" -path "*/migrations/*.pyc" -not -path "*/venv/*" -not -path "*/site-packages/*" -delete
 rm -f "$PROJECT_ROOT/db.sqlite3"
 
-pre-commit install
+# pre-commit install
 
-python manage.py makemigrations
-python manage.py migrate
+# python manage.py makemigrations
+# python manage.py migrate
 
 echo "프로젝트 초기화 완료"
-python manage.py runserver
+# python manage.py runserver

@@ -38,9 +38,9 @@ class ChatMemberPermission(BasePermission):
 
 class ChatMessagePermission(BasePermission):
     def has_permission(self, request, view):
-        if view.action == "retrieve":
+        if view.action == "messages":
             return request.user and request.user.is_authenticated or request.user.is_staff
 
     def has_object_permission(self, request, view, obj):
-        if view.action == "retrieve":
+        if view.action == "messages":
             return True

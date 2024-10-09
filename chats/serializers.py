@@ -25,11 +25,19 @@ class ReadOnlyChatMemberSerializer(serializers.ModelSerializer):
 class ReadOnlyChatRoomSelfSerializer(serializers.ModelSerializer):
     uuid = serializers.UUIDField()
     members = ReadOnlyChatMemberSerializer(many=True, source="chat_members_as_room", read_only=True)
+    first_message = serializers.SerializerMethodField()
 
     class Meta:
         model = ChatRoom
-        fields = ["uuid", "owner", "created_at", "updated_at", "members"]
-        read_only_fields = ["owner", "created_at", "updated_at", "members"]
+        fields = ["uuid", "name", "owner", "created_at", "updated_at", "members", "first_message"]
+        read_only_fields = ["owner", "name", "created_at", "updated_at", "members", "first_message"]
+
+    def get_first_message(self, obj):
+        if obj.chat_members_as_room.exists():
+            first_member = obj.chat_members_as_room.first()
+            if first_member.chat_messages_as_member.exists():
+                return first_member.chat_messages_as_member.first().text
+        return ""
 
 
 class WriteableChatRoomSelfSerializer(serializers.ModelSerializer):
@@ -38,7 +46,7 @@ class WriteableChatRoomSelfSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ChatRoom
-        fields = ["uuid", "owner", "created_at", "handles", "members"]
+        fields = ["uuid", "name", "owner", "created_at", "handles", "members"]
         read_only_fields = ["uuid", "owner", "created_at", "members"]
 
     @transaction.atomic

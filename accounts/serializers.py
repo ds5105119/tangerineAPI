@@ -4,6 +4,8 @@ try:
     from dj_rest_auth.registration.serializers import *
     from dj_rest_auth.registration.serializers import SocialLoginSerializer
     from dj_rest_auth.serializers import LoginSerializer as DefaultLoginSerializer
+    from dj_rest_auth.serializers import UserDetailsSerializer as DefaultUserDetailsSerializer
+    from django.conf import settings
     from django.contrib.auth import get_user_model
     from django.utils.translation import gettext_lazy as _
     from rest_framework import serializers
@@ -152,6 +154,36 @@ class ReadOnlyUserExternalSerializer(serializers.ModelSerializer):
 class LoginSerializer(DefaultLoginSerializer):
     email = serializers.EmailField(required=True, allow_blank=False)
     password = serializers.CharField(style={"input_type": "password"})
+
+
+class UserDetailsSerializer(DefaultUserDetailsSerializer):
+    """
+    User model w/o password
+    """
+
+    profile = ProfileSelfSerializer()
+
+    @staticmethod
+    def validate_username(username):
+        if "allauth.account" not in settings.INSTALLED_APPS:
+            # We don't need to call the all-auth
+            # username validator unless its installed
+            return username
+
+        from allauth.account.adapter import get_adapter
+
+        username = get_adapter().clean_username(username)
+        return username
+
+    class Meta:
+        extra_fields = ["profile"]
+        if hasattr(User, "USERNAME_FIELD"):
+            extra_fields.append(User.USERNAME_FIELD)
+        if hasattr(User, "EMAIL_FIELD"):
+            extra_fields.append(User.EMAIL_FIELD)
+        model = User
+        fields = extra_fields
+        read_only_fields = ("email", "profile")
 
 
 class CustomSocialLoginSerializer(SocialLoginSerializer):

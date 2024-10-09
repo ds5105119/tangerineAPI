@@ -311,6 +311,7 @@ SOCIALACCOUNT_STORE_TOKENS = False  # SOCIALACCOUNT_EMAIL_AUTHENTICATION Access 
 
 REST_AUTH = {
     "LOGIN_SERIALIZER": "accounts.serializers.LoginSerializer",
+    "USER_DETAILS_SERIALIZER": "accounts.serializers.UserDetailsSerializer",
     "USE_JWT": True,  # dj_rest_auth.views.LoginView use JWT
     "JWT_AUTH_HTTPONLY": True,
     "JWT_AUTH_COOKIE": "access",
