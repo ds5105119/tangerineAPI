@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import generics, mixins, serializers, viewsets
+from rest_framework import mixins, serializers, viewsets
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -49,7 +49,7 @@ class LatestProductsViaHandleViewSet(mixins.RetrieveModelMixin, viewsets.Generic
         return Response(serializer.data)
 
 
-class RecommendProductsAPIViewSet(generics.ListAPIView):
+class RecommendProductsViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     """
     GET /products/recommend: return recommended products
     """
