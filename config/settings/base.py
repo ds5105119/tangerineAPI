@@ -66,6 +66,7 @@ PROJECT_APPS = [
     "follows.apps.FollowsConfig",
     "likes.apps.LikesConfig",
     "posts.apps.PostsConfig",
+    "post_images.apps.PostImagesConfig",
     "products.apps.ProductsConfig",
     "profiles.apps.ProfilesConfig",
 ]
