@@ -11,7 +11,7 @@ try:
     from django.db import transaction
     from django.db.models import Exists, OuterRef
     from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_schema
-    from rest_framework import mixins, viewsets
+    from rest_framework import filters, mixins, viewsets
     from rest_framework.exceptions import MethodNotAllowed
 except ImportError:
     raise ImportError("django, django-rest-framework, allauth, dj-rest-accounts needs to be added to INSTALLED_APPS.")
@@ -40,6 +40,8 @@ class UserViewSet(
     lookup_field = "handle"
     lookup_value_regex = r"[a-z0-9_.]+"
     queryset = User.objects.all()
+    filter_backends = [filters.SearchFilter]
+    search_fields = ["handle", "username"]
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -58,6 +60,7 @@ class UserViewSet(
                     queryset.select_related("profile")
                     .only(*model_fields)
                     .annotate(is_following=Exists(following_exists), is_follower=Exists(follower_exists))
+                    .exclude(handle=self.request.user.handle)
                 )
             elif self.action in ["partial_update", "update"]:
                 return queryset.select_related("profile").only(*fields)

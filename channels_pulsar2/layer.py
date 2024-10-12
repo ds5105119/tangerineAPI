@@ -5,7 +5,7 @@ import uuid
 
 from channels.layers import BaseChannelLayer
 
-from channels_pulsar.manager import PulsarChannelManager
+from channels_pulsar2.manager import PulsarChannelManager
 
 
 class PulsarChannelLayer(BaseChannelLayer):
@@ -13,7 +13,7 @@ class PulsarChannelLayer(BaseChannelLayer):
         self,
         expiry=60,
         group_expiry=3600,
-        capacity=100,
+        capacity=300,
         channel_capacity=None,
         pulsar_client_url="pulsar://localhost:6650",
         admin_url="http://localhost:8080/admin/v2",
@@ -21,7 +21,6 @@ class PulsarChannelLayer(BaseChannelLayer):
         topic_tenant="public",
         topic_namespace="default",
         pulsar_ttl=10,
-        **kwargs,
     ):
         super().__init__(
             expiry=expiry,
@@ -37,7 +36,13 @@ class PulsarChannelLayer(BaseChannelLayer):
 
     # Channel layer API
 
-    extensions = ["groups", "flush"]
+    extensions = ["flush"]
+
+    async def connect(self, groups, channel):
+        assert self.valid_channel_name(channel), "Channel name not valid"
+
+        topics = set(map(self.pulsar_manager.group_to_topic, groups))
+        await self.pulsar_manager.update_consumer(channel, topics)
 
     async def send(self, group, message):
         """
@@ -49,9 +54,10 @@ class PulsarChannelLayer(BaseChannelLayer):
         # If it's a process-local channel, strip off local part and stick full
         # name in message
         assert "__asgi_channel__" not in message
+        await self._clean_expired()
 
         producer = await self.pulsar_manager.get_producer(group)
-        await producer.send(json.dumps(message))
+        producer.send(json.dumps(message))
 
     async def receive(self, channel):
         """
@@ -62,7 +68,7 @@ class PulsarChannelLayer(BaseChannelLayer):
 
         channels = self.pulsar_manager.channels.get(channel)
         if not channels:
-            await self.pulsar_manager.close_channel(channel)
+            await self.pulsar_manager.consumer_close(channel)
 
         consumer = None
         while not consumer:
@@ -75,14 +81,17 @@ class PulsarChannelLayer(BaseChannelLayer):
         message = await asyncio.to_thread(consumer.receive)
         if self.topic_type == "persistent":
             consumer.acknowledge(message)
+
         message = json.loads(message.data())
 
         return message
 
+    async def close_channel(self, channel):
+        await self.pulsar_manager.consumer_close(channel)
+
     async def new_channel(self, prefix="specific"):
         """
         새로운 채널 이름(subscribe_name)을 반환합니다.
-        "non-persistent://public/default/my-topic"
         pulsar를 사용하여, !부분이 필요 없습니다. 클러스터 확장도 지원합니다.
         """
         return f"{prefix}{uuid.uuid4().hex}"
@@ -98,14 +107,14 @@ class PulsarChannelLayer(BaseChannelLayer):
         channels = list(self.pulsar_manager.channels.items()).copy()
         for channel, groups in channels:
             if not groups:
-                await self.pulsar_manager.close_channel(channel)
+                await self.pulsar_manager.consumer_close(channel)
 
         # Group Expiration
         timeout = int(time.time()) - self.group_expiry
         for group in self.groups:
-            for channel in list(self.groups.get(group, set())):
+            for channel in self.groups.get(group, set()):
                 if self.groups[group][channel] and int(self.groups[group][channel]) < timeout:
-                    await self.pulsar_manager.close_group(group)
+                    await self.pulsar_manager.producer_delete(group)
 
     # Flush extension
 
@@ -121,49 +130,4 @@ class PulsarChannelLayer(BaseChannelLayer):
             if channel in channels:
                 del channels[channel]
 
-        await self.pulsar_manager.close_channel(channel)
-
-    async def group_add(self, group, channel):
-        """
-        그룹에 새로운 멤버를 추가합니다.
-        """
-        assert self.valid_group_name(group), "Group name not valid"
-        assert self.valid_channel_name(channel), "Channel name not valid"
-
-        await self.pulsar_manager.get_producer(group)
-        await self.pulsar_manager.get_consumer(channel, group)
-
-        self.groups.setdefault(group, {})
-        self.groups[group][channel] = time.time()  # 그룹 채팅을 연 시간
-
-    async def group_discard(self, group, channel):
-        """
-        그룹에서 멤버를 제거합니다.
-        만약 그룹에 멤버가 없는 경우 그룹을 삭제합니다.
-        """
-        # Both should be text and valid
-        assert self.valid_channel_name(channel), "Invalid channel name"
-        assert self.valid_group_name(group), "Invalid group name"
-        # Remove from group set
-
-        if group in self.groups:
-            if channel in self.groups[group]:
-                await self.pulsar_manager.group_discard(channel, group)
-                del self.groups[group][channel]
-            if not self.groups[group]:
-                await self.pulsar_manager.close_group(group)
-
-    async def group_send(self, group, message):
-        """
-        그룹에 메시지를 보냅니다.
-        """
-        # Check types
-        assert isinstance(message, dict), "Message is not a dict"
-        assert self.valid_group_name(group), "Invalid group name"
-        # Run clean
-        await self._clean_expired()
-        # Send to each channel
-        try:
-            await self.send(group, message)
-        except Exception:
-            pass
+        await self.pulsar_manager.consumer_close(channel)
