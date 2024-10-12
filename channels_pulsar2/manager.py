@@ -2,6 +2,7 @@ import asyncio
 import logging
 
 import pulsar
+import requests
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger("default")
@@ -53,14 +54,6 @@ class PulsarChannelManager:
             self.topic_namespace = topic_namespace
             self.schema = schema()
             self.pulsar_ttl = pulsar_ttl
-
-            # requests.post(
-            #     (f"{admin_url}/namespaces"
-            #      f"/{topic_tenant}"
-            #      f"/{topic_namespace}/messageTTL"),
-            #     json=pulsar_ttl
-            # )
-
             self.initialized = True
 
     def __del__(self):
@@ -69,8 +62,18 @@ class PulsarChannelManager:
         """
         self.client.shutdown()
 
+    def init_pulsar(self):
+        requests.post(
+            (f"{self.admin_url}/namespaces" f"/{self.topic_tenant}" f"/{self.topic_namespace}/messageTTL"),
+            json=self.pulsar_ttl,
+        )
+
     def group_to_topic(self, group: str) -> str:
-        return f"{self.topic_type}://" f"{self.topic_tenant}/" f"{self.topic_namespace}/" f"{group}"
+        """
+        @param group: channels의 그룹 이름
+        @return: pulsar의 토픽 이름
+        """
+        return f"{self.topic_type}://{self.topic_tenant}/{self.topic_namespace}/{group}"
 
     async def get_producer(self, group: str) -> pulsar.Producer:
         """
@@ -88,59 +91,68 @@ class PulsarChannelManager:
 
         return self.producers[topic]
 
-    async def get_consumer(self, channel: str, group: str = None, force_update: bool = False) -> pulsar.Consumer | None:
+    async def get_consumer(self, channel: str) -> pulsar.Consumer | None:
         """
         Pulsar Consumer의 channels 고수준 Wrapper
         @param channel: 채널의 이름
-        @param group: 추가될 그룹의 이름
         @param force_update: true인 경우 강제로 consumer가 업데이트 됩니다.
         @return: 채널에 해당하는 consumer가 없는 경우 새로운 컨슈머
         """
-        topic = self.group_to_topic(group)
         self.channels.setdefault(channel, set())
-
-        if group:
-            self.channels[channel].add(topic)
-
-        if group or force_update:
-            topics = self.channels[channel].copy()
-            await self.close_channel(channel)
-            async with self._consumer_lock:
-                try:
-                    self.channels[channel] = topics
-                    self.consumers[channel] = self.client.subscribe(
-                        topic=list(topics), subscription_name=channel, schema=self.schema
-                    )
-                except pulsar.PulsarException as e:
-                    raise e
 
         if channel not in self.consumers.keys():
             return None
 
         return self.consumers[channel]
 
-    async def group_discard(self, channel: str, group: str):
+    async def update_consumer(self, channel: str, topics: set[str]):
+        """
+        @param channel: 해당 consumer channel
+        @param topics: 해당 consumer가 갖게 될 topics
+        @return: None
+        """
+        await self.consumer_close(channel)
+        self.channels[channel] = topics
+
+        async with self._consumer_lock:
+            try:
+                self.consumers[channel] = await asyncio.to_thread(
+                    self.client.subscribe,
+                    topic=list(self.channels[channel]),
+                    subscription_name=channel,
+                    schema=self.schema,
+                )
+            except pulsar.PulsarException as e:
+                raise e
+
+    async def consumer_add(self, channel: str, group: str):
+        """
+        @param channel: 채널의 이름
+        @param group: 구독을 추가할 그룹의 이름
+        @return: 채널에 해당하는 consumer에서 group의 구독을 추가합니다.
+        """
+        topic = self.group_to_topic(group)
+        self.channels[channel].add(topic)
+        topics = self.channels[channel].copy()
+        await self.update_consumer(channel, topics)
+
+    async def consumer_remove(self, channel: str, group: str):
         """
         @param channel: 채널의 이름
         @param group: 구독을 해제할 그룹의 이름
-        @return: 채널에 해당하는 consumer에서 group의 구독을 해제합니다.
+        @return: 채널에 해당하는 consumer에서 group의 구독을 해지합니다.
         """
         topic = self.group_to_topic(group)
         if topic in self.channels[channel]:
-            self.channels[channel].remove(topic)
+            self.channels[channel].discard(topic)
+        topics = self.channels[channel].copy()
+        await self.update_consumer(channel, topics)
 
-        await self.get_consumer(channel, force_update=True)
-
-    async def flush(self):
-        self.client.close()
-        self.producers = {}
-        self.consumers = {}
-        self.channels = {}
-        self.client = pulsar.Client(self.pulsar_client_url)
-
-    async def close_channel(self, channel: str):
+    async def consumer_close(self, channel: str):
         """
         DO NOT USE WITHOUT LOCK
+        @param channel: 삭제할 채널
+        @return: None
         """
         if channel in self.channels.keys():
             del self.channels[channel]
@@ -150,10 +162,10 @@ class PulsarChannelManager:
             self.consumers[channel].close()
             del self.consumers[channel]
 
-    async def close_group(self, group: str):
+    async def producer_close(self, group: str):
         """
-        그룹 삭제
-        @param group: 삭제할 그룹의 이름
+        그룹 종료
+        @param group: 종료할 그룹의 이름
         @return: None
         """
         topic = self.group_to_topic(group)
@@ -165,11 +177,24 @@ class PulsarChannelManager:
         for channels in self.channels.values():
             channels.discard(topic)
 
-        # topic_url = (
-        #     f"{self.admin_url}"
-        #     f"/{self.topic_type}"
-        #     f"/{self.topic_tenant}"
-        #     f"/{self.topic_namespace}"
-        #     f"/{group}?force=true"
-        # )
-        # requests.delete(topic_url)
+    async def producer_delete(self, group: str):
+        """
+        프로듀서 삭제
+        @param group: 삭제할 그룹의 이름
+        @return: None
+        """
+        topic_url = (
+            f"{self.admin_url}"
+            f"/{self.topic_type}"
+            f"/{self.topic_tenant}"
+            f"/{self.topic_namespace}"
+            f"/{group}?force=true"
+        )
+        requests.delete(topic_url)
+
+    async def flush(self):
+        self.client.close()
+        self.producers = {}
+        self.consumers = {}
+        self.channels = {}
+        self.client = pulsar.Client(self.pulsar_client_url)

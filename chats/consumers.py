@@ -12,34 +12,35 @@ logger = logging.getLogger("default")
 
 class ChatConsumer(AsyncJsonWebsocketConsumer):
     async def connect(self):
-        self.room_id = self.scope["url_route"]["kwargs"]["room_id"]
         self.user = self.scope["user"]
-
         if not self.user.is_authenticated:
             await self.close(code=401, reason="로그인을 진행해 주세요.")
             return None
 
-        self.member = await self.get_member(self.room_id, self.user)
-        if not self.member:
-            await self.close(code=403, reason="찾을 수 없습니다.")
-            return None
+        self.rooms = await self.get_rooms(self.user)
 
-        await self.channel_layer.group_add(self.room_id, self.channel_name)
+        await self.channel_layer.connect(self.rooms, self.channel_name)
         await self.accept()
-        await self.channel_layer.group_send(
-            self.room_id, {"type": "chat_message", "message": f"{self.user}님이 들어왔습니다."}
-        )
 
     async def disconnect(self, close_code):
         try:
-            await self.channel_layer.group_discard(self.room_id, self.channel_name)
+            await self.channel_layer.close_channel(self.channel_name)
         except Exception:
             pass
 
     async def receive_json(self, content, **kwargs):
-        message = content["message"]
-        await self.save_message(message)
-        await self.channel_layer.group_send(self.room_id, {"type": "chat_message", "message": message})
+        message = content.get("message")
+        room_id = message.get("room_id")
+        member_id = message.get("member")
+        text = message.get("text")
+
+        logger.debug(message)
+
+        if room_id and member_id:
+            await self.save_message(text, room_id, member_id)
+            await self.channel_layer.send(room_id, {"type": "chat_message", "message": message})
+        else:
+            await self.close(code=403, reason="room_id와 member_id가 제공되지 않았습니다.")
 
     async def chat_message(self, event):
         try:
@@ -53,7 +54,11 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         return ChatMember.objects.filter(room_id=room, user=user).first()
 
     @database_sync_to_async
-    def save_message(self, message):
-        ChatMessage.objects.create(member=self.member, text=message)
-        ChatRoom.objects.filter(uuid=self.room_id).update(updated_at=timezone.now())
-        ChatMember.objects.filter(id=self.member.id).update(updated_at=timezone.now())
+    def get_rooms(self, user):
+        return list(ChatMember.objects.filter(user=user).values_list("room", flat=True))
+
+    @database_sync_to_async
+    def save_message(self, message, room_id, member_id):
+        ChatMessage.objects.create(member_id=member_id, text=message)
+        ChatRoom.objects.filter(uuid=room_id).update(updated_at=timezone.now())
+        ChatMember.objects.filter(id=member_id).update(updated_at=timezone.now())

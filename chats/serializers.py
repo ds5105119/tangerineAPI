@@ -18,8 +18,8 @@ class ReadOnlyChatMemberSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ChatMember
-        fields = ["user"]
-        read_only_fields = ["user"]
+        fields = ["id", "user"]
+        read_only_fields = ["id", "user"]
 
 
 class ReadOnlyChatRoomSelfSerializer(serializers.ModelSerializer):

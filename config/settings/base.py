@@ -59,7 +59,6 @@ DJANGO_APPS = [
 
 PROJECT_APPS = [
     "api",
-    "search_indexes",  # Elasticsearch integration with the Django
     "accounts.apps.AccountsConfig",
     "chats.apps.ChatsConfig",
     "comments.apps.CommentsConfig",
@@ -341,7 +340,7 @@ SPECTACULAR_SETTINGS = {
 
 CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "channels_pulsar.layer.PulsarChannelLayer",
+        "BACKEND": "channels_pulsar2.layer.PulsarChannelLayer",
         "CONFIG": {
             "pulsar_client_url": "pulsar://broker:6650",
             "admin_url": "http://broker:8080/admin/v2",

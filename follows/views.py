@@ -47,6 +47,14 @@ class FollowingViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     def handle_unfollow(self, queryset, error_message):
         if queryset.exists():
             follow_instance = queryset.first()
+            user = follow_instance.user
+            follower = self.request.user
+
+            user.followers_count = F("followers_count") - 1
+            user.save(update_fields=["followers_count"])
+            follower.follows_count = F("follows_count") - 1
+            follower.save(update_fields=["follows_count"])
+
             follow_instance.delete()
             return Response({"detail": "Follower removed successfully."}, status=status.HTTP_204_NO_CONTENT)
         return Response({"detail": error_message}, status=status.HTTP_400_BAD_REQUEST)
