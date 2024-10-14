@@ -1,0 +1,29 @@
+name: Deploy to EC2
+
+on:
+  pull_request:
+    types: [closed]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true || github.event_name == 'push'
+    
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Deploy to EC2
+      env:
+        PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
+        HOST: ${{ secrets.EC2_HOST }}
+        USER: ${{ secrets.EC2_USER }}
+      run: |
+        echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+        scp -i private_key -o StrictHostKeyChecking=no docker-compose-prod.yml ${USER}@${HOST}:~/
+        ssh -i private_key -o StrictHostKeyChecking=no ${USER}@${HOST} '
+          docker-compose pull
+          docker-compose up -d
+        '
