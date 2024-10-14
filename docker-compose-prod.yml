@@ -9,7 +9,7 @@ networks:
 
 services:
   django:
-    image: ds5105119/tangerine:tagname
+    image: ds5105119/tangerine:main
     container_name: tangerine_api_django
     restart: always
     networks:
@@ -102,7 +102,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 400m
+          memory: 512m
 
   # Init cluster metadata
   pulsar-init:
