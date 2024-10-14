@@ -139,7 +139,7 @@ class PostViewSet(
                 queryset = queryset.filter(tags__icontains=tags_query)
 
             else:
-                histories = PostHistory.objects.filter(user=self.request.user).select_related("post")[:30]
+                histories = PostHistory.objects.filter(user=self.request.user).select_related("post")[:10]
 
                 if histories:
                     post_texts = [str(history.post.text) for history in histories]
