@@ -18,12 +18,12 @@ class Comment(models.Model):
     post = models.ForeignKey(
         Post,
         on_delete=models.CASCADE,
-        related_name="comments",
+        related_name="comments_post",
     )
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name="comments",
+        related_name="comments_user",
     )
     content = models.TextField()
 
@@ -48,12 +48,12 @@ class Reply(models.Model):
     comment = models.ForeignKey(
         Comment,
         on_delete=models.CASCADE,
-        related_name="replies",
+        related_name="replies_comment",
     )
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name="replies",
+        related_name="replies_user",
     )
     content = models.TextField()
 

@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import mixins, serializers, viewsets
-from rest_framework.pagination import PageNumberPagination
+from rest_framework.pagination import CursorPagination
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
@@ -11,12 +11,13 @@ from .permissions import ProductPermission
 from .serializers import ProductCreateUpdateSerializer, ProductRetrieveSerializer
 
 
-class UserProductPagination(PageNumberPagination):
+class UserProductPagination(CursorPagination):
     """
     Pagination for Product views
     """
 
     page_size = 10
+    ordering = "-created_at"
     page_size_query_param = None
     max_page_size = 10
 
