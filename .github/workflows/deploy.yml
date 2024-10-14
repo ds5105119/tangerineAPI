@@ -23,24 +23,7 @@ jobs:
         scp -i private_key -o StrictHostKeyChecking=no docker-compose.yml ${USER}@${HOST}:~/
         ssh -i private_key -o StrictHostKeyChecking=no ${USER}@${HOST} '
           set -e
-          
-          # 패키지 목록 업데이트
-          sudo yum update -y
-          
-          # libcrypt 설치
-          sudo yum install -y libxcrypt-compat
-          
-          # Docker 설치 (이미 완료됨)
-          
-          # Docker Compose 설치 (pip를 사용하여 설치)
-          sudo yum install -y python3-pip
-          sudo pip3 install docker-compose
-          
-          # Docker와 Docker Compose 버전 확인
-          docker --version
-          docker-compose --version
-          
-          # 컨테이너 가져오기 및 시작
+
           docker-compose pull
           docker-compose up -d
         '
