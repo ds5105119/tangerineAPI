@@ -20,6 +20,64 @@
 | 백앤드 (Products/Reports/tests) 및 문서화                                   | 백앤드 (Likes, images) 및 이슈 해결                                            | 백엔드(accounts/ api / channels / chats / comments / follows / posts / follows ), 프론트엔드 , PL      |
 | [https://github.com/heeeee-github](https://github.com/heeeee-github) | [https://github.com/vanhalenpanama](https://github.com/vanhalenpanama) | [https://github.com/ds5105119](https://github.com/ds5105119)                                   |
 | 데이터 분석 및 웹페이지 개발을 좋아합니다.                                             | 데이터 분야에 관심이 많습니다.                                                      | CS/CE의 전반적인 분야에 흥미를 갖고 있습니다. CS/CE의 전반적인 분야에 흥미를 갖고 있습니다.     XX대학교 SW학부를 특기자 전형 수석으로 입학하였습니다. |
+
+
+### **👨🏼‍💻**업무 분담
+
+**김동현(팀장)**
+
+- **프로젝트 관리 및 DevOps**
+    - Jira와 GitHub을 활용한 프로젝트 협업 및 관리 프로세스 구축
+    - VCS 환경에서 pre-commit 및 GitHub Actions 설정으로 자동화된 코드 검증 및 CI/CD 파이프라인 구축
+- **백엔드 개발**
+    - Accounts 및 Chats 앱 등 핵심 기능 구현
+    - R2와 Boto3를 활용한 데이터 교환 로직 개발
+    - Apache Pulsar를 활용한 Channels Layer 지원 메시지 시스템 설계 및 구현
+    - 전체 백엔드의 Docker 컨테이너화 및 Poetry 도입으로 의존성 관리
+- **머신러닝**
+    - Milvus DB 도입 및 유사도 검색 기능 구현
+- **프론트엔드 개발**
+    - React 기반 전체 프론트엔드 구현 및 UI/UX 설계
+- **디자인**
+    - 컴포넌트 디자인 및 문서화
+
+**권용인**
+
+- **백엔드 개발**
+    - likes 앱
+        - 게시글, 댓글, 답글에 대한 좋아요 기능 개발
+        - 좋아요 추가/취소 API 엔드포인트 구현
+        - 좋아요 수 조회 기능 개발
+    - images 앱
+        - OpenCV 라이브러리를 활용한 이미지 처리 로직 구현
+            - 이미지 리사이징 및 압축 기능 개발
+            - 이미지 포맷 변환 기능 구현
+        - AWS S3 연동
+            - Boto3 라이브러리를 활용한 S3 업로드 기능 구현
+            - Presigned POST URL을 이용한 안전한 파일 업로드 로직 개발
+- **문서 작업**
+    - Notion을 활용한 프로젝트 문서 관리
+        - RESTful API 엔드포인트 문서화
+        - 데이터베이스 스키마 및 모델 관계도 작성
+
+**공미희**
+
+- **백엔드 개발**
+    - 상품 앱 구현
+        - ModelSerializer를 사용하여 Product 모델의 직렬화/역직렬화 로직 구현
+        - ViewSet을 활용한 CRUD 엔드포인트 설계
+        - Custom permission classes 개발로 세분화된 접근 제어 구현
+    - 신고 앱 개발
+        - 사용자 신고 기능 구현
+        - 신고 처리 워크플로우 설계 및 개발
+        - 관리자 대시보드를 위한 신고 통계 API 구현
+    - 테스트 코드 작성
+        - conftest.py를 통한 테스트 픽스처 관리
+        - 각 앱별 test 파일 작성 등 체계적인 테스트 구조 확립
+- **문서 작업 및 프레젠테이션**
+    - Notion을 활용한 프로젝트 문서 작성 및 관리
+    - Figma를 활용한 프로젝트 슬라이드 제작
+
 </br>
 
 ## 프로젝트 개요
@@ -459,18 +517,23 @@ API는 Swagger를 통해 확인할 수 있으며, Swagger UI를 사용하면 API
 
 ## 회고
 ### 우리가 이번 프로젝트에서 도전했던 것
-- **Backend, Frontend, ML**의 긴밀한 통합
+#### **Backend, Frontend, ML**의 긴밀한 통합
 
-**김동현**
 
-- **팀장 및 PM**: Jira와 GitHub를 통해 프로젝트 협업 및 관리 프로세스 개발, VCS 환경에서 pre-commit 및 GitHub Actions을 설정하여 자동화된 코드 검증과 빌드 파이프라인을 구축
-- **백엔드**: Accounts 및 Chats 앱을 포함한 주요 기능을 구현, R2와 Boto3를 활용한 데이터 교환 로직을 구축. Kafka를 도입하여 Channels Layer를 지원하는 메시지 시스템을 설계 및 구현. 전체 백엔드의 Docker화, Poetry 도입
-- **ML**: Milvus DB 도입
-- **프론트엔드**: 전체 프론트엔드 개발, UI/UX 설계
-- **디자인**: 예시 WBS를 기반으로 컴포넌트 디자인 및 문서화
+- GitHub와 Jira를 활용한 **체계적인 프로젝트 관리**의 중요성을 깨달았습니다.
 
-**권용인**
+- 데이터베이스 쿼리 최적화, 코드 재사용성 향상, 보안 기능 구현 과정에서 **코드 모듈화의 필요성을 체감**하며 많은 것을 배웠습니다.
 
-- **백엔드**: 사용자가 게시글, 댓글 및 답글에 좋아요를 추가하거나 취소할 수 있고, 좋아요 수를 조회할 수 있는 likes 앱 기능,  opencv로 이미지 파일의 용량과 길이를 자동으로 조절하여 AWS S3에 업로드하는 images 앱 구현
+- RESTful API와 Pulsar 기반 실시간 채팅 시스템 구현을 통해 **확장 가능한 아키텍처 설계의 중요성을 직접 경험**했습니다.
 
-**공미희**
+- **CI/CD 파이프라인 구축**과 다양한 개발 도구 활용으로 생산성이 크게 향상되었고, **open CV, Milvus를 이용한 유사도 검색 구현**으로 성능을 개선한 시간 또한 뜻깊은 경험이었습니다.
+
+- JWT와 Presigned POST URL을 활용한 **보안 강화 경험**은 실제 서비스 운영에 큰 도움이 될 것 같습니다.
+
+- **AWS 서비스 활용**으로 클라우드 네이티브 개발에 대한 이해도 깊어졌습니다.
+
+- **팀 협업**을 통해 코드 리뷰의 중요성을 인식하고 기술 리더십과 의사소통 능력도 향상되었습니다. 이번 프로젝트로 Django 개발의 기반을 다지고, 더 큰 규모의 프로젝트에 도전할 준비를 마쳤습니다. :)
+
+
+## 관련자료
+- 발표 PPT : https://www.figma.com/slides/RSDOtRS8czig44KfS2KIsz/%EA%B0%90%EA%B7%A4%EB%A7%88%EC%BC%93?node-id=45-998&t=SbiKTlXGDagBqhHY-1
