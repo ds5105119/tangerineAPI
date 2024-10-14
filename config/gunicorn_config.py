@@ -8,6 +8,8 @@ timeout = 120
 loglevel = "info"
 accesslog = "-"
 errorlog = "-"
+max_requests = 50
+max_requests_jitter = 50
 
 if os.environ.get("DEBUG", None) == "True":
     loglevel = "debug"
