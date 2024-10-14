@@ -22,8 +22,15 @@ jobs:
         USER: ${{ secrets.EC2_USER }}
       run: |
         echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-        scp -i private_key -o StrictHostKeyChecking=no docker-compose-prod.yml ${USER}@${HOST}:~/
+        scp -i private_key -o StrictHostKeyChecking=no docker-compose.yml ${USER}@${HOST}:~/
         ssh -i private_key -o StrictHostKeyChecking=no ${USER}@${HOST} '
+          # Docker Compose 설치
+          sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+          # Docker 및 Docker Compose 버전 확인
+          docker --version
+          docker-compose --version
+          # Docker Compose 실행
           docker-compose pull
           docker-compose up -d
         '
