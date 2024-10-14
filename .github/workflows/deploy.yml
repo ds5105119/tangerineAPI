@@ -20,7 +20,7 @@ jobs:
         USER: ${{ secrets.EC2_USER }}
       run: |
         echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-        scp -i private_key -o StrictHostKeyChecking=no docker-compose.yml ${USER}@${HOST}:~/
+        scp -i private_key -o StrictHostKeyChecking=no docker-compose-prod.yml ${USER}@${HOST}:~/
         ssh -i private_key -o StrictHostKeyChecking=no ${USER}@${HOST} '
           set -e
 
