@@ -2,9 +2,8 @@ name: EC2에 배포
 on:
   pull_request:
     types: [closed]
-  push:
-    branches: [main]
   workflow_dispatch:
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
