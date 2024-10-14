@@ -9,6 +9,7 @@ networks:
 
 services:
   django:
+    image: ds5105119/tangerine:tagname
     container_name: tangerine_api_django
     restart: always
     networks:
@@ -20,9 +21,6 @@ services:
     - "poetry run python manage.py makemigrations --noinput
     && poetry run python manage.py migrate
     && poetry run gunicorn -c config/gunicorn_config.py"
-    build:
-      context: .
-      dockerfile: docker/django/Dockerfile
     volumes:
       - .:/app
     depends_on:
