@@ -52,8 +52,12 @@ class UserViewSet(
             annotated_fields = ["is_following", "is_follower"]
             model_fields = [field for field in fields if field not in annotated_fields]
 
-            following_exists = Follow.objects.filter(user=OuterRef("pk"), follower=user)
-            follower_exists = Follow.objects.filter(user=user, follower=OuterRef("pk"))
+            if user.is_authenticated:
+                following_exists = Follow.objects.filter(user=OuterRef("pk"), follower=user)
+                follower_exists = Follow.objects.filter(user=user, follower=OuterRef("pk"))
+            else:
+                following_exists = Follow.objects.none()
+                follower_exists = Follow.objects.none()
 
             if self.action == "list":
                 queryset.exclude(handle=user.handle)
