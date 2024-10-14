@@ -4,7 +4,7 @@ from rest_framework.routers import DefaultRouter
 from .views import GetPrivatePresignedUrlView, GetPublicPresignedUrlView, PostImageViewSet
 
 router = DefaultRouter()
-router.register(r"posts/", PostImageViewSet)
+router.register(r"posts", PostImageViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),

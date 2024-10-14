@@ -2,13 +2,11 @@ name: EC2에 배포
 on:
   pull_request:
     types: [closed]
-  push:
-    branches: [main]
   workflow_dispatch:
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true || github.event_name == 'push'
 
     steps:
     - uses: actions/checkout@v2
@@ -21,8 +19,8 @@ jobs:
       run: |
         echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
         scp -i private_key -o StrictHostKeyChecking=no docker-compose-prod.yml ${USER}@${HOST}:~/
+        scp -i private_key -o StrictHostKeyChecking=no pyproject.toml ${USER}@${HOST}:~/
         ssh -i private_key -o StrictHostKeyChecking=no ${USER}@${HOST} '
-          set -e
           cp docker-compose-prod.yml docker-compose.yml
           docker-compose pull
           docker-compose up -d
