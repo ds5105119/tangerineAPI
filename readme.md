@@ -5,19 +5,21 @@
 </p>
 </br>
 
-## **👨‍⚕️ Team Introduction & Members**
+## **👨‍⚕️ 팀 & 팀원 소개**
 
 ### **💬 팀 소개**
 
-조화와 지속 가능한 성장을 추구하는 $\bf{\color{orange}감귤조직}$입니다.
+조화와 지속 가능한 성장을 추구하는 **<font color="orange">감귤조직</font>** 입니다.
 
 팀 개개인 모두 주어진 위치에 상관없이 모든 일에 오너십을 가지고 적극적으로 참여하는 것을 최우선으로 생각하고 있습니다.
 
 지금도 좋은 동료가 되기 위해 **치열하게 고민하고, 학습하고, 성장하고 있습니다**.
 
+### **👨‍⚕️ 멤버 소개**
+
 | **공미희**                                                              | **권용인**                                                                | **김동현**                                                                                        |
 |----------------------------------------------------------------------|------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|
-| 백앤드 (Products/Reports/tests) 및 문서화                                   | 백앤드 (Likes, images) 및 이슈 해결                                            | 백엔드(accounts/ api / channels / chats / comments / follows / posts / follows ), 프론트엔드 , PL      |
+| 백앤드 (Products/Reports/tests) 및 문서, Figma Slide                       | 백앤드 (Likes, images), 이슈 해결 및 문서 작성                                     | 백엔드(accounts/ api / channels / chats / comments / follows / posts / follows ), 프론트엔드 , PL      |
 | [https://github.com/heeeee-github](https://github.com/heeeee-github) | [https://github.com/vanhalenpanama](https://github.com/vanhalenpanama) | [https://github.com/ds5105119](https://github.com/ds5105119)                                   |
 | 데이터 분석 및 웹페이지 개발을 좋아합니다.                                             | 데이터 분야에 관심이 많습니다.                                                      | CS/CE의 전반적인 분야에 흥미를 갖고 있습니다. CS/CE의 전반적인 분야에 흥미를 갖고 있습니다.     XX대학교 SW학부를 특기자 전형 수석으로 입학하였습니다. |
 
@@ -30,7 +32,7 @@
     - Jira와 GitHub을 활용한 프로젝트 협업 및 관리 프로세스 구축
     - VCS 환경에서 pre-commit 및 GitHub Actions 설정으로 자동화된 코드 검증 및 CI/CD 파이프라인 구축
 - **백엔드 개발**
-    - Accounts 및 Chats 앱 등 핵심 기능 구현
+    - 회원(Accounts) 및 채팅(Chats) 앱 등 핵심 기능 구현
     - R2와 Boto3를 활용한 데이터 교환 로직 개발
     - Apache Pulsar를 활용한 Channels Layer 지원 메시지 시스템 설계 및 구현
     - 전체 백엔드의 Docker 컨테이너화 및 Poetry 도입으로 의존성 관리
@@ -44,11 +46,11 @@
 **권용인**
 
 - **백엔드 개발**
-    - likes 앱
+    - 좋아요(likes) 앱
         - 게시글, 댓글, 답글에 대한 좋아요 기능 개발
         - 좋아요 추가/취소 API 엔드포인트 구현
         - 좋아요 수 조회 기능 개발
-    - images 앱
+    - 이미지(images) 앱
         - OpenCV 라이브러리를 활용한 이미지 처리 로직 구현
             - 이미지 리사이징 및 압축 기능 개발
             - 이미지 포맷 변환 기능 구현
@@ -63,15 +65,15 @@
 **공미희**
 
 - **백엔드 개발**
-    - 상품 앱 구현
+    - 상품(Products) 앱
         - ModelSerializer를 사용하여 Product 모델의 직렬화/역직렬화 로직 구현
         - ViewSet을 활용한 CRUD 엔드포인트 설계
         - Custom permission classes 개발로 세분화된 접근 제어 구현
-    - 신고 앱 개발
+    - 신고(Reports) 앱
         - 사용자 신고 기능 구현
         - 신고 처리 워크플로우 설계 및 개발
         - 관리자 대시보드를 위한 신고 통계 API 구현
-    - 테스트 코드 작성
+    - 테스트(test) 코드 작성
         - conftest.py를 통한 테스트 픽스처 관리
         - 각 앱별 test 파일 작성 등 체계적인 테스트 구조 확립
 - **문서 작업 및 프레젠테이션**
@@ -84,7 +86,7 @@
 
 ### 목적(컨셉)
 
-- **감귤마켓**은 외부 스토어에서 판매하고 있는 상품(감귤)을 등록하여 홍보할 수 있는 SNS입니다.
+- **<font color = "orange">감귤마켓</font>** 은 외부 스토어에서 판매하고 있는 상품(감귤)을 등록하여 홍보할 수 있는 SNS입니다.
 
 ### 타겟
 
@@ -183,17 +185,6 @@ API는 Swagger를 통해 확인할 수 있으며, Swagger UI를 사용하면 API
 
 </br>
 
-## 시작 가이드
-
-### 환경(Requirements)
-
-### 설치(Install)
-
-### 백엔드(Backend)
-
-### 프론트엔드(Frontend)
-</br>
-
 ## 📚 기술스택
 
 ### 환경(Environment)
@@ -247,44 +238,44 @@ API는 Swagger를 통해 확인할 수 있으며, Swagger UI를 사용하면 API
     2. 🏗️ Github flow branch 전략 채택
         1. ✨ Lightspeed Development
 
-    ```mermaid
-    graph TD
-        A[GitHub Issue 생성] -->|트리거| B[GitHub Action 실행]
-        B --> C[GitHub Branch 자동 생성]
-        B --> D[Jira Issue 자동 생성]
-        B --> E[Discord 알림 전송]
-        B --> F[Notion 페이지 업데이트]
-        B --> R[GitHub Projects 자동 업데이트]
+```mermaid
+graph TD
+    A[GitHub Issue 생성] -->|트리거| B[GitHub Action 실행]
+    B --> C[GitHub Branch 자동 생성]
+    B --> D[Jira Issue 자동 생성]
+    B --> E[Discord 알림 전송]
+    B --> F[Notion 페이지 업데이트]
+    B --> R[GitHub Projects 자동 업데이트]
 
-        G[개발자] -->|PyCharm에서 작업| H[코드 변경 및 커밋]
-        H --> I[Pull Request 생성]
+    G[개발자] -->|PyCharm에서 작업| H[코드 변경 및 커밋]
+    H --> I[Pull Request 생성]
 
-        I --> J[코드 리뷰]
-        J -->|승인| K[Branch 병합]
+    I --> J[코드 리뷰]
+    J -->|승인| K[Branch 병합]
 
-        K -->|트리거| L[GitHub Action 실행]
-        L --> M[GitHub Issue 자동 종료]
-        L --> N[Jira Issue 자동 종료]
-        L --> O[Discord 완료 알림]
-        L --> P[Notion 상태 업데이트]
-        L --> S[GitHub Projects 완료 처리]
+    K -->|트리거| L[GitHub Action 실행]
+    L --> M[GitHub Issue 자동 종료]
+    L --> N[Jira Issue 자동 종료]
+    L --> O[Discord 완료 알림]
+    L --> P[Notion 상태 업데이트]
+    L --> S[GitHub Projects 완료 처리]
 
-        Q[자동화 도구]
-        Q -.-> B
-        Q -.-> L
+    Q[자동화 도구]
+    Q -.-> B
+    Q -.-> L
 
-        T[GitHub Flow]
-        T -.-> C
-        T -.-> H
-        T -.-> I
-        T -.-> K
+    T[GitHub Flow]
+    T -.-> C
+    T -.-> H
+    T -.-> I
+    T -.-> K
 
-        U[이슈 템플릿]
-        U -.-> A
+    U[이슈 템플릿]
+    U -.-> A
 
-        V[Lightspeed Development]
-        V -.-> T
-    ```
+    V[Lightspeed Development]
+    V -.-> T
+```
 
 5. **지속적 통합 및 지속적 배포(CI/CD)**
     1. **Python: pre-commit**
@@ -296,7 +287,7 @@ API는 Swagger를 통해 확인할 수 있으며, Swagger UI를 사용하면 API
         1. ECR, ECS등의 AWS 서비스를 사용하여 **CI Pipeline을 구축**하였습니다.
 6. **비용 최적화(Cost Optimization)**
     1. **AWS Spot Instance**
-        1. 약 65%의 비용을 절감하였습니다.
+        1. 초기 서버 비용의 약 65%를 절감하였습니다.
         2. 현재는 AWS에서 무료로 제공하는 t4g.small Instance를 사용 중입니다.(2024년 12월 31일까지)
 </br>
 
@@ -411,11 +402,51 @@ API는 Swagger를 통해 확인할 수 있으며, Swagger UI를 사용하면 API
 
     주어진 검색어를 임베딩으로 변환한 후, Milvus 데이터베이스에서 해당 벡터와 가장 유사한 벡터를 가진 데이터(게시글)를 찾아내는 과정으로 구현하였습니다.
 
-
-**Design: Figma**
 </br>
 
-### Communication
+### 협업 방법
+ 1. **Jira**
+
+    - 필요한 업무 문서화
+    <p align="center">
+
+    ![jira.png](readme_img/jira.png)
+    </p>
+
+    - 자동으로 연동되는 이슈
+    <p align="center">
+
+    ![jira_github_autointerconnection.png](readme_img/jira_github_autointerconnection.png)
+    </p>
+
+
+ 2. **github CodeQL**을 사용한 보안 취약점 탐지
+    <p align="center">
+
+    ![github_codeql.png](readme_img/github_codeql.png)
+    </p>
+
+
+ 3. 지속 가능한 **코드 리뷰 문화**
+    <p align="center">
+
+    ![code_review.png](readme_img/code_review.png)
+    </p>
+
+
+ 4. **용도별 이슈 템플릿** 작성
+    <p align="center">
+
+    ![issue_templates.png](readme_img/issue_templates.png)
+    </p>
+
+
+ 5. **Notion**
+    <p align="center">
+
+    ![notion.png](readme_img/notion.png)
+    </p>
+
 </br>
 
 ## 화면
