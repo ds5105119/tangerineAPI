@@ -1,12 +1,25 @@
+networks:
+  backend:
+    driver: bridge
+    internal: true
+  frontend:
+    driver: bridge
+  pulsar:
+    driver: bridge
+
 services:
   django:
-    container_name: blog_api_django
+    container_name: tangerine_api_django
     restart: always
-    entrypoint: [ "sh", "-c" ]
+    networks:
+      - backend
+      - frontend
+      - pulsar
+    entrypoint: ["sh", "-c"]
     command:
-      - "poetry run python manage.py makemigrations
+    - "poetry run python manage.py makemigrations --noinput
     && poetry run python manage.py migrate
-    && poetry run python manage.py runserver 0.0.0.0:8000 --reload"
+    && poetry run gunicorn -c config/gunicorn_config.py"
     build:
       context: .
       dockerfile: docker/django/Dockerfile
@@ -16,22 +29,28 @@ services:
       db:
         condition: service_healthy
     environment:
-      DJANGO_SETTINGS_MODULE: config.settings.docker_dev
+      DJANGO_SETTINGS_MODULE: config.settings.prod
       POSTGRES_HOST: db
+      DEBUG: False
     ports:
       - "8000:8000"
+    deploy:
+      resources:
+        limits:
+          memory: 400m
 
   db:
-    container_name: blog_api_db
-    image: postgres
+    image: postgrpostgreses:alpine
+    container_name: tangerine_api_db
+    restart: always
+    networks:
+      - frontend
+      - backend
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    restart: always
-    shm_size: 128mb
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+    shm_size: 64mb
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}" ]
       interval: 10s
@@ -40,3 +59,138 @@ services:
       timeout: 10s
     ports:
       - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+    deploy:
+      resources:
+        limits:
+          memory: 128m
+
+  redis:
+    image: redis:alpine
+    container_name: tangerine_api_redis
+    restart: always
+    networks:
+      - backend
+    command: >
+      redis-server
+      --port ${REDIS_PORT}
+      --maxmemory 64mb
+      --maxmemory-policy volatile-lru
+    deploy:
+      resources:
+        limits:
+          memory: 64m
+
+  # Start zookeeper
+  zookeeper:
+    image: apachepulsar/pulsar:latest
+    container_name: zookeeper
+    restart: on-failure
+    networks:
+      - pulsar
+    volumes:
+      - ./data/zookeeper:/pulsar/data/zookeeper
+    environment:
+      - metadataStoreUrl=zk:zookeeper:2181
+      - PULSAR_MEM=-Xms256m -Xmx256m -XX:MaxDirectMemorySize=256m
+    command: >
+      bash -c "bin/apply-config-from-env.py conf/zookeeper.conf && \
+             bin/generate-zookeeper-config.sh conf/zookeeper.conf && \
+             exec bin/pulsar zookeeper"
+    healthcheck:
+      test: [ "CMD", "bin/pulsar-zookeeper-ruok.sh" ]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+    deploy:
+      resources:
+        limits:
+          memory: 400m
+
+  # Init cluster metadata
+  pulsar-init:
+    image: apachepulsar/pulsar:latest
+    container_name: pulsar-init
+    hostname: pulsar-init
+    restart: "no"
+    networks:
+      - pulsar
+    command: >
+      bin/pulsar initialize-cluster-metadata \
+               --cluster cluster-a \
+               --zookeeper zookeeper:2181 \
+               --configuration-store zookeeper:2181 \
+               --web-service-url http://broker:8080 \
+               --broker-service-url pulsar://broker:6650
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+    environment:
+      - PULSAR_MEM=-Xms256m -Xmx512m -XX:MaxDirectMemorySize=256m
+    deploy:
+      resources:
+        limits:
+          memory: 512m
+      replicas: 1
+      restart_policy:
+        condition: none
+
+  # Start bookie
+  bookie:
+    image: apachepulsar/pulsar:latest
+    container_name: bookie
+    restart: on-failure
+    networks:
+      - pulsar
+    environment:
+      - clusterName=cluster-a
+      - zkServers=zookeeper:2181
+      - metadataServiceUri=metadata-store:zk:zookeeper:2181
+      - advertisedAddress=bookie
+      - BOOKIE_MEM=-Xms256m -Xmx256m -XX:MaxDirectMemorySize=256m
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+      pulsar-init:
+        condition: service_completed_successfully
+    volumes:
+      - ./data/bookkeeper:/pulsar/data/bookkeeper
+    command: bash -c "bin/apply-config-from-env.py conf/bookkeeper.conf && exec bin/pulsar bookie"
+    deploy:
+      resources:
+        limits:
+          memory: 256m
+
+  # Start broker
+  broker:
+    image: apachepulsar/pulsar:latest
+    container_name: broker
+    hostname: broker
+    restart: on-failure
+    networks:
+      - pulsar
+    environment:
+      - metadataStoreUrl=zk:zookeeper:2181
+      - zookeeperServers=zookeeper:2181
+      - clusterName=cluster-a
+      - managedLedgerDefaultEnsembleSize=1
+      - managedLedgerDefaultWriteQuorum=1
+      - managedLedgerDefaultAckQuorum=1
+      - advertisedAddress=broker
+      - advertisedListeners=external:pulsar://broker:6650
+      - PULSAR_MEM=-Xms256m -Xmx256m -XX:MaxDirectMemorySize=256m
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+      bookie:
+        condition: service_started
+    ports:
+      - "6650:6650"
+      - "8080:8080"
+    command: bash -c "bin/apply-config-from-env.py conf/broker.conf && exec bin/pulsar broker"
+    deploy:
+      resources:
+        limits:
+          memory: 256m
+
+volumes:
+  postgres_data:
