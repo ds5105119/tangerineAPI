@@ -1,12 +1,10 @@
 name: Deploy to EC2
-
 on:
   pull_request:
     types: [closed]
   push:
     branches: [main]
   workflow_dispatch:
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -24,13 +22,38 @@ jobs:
         echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
         scp -i private_key -o StrictHostKeyChecking=no docker-compose.yml ${USER}@${HOST}:~/
         ssh -i private_key -o StrictHostKeyChecking=no ${USER}@${HOST} '
-          # Docker Compose 설치
+          set -e
+          
+          # Update package lists
+          sudo apt-get update
+          
+          # Install required packages
+          sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common libcrypt1
+          
+          # Add Docker's official GPG key
+          curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+          
+          # Set up the stable Docker repository
+          sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+          
+          # Update package lists again
+          sudo apt-get update
+          
+          # Install Docker
+          sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+          
+          # Add current user to docker group
+          sudo usermod -aG docker $USER
+          
+          # Install Docker Compose
           sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
           sudo chmod +x /usr/local/bin/docker-compose
-          # Docker 및 Docker Compose 버전 확인
+          
+          # Verify Docker and Docker Compose installation
           docker --version
           docker-compose --version
-          # Docker Compose 실행
+          
+          # Pull and start containers
           docker-compose pull
           docker-compose up -d
         '
