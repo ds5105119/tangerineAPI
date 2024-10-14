@@ -38,7 +38,7 @@ services:
           memory: 400m
 
   db:
-    image: postgrpostgreses:alpine
+    image: postgres:alpine
     container_name: tangerine_api_db
     restart: always
     networks:
