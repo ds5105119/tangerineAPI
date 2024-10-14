@@ -1,4 +1,4 @@
-name: Deploy to EC2
+name: EC2에 배포
 on:
   pull_request:
     types: [closed]
@@ -13,7 +13,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     
-    - name: Deploy to EC2
+    - name: EC2에 배포
       env:
         PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
         HOST: ${{ secrets.EC2_HOST }}
@@ -24,24 +24,23 @@ jobs:
         ssh -i private_key -o StrictHostKeyChecking=no ${USER}@${HOST} '
           set -e
           
-          # Update package lists
+          # 패키지 목록 업데이트
           sudo yum update -y
           
-          # Install Docker
-          sudo yum install -y docker
-          sudo systemctl start docker
-          sudo systemctl enable docker
-          sudo usermod -aG docker $USER
+          # libcrypt 설치
+          sudo yum install -y libxcrypt-compat
           
-          # Install Docker Compose
-          sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
+          # Docker 설치 (이미 완료됨)
           
-          # Verify Docker and Docker Compose installation
+          # Docker Compose 설치 (pip를 사용하여 설치)
+          sudo yum install -y python3-pip
+          sudo pip3 install docker-compose
+          
+          # Docker와 Docker Compose 버전 확인
           docker --version
           docker-compose --version
           
-          # Pull and start containers
+          # 컨테이너 가져오기 및 시작
           docker-compose pull
           docker-compose up -d
         '
