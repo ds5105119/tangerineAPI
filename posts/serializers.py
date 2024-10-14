@@ -18,6 +18,7 @@ class PostSerializer(serializers.ModelSerializer):
     images = serializers.ListField(child=serializers.URLField(), required=False)
     tags = serializers.ListField(child=serializers.CharField(), required=False)
     comments = serializers.SerializerMethodField()
+    is_liked = serializers.BooleanField()
 
     class Meta:
         model = Post
@@ -33,10 +34,11 @@ class PostSerializer(serializers.ModelSerializer):
             "views_count",
             "likes_count",
             "created_at",
+            "is_liked",
         ]
 
         write_only_fields = ["tags"]
-        read_only_fields = ["user", "status", "views_count", "likes_count", "created_at", "comments"]
+        read_only_fields = ["user", "status", "views_count", "likes_count", "created_at", "comments", "is_liked"]
 
     @extend_schema_field(ReadOnlyCommentSerializer(many=True))
     def get_comments(self, obj):

@@ -1,4 +1,4 @@
-from django.db.models import F, Prefetch
+from django.db.models import Exists, F, OuterRef, Prefetch
 from django.shortcuts import get_object_or_404
 from rest_framework import generics, mixins, status, viewsets
 from rest_framework.pagination import CursorPagination
@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from accounts.models import User
 from comments.models import Comment, Reply
 from follows.models import Follow
+from likes.models import PostLike
 
 from .apps import client, embedding_fn
 from .models import Post, PostHistory, TaggedPost
@@ -39,6 +40,12 @@ class LatestPostsViaHandleAPIView(generics.ListAPIView):
     def get_queryset(self):
         handle = self.kwargs.get("handle")
         user = get_object_or_404(User, handle=handle)
+
+        if user.is_authenticated:
+            likes_exists = PostLike.objects.filter(post=OuterRef("pk"), like_user=user)
+        else:
+            likes_exists = PostLike.objects.none()
+
         return (
             Post.public_objects.filter(user=user)
             .select_related("user", "category")
@@ -51,6 +58,7 @@ class LatestPostsViaHandleAPIView(generics.ListAPIView):
                     to_attr="first_two_comments",
                 )
             )
+            .annotate(is_liked=Exists(likes_exists))
         )
 
 
@@ -67,6 +75,7 @@ class LatestPostsViaFollowAPIView(mixins.ListModelMixin, viewsets.GenericViewSet
     def get_queryset(self):
         user = self.request.user
         follows = Follow.objects.filter(follower=user).values_list("user_id", flat=True)
+        likes_exists = PostLike.objects.filter(post=OuterRef("pk"), like_user=user)
         return (
             Post.public_objects.filter(user__in=follows)
             .select_related("user", "category")
@@ -79,6 +88,7 @@ class LatestPostsViaFollowAPIView(mixins.ListModelMixin, viewsets.GenericViewSet
                     to_attr="comments",
                 )
             )
+            .annotate(is_liked=Exists(likes_exists))
         )
 
 
@@ -142,6 +152,13 @@ class PostViewSet(
                     )
                     post_uuid = [r.id for r in post_uuid_milvus[0]]
                     queryset = queryset.filter(uuid__in=post_uuid)
+
+            likes_exists = PostLike.objects.filter(post=OuterRef("pk"), like_user=self.request.user)
+            queryset = queryset.annotate(is_liked=Exists(likes_exists))
+
+        elif self.action == "retrieve":
+            likes_exists = PostLike.objects.filter(post=OuterRef("pk"), like_user=self.request.user)
+            queryset = queryset.annotate(is_liked=Exists(likes_exists))
 
         return queryset
 
