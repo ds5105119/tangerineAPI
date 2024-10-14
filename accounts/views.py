@@ -47,25 +47,24 @@ class UserViewSet(
         queryset = super().get_queryset()
         user = self.request.user
 
-        if self.action != "destroy":
+        if self.action in ["retrieve", "list"]:
             fields = self.get_serializer_class().Meta.fields
             annotated_fields = ["is_following", "is_follower"]
             model_fields = [field for field in fields if field not in annotated_fields]
 
-            if self.action in ["retrieve", "list"]:
-                following_exists = Follow.objects.filter(user=OuterRef("pk"), follower=user)
-                follower_exists = Follow.objects.filter(user=user, follower=OuterRef("pk"))
+            following_exists = Follow.objects.filter(user=OuterRef("pk"), follower=user)
+            follower_exists = Follow.objects.filter(user=user, follower=OuterRef("pk"))
 
-                return (
-                    queryset.select_related("profile")
-                    .only(*model_fields)
-                    .annotate(is_following=Exists(following_exists), is_follower=Exists(follower_exists))
-                    .exclude(handle=self.request.user.handle)
-                )
-            elif self.action in ["partial_update", "update"]:
-                return queryset.select_related("profile").only(*fields)
-        else:
-            return queryset
+            if self.action == "list":
+                queryset.exclude(handle=user.handle)
+
+            return (
+                queryset.select_related("profile")
+                .only(*model_fields)
+                .annotate(is_following=Exists(following_exists), is_follower=Exists(follower_exists))
+            )
+        elif self.action in ["partial_update", "update", "destroy"]:
+            return queryset.filter(handle=user.handle)
 
         raise MethodNotAllowed(self.action)
 

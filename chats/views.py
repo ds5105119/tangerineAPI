@@ -16,10 +16,14 @@ except ImportError:
 class ChatRoomViewSet(viewsets.ModelViewSet):
     permission_classes = (ChatRoomPermission,)
     pagination_class = ChatRoomPagination
+    serializer_class = ReadOnlyChatRoomSelfSerializer
     lookup_url_kwarg = "uuid"
     lookup_field = "uuid"
 
     def get_queryset(self):
+        if not hasattr(self, "request") or not self.request.user.is_authenticated:
+            return ChatRoom.objects.none()
+
         if self.action in ["retrieve", "list"]:
             current_user = self.request.user
             queryset = (
@@ -40,6 +44,8 @@ class ChatRoomViewSet(viewsets.ModelViewSet):
             return ReadOnlyChatRoomSelfSerializer
         elif self.action in ["create", "update", "partial_update"]:
             return WriteableChatRoomSelfSerializer
+        elif self.action == "destroy":
+            return None
         raise MethodNotAllowed(self.action)
 
     def retrieve(self, request, *args, **kwargs):
@@ -54,6 +60,7 @@ class ChatRoomViewSet(viewsets.ModelViewSet):
 class ChatMemberViewSet(mixins.DestroyModelMixin, viewsets.GenericViewSet):
     permission_classes = (ChatMemberPermission,)
     pagination_class = ChatMemberPagination
+    serializer_class = ReadOnlyChatMemberSerializer
     lookup_url_kwarg = "uuid"
     lookup_field = "room_id"
 

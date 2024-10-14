@@ -8,7 +8,7 @@ from posts.models import Post
 
 class Comment(models.Model):
     """
-    Custom Reply model
+    댓글 모델
     """
 
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -38,7 +38,7 @@ class Comment(models.Model):
 
 class Reply(models.Model):
     """
-    Custom Reply model
+    대댓글 모델
     """
 
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

@@ -4,6 +4,7 @@ from chats.models import *
 try:
     from django.contrib.auth import get_user_model
     from django.db import transaction
+    from drf_spectacular.utils import extend_schema_field
     from rest_framework import serializers
     from rest_framework.exceptions import ValidationError
 except ImportError:
@@ -32,6 +33,7 @@ class ReadOnlyChatRoomSelfSerializer(serializers.ModelSerializer):
         fields = ["uuid", "name", "owner", "created_at", "updated_at", "members", "first_message"]
         read_only_fields = ["owner", "name", "created_at", "updated_at", "members", "first_message"]
 
+    @extend_schema_field(serializers.CharField)
     def get_first_message(self, obj):
         if obj.chat_members_as_room.exists():
             first_member = obj.chat_members_as_room.first()
