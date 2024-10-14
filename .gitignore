@@ -262,3 +262,5 @@ fabric.properties
 !**/migrations/__init__.py
 
 .lock
+
+data/

@@ -51,9 +51,9 @@ class LatestPostsViaHandleAPIView(generics.ListAPIView):
             .select_related("user", "category")
             .prefetch_related(
                 Prefetch(
-                    "comments",
+                    "comments_post",
                     queryset=Comment.objects.select_related("user").prefetch_related(
-                        Prefetch("replies", queryset=Reply.objects.select_related("user")[:1], to_attr="first_reply")
+                        Prefetch("replies_comment", queryset=Reply.objects.select_related("user")[:1], to_attr="reply")
                     )[:2],
                     to_attr="first_two_comments",
                 )
@@ -81,11 +81,11 @@ class LatestPostsViaFollowAPIView(mixins.ListModelMixin, viewsets.GenericViewSet
             .select_related("user", "category")
             .prefetch_related(
                 Prefetch(
-                    "comments",
+                    "comments_post",
                     queryset=Comment.objects.select_related("user").prefetch_related(
-                        Prefetch("replies", queryset=Reply.objects.select_related("user")[:1], to_attr="reply")
+                        Prefetch("replies_comment", queryset=Reply.objects.select_related("user")[:1], to_attr="reply")
                     )[:2],
-                    to_attr="comments",
+                    to_attr="first_two_comments",
                 )
             )
             .annotate(is_liked=Exists(likes_exists))
@@ -139,12 +139,12 @@ class PostViewSet(
                 queryset = queryset.filter(tags__icontains=tags_query)
 
             else:
-                histories = PostHistory.objects.filter(user=self.request.user).select_related("post")[:20]
+                histories = PostHistory.objects.filter(user=self.request.user).select_related("post")[:30]
 
                 if histories:
-                    post_texts = [history.post.text for history in histories]
+                    post_texts = [str(history.post.text) for history in histories]
                     post_uuid_milvus = client.search(
-                        data=embedding_fn.encode_documents([post_texts]),
+                        data=embedding_fn.encode_documents(post_texts),
                         anns_field="vector",
                         output_fields=["pk"],
                         limit=300,
@@ -153,12 +153,23 @@ class PostViewSet(
                     post_uuid = [r.id for r in post_uuid_milvus[0]]
                     queryset = queryset.filter(uuid__in=post_uuid)
 
+        elif self.action in ["retrieve", "list"]:
             likes_exists = PostLike.objects.filter(post=OuterRef("pk"), like_user=self.request.user)
-            queryset = queryset.annotate(is_liked=Exists(likes_exists))
-
-        elif self.action == "retrieve":
-            likes_exists = PostLike.objects.filter(post=OuterRef("pk"), like_user=self.request.user)
-            queryset = queryset.annotate(is_liked=Exists(likes_exists))
+            queryset = (
+                queryset.select_related("user", "category")
+                .prefetch_related(
+                    Prefetch(
+                        "comments_post",
+                        queryset=Comment.objects.select_related("user").prefetch_related(
+                            Prefetch(
+                                "replies_comment", queryset=Reply.objects.select_related("user")[:1], to_attr="reply"
+                            )
+                        )[:2],
+                        to_attr="first_two_comments",
+                    )
+                )
+                .annotate(is_liked=Exists(likes_exists))
+            )
 
         return queryset
 
