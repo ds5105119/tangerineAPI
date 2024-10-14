@@ -19,7 +19,7 @@
 
 | **공미희**                                                              | **권용인**                                                                | **김동현**                                                                                        |
 |----------------------------------------------------------------------|------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|
-| 백앤드 (Products/Reports/tests) 및 문서, Figma Slide                       | 백앤드 (Likes, images), 이슈 해결 및 문서 작성                                     | 백엔드(accounts/ api / channels / chats / comments / follows / posts / follows ), 프론트엔드 , PL      |
+| 백앤드 (Products/Reports/tests) 및 문서, Figma Slide                       | 백앤드 (Likes, images), 이슈 해결 및 문서 작성                                     | 백엔드(accounts/ api / channels / chats / comments / posts / follows ), 프론트엔드 , PL      |
 | [https://github.com/heeeee-github](https://github.com/heeeee-github) | [https://github.com/vanhalenpanama](https://github.com/vanhalenpanama) | [https://github.com/ds5105119](https://github.com/ds5105119)                                   |
 | 데이터 분석 및 웹페이지 개발을 좋아합니다.                                             | 데이터 분야에 관심이 많습니다.                                                      | CS/CE의 전반적인 분야에 흥미를 갖고 있습니다. CS/CE의 전반적인 분야에 흥미를 갖고 있습니다.     XX대학교 SW학부를 특기자 전형 수석으로 입학하였습니다. |
 
@@ -509,15 +509,16 @@ graph TD
     - 관리자에게만 권한을 부여
 
 **🍊 검색**
-
-- 사용자, 상품, 해시태그로 검색
+- 사용자가 검색한 유사한 결과로 검색
 
 </br>
 
 ## 배포주소
 
 > **개발 버전**
+>
 >**프론트 서버**
+>
 >**백엔드 서버**
 
 </br>
@@ -528,15 +529,16 @@ graph TD
 
     최신 버전에서 발생하는 호환성 문제를 해결하기 위하여 DJ-Rest-Auth의 Django Rest Framework와 Django Allauth를 통합하여 RESTful API에 대한 인증 기능을 사용하였습니다.
     `dj_rest_auth.registration.serializers.SocialLoginSerializer`를 상속받아 validate 함수를 수정하였습니다. 이로 인해 DJ-Rest-Auth의 업데이트에도 Robust하게 동작합니다.  (AllAuth 64.2.1 버전에서 65.0.1 버전으로 업그레이드 하여 정상적으로 동작함을 확인하였습니다.)
-
+    ```
     파일 경로: accounts/serializers.py
+   ```
 
 
 2. **channels pulsar 패키지 개발 중 문제**
 
     channels pulsar 패키지는 비동기, 멀티 스레드, 분산 처리 환경을 염두에 두고 개발하였습니다. channels라이브러리의 message를 받는 부분에서 pulsar consumer의 recive함수로 함수의 제어권이 블로킹되는 현상이 있었습니다. `asyncio.to_thread`를 사용하여 별도의 스레드에서 실행하도록 하여 이를 해결하였습니다.
 
-    ```
+   ```
    파일 경로: channels_pulsar2/layers.py
    ```
 
@@ -544,6 +546,7 @@ graph TD
 
     서버리스 함수로 호스팅되는 특성 상 Vercel로 배포된 페이지는 WebSocket 연결을 지원하지 않았습니다.
     SSE만을 지원하여 EC2에서 next 앱을 build하고, pm2를 사용하여 무중단 배포를 구현하였습니다.
+
 </br>
 
 ## 회고
