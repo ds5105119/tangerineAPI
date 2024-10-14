@@ -42,7 +42,7 @@ class PostSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(ReadOnlyCommentSerializer(many=True))
     def get_comments(self, obj):
-        comments = obj.first_two_comments if hasattr(obj, "first_two_comments") else obj.comments.all()[:2]
+        comments = obj.first_two_comments if hasattr(obj, "first_two_comments") else obj.comments_post.all()[:2]
         comment_data = []
         for comment in comments:
             comment_serializer = ReadOnlyCommentSerializer(comment)

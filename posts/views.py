@@ -139,12 +139,12 @@ class PostViewSet(
                 queryset = queryset.filter(tags__icontains=tags_query)
 
             else:
-                histories = PostHistory.objects.filter(user=self.request.user).select_related("post")[:20]
+                histories = PostHistory.objects.filter(user=self.request.user).select_related("post")[:30]
 
                 if histories:
-                    post_texts = [history.post.text for history in histories]
+                    post_texts = [str(history.post.text) for history in histories]
                     post_uuid_milvus = client.search(
-                        data=embedding_fn.encode_documents([post_texts]),
+                        data=embedding_fn.encode_documents(post_texts),
                         anns_field="vector",
                         output_fields=["pk"],
                         limit=300,
