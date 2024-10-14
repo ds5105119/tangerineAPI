@@ -38,7 +38,7 @@ services:
           memory: 400m
 
   db:
-    image: postgrpostgreses:alpine
+    image: postgres:alpine
     container_name: tangerine_api_db
     restart: always
     networks:
@@ -86,7 +86,7 @@ services:
     networks:
       - pulsar
     volumes:
-      - ./data/zookeeper:/pulsar/data/zookeeper
+      - /home/ec2-user/zookeeper_data:/pulsar/data/zookeeper
     environment:
       - metadataStoreUrl=zk:zookeeper:2181
       - PULSAR_MEM=-Xms256m -Xmx256m -XX:MaxDirectMemorySize=256m
