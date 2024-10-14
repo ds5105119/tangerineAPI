@@ -10,7 +10,7 @@ rm -f "$PROJECT_ROOT/db.sqlite3"
 
 # pre-commit install
 
-# python manage.py makemigrations
+python manage.py makemigrations
 # python manage.py migrate
 
 echo "프로젝트 초기화 완료"

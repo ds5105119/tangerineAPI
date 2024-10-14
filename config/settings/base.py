@@ -72,7 +72,7 @@ PROJECT_APPS = [
 
 THIRD_PARTY_APPS = [
     "channels",  # django-channels
-    "channels_pulsar",  # channels-pulsar
+    "channels_pulsar2",  # channels-pulsar
     "corsheaders",  # django-cors-headers
     "rest_framework",  # Django Rest Framework
     "rest_framework.authtoken",  # Django Rest Framework
@@ -367,3 +367,7 @@ AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY")
 AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME")
 AWS_S3_REGION_NAME = env("AWS_S3_REGION_NAME")
+R2_ENDPOINT_URL = env("R2_ENDPOINT_URL")
+
+ZILLIZ_PUBLIC_ENDPOINT = env("ZILLIZ_PUBLIC_ENDPOINT")
+ZILLIZ_API_KEY = env("ZILLIZ_API_KEY")

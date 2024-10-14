@@ -80,7 +80,7 @@ class FollowingViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     def perform_create(self, serializer):
         user = self.request.user
         user_to_follow_handle = serializer.validated_data.get("handle")
-        user_to_follow = User.objects.get(pk=user_to_follow_handle)
+        user_to_follow = User.objects.get(handle=user_to_follow_handle)
 
         if user.handle == user_to_follow_handle:
             raise ValidationError("You cannot follow yourself.")

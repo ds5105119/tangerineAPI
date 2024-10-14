@@ -6,22 +6,16 @@ from .models import PostImage
 User = get_user_model()
 
 
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ["handle"]
-
-
 class PostImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = PostImage
         fields = [
-            "uuid",
             "user",
             "post",
             "url",
-            "key",
-            "content_type",
-            "policy",
-            "signature",
         ]
+        read_only_fields = ["user"]
+
+    def create(self, validated_data):
+        validated_data["user"] = self.context["request"].user
+        return super().create(validated_data)

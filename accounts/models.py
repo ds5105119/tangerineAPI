@@ -16,7 +16,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     """
 
     # User Field
-    handle = models.CharField(max_length=30, unique=True, blank=False, primary_key=True)
+    handle = models.CharField(max_length=30, unique=True, blank=False)
     username = models.CharField(max_length=30, unique=False, blank=False)
     email = models.EmailField(max_length=30, unique=True, blank=False)
     profile = models.OneToOneField(Profile, on_delete=models.CASCADE, related_name="user")

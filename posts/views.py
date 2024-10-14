@@ -1,49 +1,35 @@
-from django.db.models import F
+from django.db.models import F, Prefetch
 from django.shortcuts import get_object_or_404
 from rest_framework import generics, mixins, status, viewsets
-from rest_framework.pagination import PageNumberPagination
+from rest_framework.pagination import CursorPagination
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.views import APIView
 
 from accounts.models import User
+from comments.models import Comment, Reply
+from follows.models import Follow
 
-from .models import Post
+from .apps import client, embedding_fn
+from .models import Post, PostHistory, TaggedPost
 from .permissions import PostPermissions
 from .serializers import PostSerializer
-from .services import get_presigned_post
 
 
-class UserPostPagination(PageNumberPagination):
+class UserPostPagination(CursorPagination):
     """
     Pagination for UserViewSet
     """
 
-    page_size = 20
+    page_size = 10
+    ordering = "-created_at"
     page_size_query_param = None
-    max_page_size = 20
-
-
-class GetPresignedUrlView(APIView):
-    """
-    POST /posts/presigned/: get AWS S3 Bucket presigned post url
-    """
-
-    permission_classes = (IsAuthenticated,)
-    throttle_scope = "GetPresignedUrlView"
-
-    def post(self, request):
-        try:
-            presigned_url = get_presigned_post()
-            return Response(presigned_url)
-        except Exception as e:
-            return Response({"error": str(e)})
+    max_page_size = 10
 
 
 class LatestPostsViaHandleAPIView(generics.ListAPIView):
     """
-    POST /posts/latest/{handle}: return latest post via user
-    /posts/latest/{handle}/?page=2: return latest post via user and pagination
+    POST /posts/latest/{handle}: 유저 핸들로 얻는 최신 포스팅 리스트
+    /posts/latest/{handle}/?cursor=xxx: 페이지네이션 기본 적용
     """
 
     permission_classes = (AllowAny,)
@@ -53,29 +39,58 @@ class LatestPostsViaHandleAPIView(generics.ListAPIView):
     def get_queryset(self):
         handle = self.kwargs.get("handle")
         user = get_object_or_404(User, handle=handle)
-        return Post.public_objects.filter(user=user).order_by("-created_at")
+        return (
+            Post.public_objects.filter(user=user)
+            .select_related("user", "category")
+            .prefetch_related(
+                Prefetch(
+                    "comments",
+                    queryset=Comment.objects.select_related("user").prefetch_related(
+                        Prefetch("replies", queryset=Reply.objects.select_related("user")[:1], to_attr="first_reply")
+                    )[:2],
+                    to_attr="first_two_comments",
+                )
+            )
+        )
 
 
-class LatestPostsAPIView(generics.ListAPIView):
+class LatestPostsViaFollowAPIView(mixins.ListModelMixin, viewsets.GenericViewSet):
     """
-    POST /posts/latest/{handle}: return latest post via user
-    /posts/latest/{handle}/?page=2: return latest post via user and pagination
+    POST /posts/follows/{handle}: 유저가 팔로우한 사람의 포스팅 리스트
+    /posts/follows/{handle}/?cursor=xxx: 페이지네이션 기본 적용
     """
 
-    permission_classes = (AllowAny,)
+    permission_classes = (IsAuthenticated,)
     serializer_class = PostSerializer
     pagination_class = UserPostPagination
-    queryset = Post.objects.all()
+
+    def get_queryset(self):
+        user = self.request.user
+        follows = Follow.objects.filter(follower=user).values_list("user_id", flat=True)
+        return (
+            Post.public_objects.filter(user__in=follows)
+            .select_related("user", "category")
+            .prefetch_related(
+                Prefetch(
+                    "comments",
+                    queryset=Comment.objects.select_related("user").prefetch_related(
+                        Prefetch("replies", queryset=Reply.objects.select_related("user")[:1], to_attr="reply")
+                    )[:2],
+                    to_attr="comments",
+                )
+            )
+        )
 
 
 class RecommendPostsAPIView(generics.ListAPIView):
-    permission_classes = (AllowAny,)
+    permission_classes = (IsAuthenticated,)
     serializer_class = PostSerializer
 
 
 class PostViewSet(
     mixins.CreateModelMixin,
     mixins.RetrieveModelMixin,
+    mixins.ListModelMixin,
     mixins.UpdateModelMixin,
     mixins.DestroyModelMixin,
     viewsets.GenericViewSet,
@@ -92,12 +107,61 @@ class PostViewSet(
     queryset = Post.objects.all()
     lookup_field = "uuid"
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        if self.action == "list":
+            search_query = self.request.query_params.get("search", None)
+            tags_query = self.request.query_params.get("tags", None)
+
+            if search_query:
+                post_uuid_milvus = client.search(
+                    data=embedding_fn.encode_documents([search_query]),
+                    anns_field="vector",
+                    output_fields=["pk"],
+                    limit=300,
+                    param={},
+                )
+                post_uuid = [r.id for r in post_uuid_milvus[0]]
+                queryset = queryset.filter(uuid__in=post_uuid)
+
+            elif tags_query:
+                queryset = queryset.filter(tags__icontains=tags_query)
+
+            else:
+                histories = PostHistory.objects.filter(user=self.request.user).select_related("post")[:20]
+
+                if histories:
+                    post_texts = [history.post.text for history in histories]
+                    post_uuid_milvus = client.search(
+                        data=embedding_fn.encode_documents([post_texts]),
+                        anns_field="vector",
+                        output_fields=["pk"],
+                        limit=300,
+                        param={},
+                    )
+                    post_uuid = [r.id for r in post_uuid_milvus[0]]
+                    queryset = queryset.filter(uuid__in=post_uuid)
+
+        return queryset
+
     def perform_create(self, serializer):
-        # post = serializer.save(user=self.request.user)
-        pass
+        post = serializer.save(user=self.request.user)
+
+        uuid_string = str(post.uuid)
+        text_string = str(post.text)
+        tags_list = list(self.request.data.get("tags", ""))
+
+        tagged_posts = [TaggedPost(post=post, tag=tag) for tag in tags_list]
+        TaggedPost.objects.bulk_create(tagged_posts)
+
+        vectors = embedding_fn.encode_documents([text_string])
+        client.insert([{"pk": uuid_string, "vector": vectors[0]}])
+        client.flush()
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
+        PostHistory.objects.create(user=self.request.user, post=instance)
         Post.objects.filter(uuid=instance.uuid).update(views_count=F("views_count") + 1)
         instance.refresh_from_db()
         serializer = self.get_serializer(instance)

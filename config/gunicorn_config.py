@@ -1,7 +1,6 @@
-import multiprocessing
 import os
 
-workers = 2 * multiprocessing.cpu_count()
+workers = 2
 wsgi_app = "config.asgi:application"
 worker_class = "uvicorn.workers.UvicornWorker"
 bind = "0.0.0.0:8000"

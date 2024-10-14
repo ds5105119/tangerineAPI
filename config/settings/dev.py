@@ -55,17 +55,3 @@ LOGGING = {
         },
     },
 }
-
-
-# Elasticsearch configuration
-
-ELASTICSEARCH_DSL = {
-    "default": {
-        "hosts": "https://127.0.0.1:9200",
-        "basic_auth": (
-            env("ELASTICSEARCH_DSL_USERNAME"),
-            env("ELASTICSEARCH_DSL_PASSWORD"),
-        ),
-        "ca_certs": os.path.join(BASE_DIR, "elasticsearch_ca.crt"),
-    }
-}

@@ -77,12 +77,12 @@ services:
     command: >
       redis-server
       --port ${REDIS_PORT}
-      --maxmemory 512mb
+      --maxmemory 256mb
       --maxmemory-policy volatile-lru
     deploy:
       resources:
         limits:
-          memory: 512m
+          memory: 256m
 
   # Start zookeeper
   zookeeper:
@@ -162,7 +162,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 512m
+          memory: 368m
 
   # Start broker
   broker:
@@ -194,7 +194,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 1g
+          memory: 500m
 
 volumes:
   postgres_data:

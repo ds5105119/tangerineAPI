@@ -10,7 +10,7 @@ class UserPostAllow(BasePermission):
     """
 
     def has_permission(self, request, view):
-        if view.action == "create":
+        if view.action in ["create", "list"]:
             return request.user.is_authenticated
         elif view.action in ["retrieve", "update", "partial_update", "destroy"]:
             return True
@@ -18,7 +18,7 @@ class UserPostAllow(BasePermission):
             return False
 
     def has_object_permission(self, request, view, obj):
-        if view.action == "retrieve":
+        if view.action in ["retrieve", "list"]:
             return True
         elif view.action in ["update", "partial_update", "destroy"]:
             return obj.user == request.user or request.user.is_staff

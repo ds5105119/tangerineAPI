@@ -56,13 +56,17 @@ class WriteableUserSelfSerializer(serializers.ModelSerializer):
         )
 
     def update(self, instance, validated_data):
+        instance.handle = validated_data.get("handle", instance.handle)
         instance.username = validated_data.get("username", instance.username)
 
-        profile_data = validated_data.pop("profile")
-        profile_serializer = ProfileSelfSerializer(instance.profile, data=profile_data, partial=True)
-        if profile_serializer.is_valid(raise_exception=True):
-            profile_serializer.save()
+        profile_data = validated_data.get("profile")
+        if profile_data:
+            profile_data = validated_data.pop("profile")
+            profile_serializer = ProfileSelfSerializer(instance.profile, data=profile_data, partial=True)
+            if profile_serializer.is_valid(raise_exception=True):
+                profile_serializer.save()
 
+        instance.save()
         return instance
 
 
@@ -176,14 +180,14 @@ class UserDetailsSerializer(DefaultUserDetailsSerializer):
         return username
 
     class Meta:
-        extra_fields = ["profile"]
+        extra_fields = ["profile", "username"]
         if hasattr(User, "USERNAME_FIELD"):
             extra_fields.append(User.USERNAME_FIELD)
         if hasattr(User, "EMAIL_FIELD"):
             extra_fields.append(User.EMAIL_FIELD)
         model = User
         fields = extra_fields
-        read_only_fields = ("email", "profile")
+        read_only_fields = ("email", "profile", "username")
 
 
 class CustomSocialLoginSerializer(SocialLoginSerializer):
