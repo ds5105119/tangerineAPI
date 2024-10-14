@@ -57,7 +57,7 @@ class PostLikeViewSet(
 
         with transaction.atomic():
             Post.objects.filter(uuid=uuid).update(likes_count=F("likes_count") + 1)
-            serializer = self.get_serializer(data={"post_uuid": post.uuid, "like_user": user.handle})
+            serializer = self.get_serializer(data={"post_uuid": post.uuid, "like_user": user.id})
             serializer.is_valid(raise_exception=True)
             self.perform_create(serializer)
 
