@@ -25,25 +25,12 @@ jobs:
           set -e
           
           # Update package lists
-          sudo apt-get update
-          
-          # Install required packages
-          sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common libcrypt1
-          
-          # Add Docker's official GPG key
-          curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-          
-          # Set up the stable Docker repository
-          sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-          
-          # Update package lists again
-          sudo apt-get update
+          sudo yum update -y
           
           # Install Docker
-          sudo apt-get install -y docker-ce docker-ce-cli containerd.io
-          
-          # Add current user to docker group
-          sudo usermod -aG docker $USER
+          sudo amazon-linux-extras install docker -y
+          sudo service docker start
+          sudo usermod -a -G docker ec2-user
           
           # Install Docker Compose
           sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
