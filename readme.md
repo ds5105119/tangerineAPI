@@ -15,11 +15,11 @@
 
 지금도 좋은 동료가 되기 위해 **치열하게 고민하고, 학습하고, 성장하고 있습니다**.
 
-| **공미희** | **권용인** | **김동현** |
-| --- | --- | --- |
-| 백앤드 Products 앱 및 테스트 코드 담당 및 문서화 | 백앤드 Likes 앱 담당 |  |
+| **공미희** | **권용인**                                                                | **김동현** |
+| --- |------------------------------------------------------------------------| --- |
+| 백앤드 Products 앱 및 테스트 코드 담당 및 문서화 | 백앤드 Likes, images앱 담당                                                  |  |
 | [https://github.com/heeeee-github](https://github.com/heeeee-github) | [https://github.com/vanhalenpanama](https://github.com/vanhalenpanama) | [https://github.com/ds5105119](https://github.com/ds5105119) |
-|  | 데이터 분야에 관심이 많습니다. | CS/CE의 전반적인 분야에 흥미를 갖고 있습니다. |
+|  | 데이터 분야에 관심이 많습니다.                                                      | CS/CE의 전반적인 분야에 흥미를 갖고 있습니다. |
 </br>
 
 ## 프로젝트 개요
@@ -55,19 +55,21 @@
 초기에 핵심 기능을 구현한 뒤, 애자일한 프로세스를 적용시켰습니다.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/d0043fee-f138-401e-83f2-cce38112adbb" />
+  <img src="https://file.notion.so/f/f/e356c91b-b91d-4db6-a60d-8969d0bcddb6/5d252d33-db17-4fcc-bb53-110410a687d4/WBS.png?table=block&id=b31a1e36-d63d-4bec-a911-201fd92ee523&spaceId=e356c91b-b91d-4db6-a60d-8969d0bcddb6&expirationTimestamp=1728986400000&signature=1v7TIT0ZwGpfUWu2FqBEW3iX-vLUK2akCO7-TlMqeUA&downloadName=WBS.png" />
+</p>
+<p align="center">
+  <img src="https://file.notion.so/f/f/e356c91b-b91d-4db6-a60d-8969d0bcddb6/8d6433ec-4dc9-43f0-9ef5-09ee8277bf69/gantt_chart.png?table=block&id=05474b71-a7fb-41b2-b7f9-0b29e33f8bfd&spaceId=e356c91b-b91d-4db6-a60d-8969d0bcddb6&expirationTimestamp=1728986400000&signature=iEuNdo6O9Nft0M4_QejtsWDiXDQ3YGOklA-D2KRYyKM&downloadName=gantt+chart.png" />
 </p>
 
-(이미지 변경 예정)
 </br>
 
 ## ERD 및 전체 다이어그램
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/b27b06f7-d0d4-4271-8a7b-e6e9a9fc9f60" />
+  <img src="https://file.notion.so/f/f/e356c91b-b91d-4db6-a60d-8969d0bcddb6/6739af05-1492-4626-9810-2afb3be28a14/ERD_test_image3.png?table=block&id=2975ceb7-adb5-483b-8881-6c928d5dacad&spaceId=e356c91b-b91d-4db6-a60d-8969d0bcddb6&expirationTimestamp=1728986400000&signature=irUAP9CNVSG6oInbzIeyAA3plyFoHMlGV5cq7ee0ZxQ&downloadName=ERD+test+image3.png" />
 </p>
 
-(이미지 변경 예정)
+
 </br>
 
 ## API 주소
@@ -278,6 +280,6 @@
 
 **권용인**
 
-- **백엔드**: 사용자가 게시글, 댓글, 대댓글에 좋아요를 추가하거나 취소할 수 있고 좋아요 수를 조회할 수 있는 기능 구현, Likes 앱에 대한 테스트 코드 작성
+- **백엔드**: 사용자가 게시글, 댓글 및 답글에 좋아요를 추가하거나 취소할 수 있고, 좋아요 수를 조회할 수 있는 likes 앱 기능,  opencv로 이미지 파일의 용량과 길이를 자동으로 조절하여 AWS S3에 업로드하는 images 앱 구현
 
 **공미희**

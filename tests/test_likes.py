@@ -80,7 +80,7 @@ def test_post_like_list(sample_user_1):
     response = client.get(f"/likes/post-likes/?uuid={post.uuid}")
 
     assert response.status_code == 200
-    # assert response.data[0]["like_user"] == user.handle  # Validate response data
+    assert response.data[0]["like_user"] == user.id  # Validate response data
 
 
 @pytest.mark.django_db
@@ -326,11 +326,11 @@ def test_post_like_serializer_valid(sample_user_1):
     post = Post.objects.create(uuid=uuid.uuid4(), text="Test Content", user=user)
     data = {
         "post_uuid": str(post.uuid),
-        "like_user": user.handle,
+        "like_user": user.id,
     }
     serializer = PostLikeSerializer(data=data, context={"request": user})
 
-    # assert serializer.is_valid(), f"Errors: {serializer.errors}"  # Provide error details if invalid
+    assert serializer.is_valid(), f"Errors: {serializer.errors}"  # Provide error details if invalid
     post_like = serializer.save()
 
     assert post_like.post == post
