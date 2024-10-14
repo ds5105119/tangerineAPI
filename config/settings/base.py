@@ -68,6 +68,7 @@ PROJECT_APPS = [
     "images.apps.ImagesConfig",
     "products.apps.ProductsConfig",
     "profiles.apps.ProfilesConfig",
+    "reports.apps.ReportsConfig",
 ]
 
 THIRD_PARTY_APPS = [
