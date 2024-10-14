@@ -49,7 +49,9 @@ class PostSerializer(serializers.ModelSerializer):
             comment_data.append(
                 {
                     **comment_serializer.data,
-                    "reply": ReplySerializer(comment.replies.first()).data if comment.replies.exists() else None,
+                    "reply": ReplySerializer(comment.replies_comment.first()).data
+                    if comment.replies_comment.exists()
+                    else None,
                 }
             )
         return comment_data
