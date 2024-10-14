@@ -9,17 +9,13 @@ from .views import (
 
 router = DefaultRouter()
 router.register(r"p", PostViewSet)
+router.register(r"follows", LatestPostsViaFollowAPIView, basename="follows")
 
 urlpatterns = [
     path("", include(router.urls)),
     re_path(
         r"latest/(?P<handle>[a-z0-9._]+)/",
         LatestPostsViaHandleAPIView.as_view(),
-        name="user-latest-posts",
-    ),
-    re_path(
-        r"follows/(?P<handle>[a-z0-9._]+)/",
-        LatestPostsViaFollowAPIView.as_view(),
         name="user-latest-posts",
     ),
 ]

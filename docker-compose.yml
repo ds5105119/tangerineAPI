@@ -44,7 +44,7 @@ services:
 
   # postgres
   db:
-    image: postgres:alpine
+    image: postgrpostgreses:alpine
     container_name: tangerine_api_db
     restart: always
     networks:
