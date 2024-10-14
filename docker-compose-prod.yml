@@ -89,7 +89,7 @@ services:
       - /home/ec2-user/zookeeper_data:/pulsar/data/zookeeper
     environment:
       - metadataStoreUrl=zk:zookeeper:2181
-      - PULSAR_MEM=-Xms256m -Xmx256m -XX:MaxDirectMemorySize=256m
+      - PULSAR_MEM=-Xms256m -Xmx368m -XX:MaxDirectMemorySize=368m
     command: >
       bash -c "bin/apply-config-from-env.py conf/zookeeper.conf && \
              bin/generate-zookeeper-config.sh conf/zookeeper.conf && \
@@ -123,7 +123,7 @@ services:
       zookeeper:
         condition: service_healthy
     environment:
-      - PULSAR_MEM=-Xms256m -Xmx512m -XX:MaxDirectMemorySize=256m
+      - PULSAR_MEM=-Xms256m -Xmx512m -XX:MaxDirectMemorySize=368m
     deploy:
       resources:
         limits:
@@ -144,7 +144,7 @@ services:
       - zkServers=zookeeper:2181
       - metadataServiceUri=metadata-store:zk:zookeeper:2181
       - advertisedAddress=bookie
-      - BOOKIE_MEM=-Xms256m -Xmx256m -XX:MaxDirectMemorySize=256m
+      - BOOKIE_MEM=-Xms256m -Xmx368m -XX:MaxDirectMemorySize=368m
     depends_on:
       zookeeper:
         condition: service_healthy
@@ -156,7 +156,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 256m
+          memory: 512m
 
   # Start broker
   broker:
@@ -188,7 +188,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 256m
+          memory: 512m
 
 volumes:
   postgres_data:
