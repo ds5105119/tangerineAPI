@@ -17,8 +17,8 @@ class PostSerializer(serializers.ModelSerializer):
     category = serializers.CharField(required=False)
     images = serializers.ListField(child=serializers.URLField(), required=False)
     tags = serializers.ListField(child=serializers.CharField(), required=False)
-    comments = serializers.SerializerMethodField()
-    is_liked = serializers.BooleanField()
+    comments = serializers.SerializerMethodField(read_only=True)
+    is_liked = serializers.BooleanField(read_only=True)
 
     class Meta:
         model = Post

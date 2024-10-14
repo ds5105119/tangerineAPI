@@ -8,13 +8,25 @@ from drf_spectacular.utils import (
     extend_schema,
 )
 from rest_framework import mixins, status, viewsets
+from rest_framework.pagination import CursorPagination
 from rest_framework.response import Response
 
 from comments.models import Comment, Reply
 from posts.models import Post
 
 from .models import CommentLike, PostLike, ReplyLike
-from .serializers import CommentLikeSerializer, PostLikeSerializer, ReplyLikeSerializer
+from .serializers import CommentLikeSerializer, PostLikeSerializer, ReadonlyPostLikeSerializer, ReplyLikeSerializer
+
+
+class UserLikePagination(CursorPagination):
+    """
+    Pagination for UserViewSet
+    """
+
+    page_size = 20
+    ordering = "-created_at"
+    page_size_query_param = None
+    max_page_size = 20
 
 
 class PostLikeViewSet(
@@ -25,26 +37,36 @@ class PostLikeViewSet(
 ):
     queryset = PostLike.objects.all()
     serializer_class = PostLikeSerializer
+    pagination_class = UserLikePagination
     lookup_field = "uuid"
     lookup_value_regex = r"[0-9a-z\-]+"
 
     def get_queryset(self):
-        uuid = self.request.query_params.get("uuid")
-        if uuid:
-            return PostLike.objects.filter(post__uuid=uuid)
-        return PostLike.objects.none()
+        queryset = super().get_queryset()
+
+        if self.action == "list":
+            queryset = queryset.prefetch_related("like_user")
+
+        return queryset
+
+    def get_serializer_class(self):
+        serializer = super().get_serializer_class()
+
+        if self.action == "list":
+            serializer = ReadonlyPostLikeSerializer
+
+        return serializer
 
     @extend_schema(
         summary="Add like for a post",
         description="Like a post",
-        parameters=[OpenApiParameter("uuid", description="Post UUID", required=True, type=OpenApiTypes.UUID)],
         responses={
             201: PostLikeSerializer,
             404: OpenApiResponse(description="Post not found"),
         },
     )
     def create(self, request, *args, **kwargs):
-        uuid = self.request.query_params.get("uuid")
+        uuid = self.request.data.get("post_uuid", None)
         try:
             post = Post.objects.get(uuid=uuid)
         except ObjectDoesNotExist:
@@ -57,7 +79,7 @@ class PostLikeViewSet(
 
         with transaction.atomic():
             Post.objects.filter(uuid=uuid).update(likes_count=F("likes_count") + 1)
-            serializer = self.get_serializer(data={"post_uuid": post.uuid, "like_user": user.id})
+            serializer = self.get_serializer(data={"post_uuid": post.uuid, "like_user": user.handle})
             serializer.is_valid(raise_exception=True)
             self.perform_create(serializer)
 
@@ -79,7 +101,6 @@ class PostLikeViewSet(
             return Response({"detail": "Post not found"}, status=status.HTTP_404_NOT_FOUND)
 
         user = request.user
-
         like = PostLike.objects.filter(post=post, like_user=user).first()
 
         if not like:
@@ -101,13 +122,19 @@ class PostLikeViewSet(
         },
     )
     def list(self, request, *args, **kwargs):
-        uuid = self.request.query_params.get("uuid")
+        uuid = self.request.query_params.get("uuid", None)
         try:
             post = Post.objects.get(uuid=uuid)
         except ObjectDoesNotExist:
             return Response({"detail": "Post not found"}, status=status.HTTP_404_NOT_FOUND)
 
         queryset = PostLike.objects.filter(post=post)
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
         serializer = self.get_serializer(queryset, many=True)
 
         return Response(serializer.data)

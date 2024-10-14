@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
+from accounts.serializers import ReadOnlyUserExternalSerializer
 from comments.models import Comment, Reply
 from posts.models import Post
 
@@ -21,14 +22,24 @@ class PostLikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = PostLike
         fields = ["post_uuid", "like_user"]
+        read_only_fields = ["like_user"]
 
     def create(self, validated_data):
         post_uuid = validated_data.pop("post_uuid")
         post = Post.objects.get(uuid=post_uuid)
 
         validated_data["post"] = post
+        validated_data["like_user"] = self.context["request"].user
 
         return super().create(validated_data)
+
+
+class ReadonlyPostLikeSerializer(serializers.ModelSerializer):
+    like_user = ReadOnlyUserExternalSerializer(read_only=True)
+
+    class Meta:
+        model = PostLike
+        fields = ["like_user"]
 
 
 class CommentLikeSerializer(serializers.ModelSerializer):
