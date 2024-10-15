@@ -18,9 +18,9 @@ services:
       - pulsar
     entrypoint: ["sh", "-c"]
     command:
-    - "poetry run python manage.py makemigrations --noinput
-    && poetry run python manage.py migrate
-    && poetry run gunicorn -c config/gunicorn_config.py"
+      - "poetry run python manage.py makemigrations --noinput
+        && poetry run python manage.py migrate
+        && poetry run gunicorn -c config/gunicorn_config.py"
     volumes:
       - .:/app
     depends_on:
@@ -144,7 +144,7 @@ services:
     command: bash -c "bin/apply-config-from-env.py conf/bookkeeper.conf && exec bin/pulsar bookie"
 
   # Start broker
-broker:
+  broker:
     image: apachepulsar/pulsar:latest
     container_name: broker
     hostname: broker
