@@ -1,30 +1,46 @@
-## 🍊 감귤마켓
-
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/5d15e62e-179b-4faf-8921-b10f732514a7" />
+  <img src="https://github.com/ds5105119/tangerineAPI/blob/TG-127--issue-148/readme_img/tangerine-cover.jpg?raw=true" />
 </p>
+
+# 1. 프로젝트 개요
+
+<img src="https://img.shields.io/badge/python-3776AB?style=flat&logo=python&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/django-092E20?style=flat&logo=django&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/djangorestframework-DA291C?style=flat"/>&nbsp;<img src="https://img.shields.io/badge/gunicorn-499848?style=flat&logo=gunicorn&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/uvicorn-00AF9C?style=flat"/>&nbsp;<img src="https://img.shields.io/badge/opencv-5C3EE8?style=flat&logo=opencv&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/milvus-00A1EA?style=flat&logo=milvus&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/apachepulsar-188FFF?style=flat&logo=apachepulsar&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/postman-FF6C37?style=flat&logo=postman&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/docker-2496ED?style=flat&logo=docker&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/amazonwebservices-232F3E?style=flat&logo=amazonwebservices&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/typescript-3178C6?style=flat&logo=typescript&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/nextdotjs-000000?style=flat&logo=nextdotjs&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/reactquery-FF4154?style=flat&logo=reactquery&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/axios-5A29E4?style=flat&logo=axios&logoColor=white"/>&nbsp; 등 백엔드, 프론트엔드, ML 분야의 다양한 최신 기술이 접목된 SNS, $\bf{\color{#F26E22}감귤마켓}$입니다.
+
+### 1.1. 목적(컨셉)
+
+- $\bf{\color{#F26E22}감귤마켓}$ 은 외부 스토어에서 판매하고 있는 상품(감귤)을 등록하여 홍보할 수 있는 SNS입니다.
+- **주 타겟** 판매 및 구매에 관심있는 사람들입니다.
+- **부 타겟** SNS를 통해 일상을 공유하고 소통하고자 하는 모든 사람들입니다.
+
+**개발기간**: 2024.9.23.(월) ~ 10.14.(월), 22일 간
+
+**URL**: https://tangerinee.site
+
 </br>
 
-## **👨‍⚕️ 팀 & 팀원 소개**
+# 2. 👨‍⚕️ 팀 & 팀원 소개
 
-### **💬 팀 소개**
+### 2.1. 💬 팀 소개
 
-조화와 지속 가능한 성장을 추구하는 **<font color="orange">감귤조직</font>** 입니다.
+조화와 지속 가능한 성장을 추구하는 $\bf{\color{#F26E22}감귤조직}$ 입니다.
 
 팀 개개인 모두 주어진 위치에 상관없이 모든 일에 오너십을 가지고 적극적으로 참여하는 것을 최우선으로 생각하고 있습니다.
 
 지금도 좋은 동료가 되기 위해 **치열하게 고민하고, 학습하고, 성장하고 있습니다**.
 
-### **👨‍⚕️ 멤버 소개**
+<br>
+
+### 2.2. 👨‍⚕️ 멤버 소개
 
 | **공미희**                                                              | **권용인**                                                                | **김동현**                                                                                        |
 |----------------------------------------------------------------------|------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|
-| 백앤드 (Products/Reports/tests) 및 문서, Figma Slide                       | 백앤드 (Likes, images), 이슈 해결 및 문서 작성                                     | 백엔드(accounts/ api / channels / chats / comments / posts / follows ), 프론트엔드 , PL      |
+| 백앤드 (Products/Reports/tests) 및 문서, Figma Slide                       | 백앤드 (Likes, images), 이슈 해결 및 문서 작성                                     | 백엔드(accounts/ api / channels / chats / comments / posts / follows ), 프론트엔드 , PM      |
 | [https://github.com/heeeee-github](https://github.com/heeeee-github) | [https://github.com/vanhalenpanama](https://github.com/vanhalenpanama) | [https://github.com/ds5105119](https://github.com/ds5105119)                                   |
-| 데이터 분석 및 웹페이지 개발을 좋아합니다.                                             | 데이터 분야에 관심이 많습니다.                                                      | CS/CE의 전반적인 분야에 흥미를 갖고 있습니다. CS/CE의 전반적인 분야에 흥미를 갖고 있습니다.     XX대학교 SW학부를 특기자 전형 수석으로 입학하였습니다. |
+| 데이터 분석 및 웹페이지 개발을 좋아합니다.                                             | 데이터 분야에 관심이 많습니다.                                                      | CS/CE의 전반적인 분야에 흥미를 갖고 있습니다. 단국대학교 SW학부를 특기자 전형 수석으로 입학하였습니다. |
 
+<br>
 
-### **👨🏼‍💻**업무 분담
+### 2.3. 👨🏼‍💻 업무 분담
 
 **김동현(팀장)**
 
@@ -32,48 +48,39 @@
     - Jira와 GitHub을 활용한 프로젝트 협업 및 관리 프로세스 구축
     - VCS 환경에서 pre-commit 및 GitHub Actions 설정으로 자동화된 코드 검증 및 CI/CD 파이프라인 구축
 - **백엔드 개발**
-    - 회원(Accounts) 및 채팅(Chats) 앱 등 핵심 기능 구현
-    - R2와 Boto3를 활용한 데이터 교환 로직 개발
-    - Apache Pulsar를 활용한 Channels Layer 지원 메시지 시스템 설계 및 구현
-    - 전체 백엔드의 Docker 컨테이너화 및 Poetry 도입으로 의존성 관리
-- **머신러닝**
-    - Milvus DB 도입 및 유사도 검색 기능 구현
-- **프론트엔드 개발**
-    - React 기반 전체 프론트엔드 구현 및 UI/UX 설계
-- **디자인**
-    - 컴포넌트 디자인 및 문서화
+    - 회원(Accounts) 및 채팅(Chats) 등 핵심 앱 구현
+    - Boto3를 활용한 데이터 교환 로직 개발
+    - Apache Pulsar를 Channels가 지원할 수 있도록 Channels Layer 파이썬 패키지 개발 및 구현
+    - 전체 백엔드의 Docker 컨테이너화 및 Poetry 도입으로 의존성 관리 및 AWS 배포
+- **머신러닝**: Milvus DB 도입 및 유사도 검색 기능 구현(vector embedding 기반)
+- **프론트엔드 개발**: Next.js를 사용한 전체 프론트엔드 구현 및 UI/UX 설계
+- **디자인**: Figma를 사용한 컴포넌트 디자인 및 문서화
+- **그 외**: 전체적인 문서 검토 및 컨벤션 수립
 
 **권용인**
 
 - **백엔드 개발**
     - 좋아요(likes) 앱
-        - 게시글, 댓글, 답글에 대한 좋아요 기능 개발
-        - 좋아요 추가/취소 API 엔드포인트 구현
-        - 좋아요 수 조회 기능 개발
+        - 게시글, 댓글, 답글에 대한 좋아요 모델 개발
+        - 좋아요 CRUD API 구현
     - 이미지(images) 앱
-        - OpenCV 라이브러리를 활용한 이미지 처리 로직 구현
-            - 이미지 리사이징 및 압축 기능 개발
-            - 이미지 포맷 변환 기능 구현
-        - AWS S3 연동
-            - Boto3 라이브러리를 활용한 S3 업로드 기능 구현
-            - Presigned POST URL을 이용한 안전한 파일 업로드 로직 개발
+        - OpenCV 라이브러리를 활용한 이미지 처리 로직 구현: 리사이징 및 압축
+        - AWS S3 연동: Boto3로 Presigned POST URL을 이용한 안전한 파일 업로드 로직 개발
 - **문서 작업**
     - Notion을 활용한 프로젝트 문서 관리
-        - RESTful API 엔드포인트 문서화
+        - API 엔드포인트 문서화
         - 데이터베이스 스키마 및 모델 관계도 작성
 
 **공미희**
 
 - **백엔드 개발**
     - 상품(Products) 앱
-        - ModelSerializer를 사용하여 Product 모델의 직렬화/역직렬화 로직 구현
-        - ViewSet을 활용한 CRUD 엔드포인트 설계
+        - ViewSet 및 ModelSerializer를 활용한 CRUD 엔드포인트 설계
         - Custom permission classes 개발로 세분화된 접근 제어 구현
     - 신고(Reports) 앱
-        - 사용자 신고 기능 구현
         - 신고 처리 워크플로우 설계 및 개발
         - 관리자 대시보드를 위한 신고 통계 API 구현
-    - 테스트(test) 코드 작성
+    - **pytest** 를 통한 테스트 작성 및 관리
         - conftest.py를 통한 테스트 픽스처 관리
         - 각 앱별 test 파일 작성 등 체계적인 테스트 구조 확립
 - **문서 작업 및 프레젠테이션**
@@ -82,106 +89,247 @@
 
 </br>
 
-## 프로젝트 개요
-
-### 목적(컨셉)
-
-- **<font color = "orange">감귤마켓</font>** 은 외부 스토어에서 판매하고 있는 상품(감귤)을 등록하여 홍보할 수 있는 SNS입니다.
-
-### 타겟
-
-- **주 타겟**은 감귤 판매 및 구매에 관심있는 사람들입니다.
-- **부 타겟** SNS를 통해 일상을 공유하고 소통하고자 하는 모든 사람들입니다.
-
-### 프로젝트 일정
-워밍업 기간 동안 개발 환경을 구축하고 핵심 기능을 빠르게 구현한 뒤, 애자일한 프로세스를 적용하여 세부 기능을 개발하거나 전반적으로 기능을 고도화 하였습니다.
-
-1. **워밍업**
-   2024.9.13.(금) ~ 9.20.(금), 8일 간
-
-
-2. **주요 개발 일정**
-   2024.9.23.(월) ~ 10.14.(월), 22일 간
-</br>
-
-
-## WBS
-<p align="center">
-  <img src="https://file.notion.so/f/f/e356c91b-b91d-4db6-a60d-8969d0bcddb6/5d252d33-db17-4fcc-bb53-110410a687d4/WBS.png?table=block&id=b31a1e36-d63d-4bec-a911-201fd92ee523&spaceId=e356c91b-b91d-4db6-a60d-8969d0bcddb6&expirationTimestamp=1728986400000&signature=1v7TIT0ZwGpfUWu2FqBEW3iX-vLUK2akCO7-TlMqeUA&downloadName=WBS.png" />
-</p>
-<p align="center">
-  <img src="https://file.notion.so/f/f/e356c91b-b91d-4db6-a60d-8969d0bcddb6/8d6433ec-4dc9-43f0-9ef5-09ee8277bf69/gantt_chart.png?table=block&id=05474b71-a7fb-41b2-b7f9-0b29e33f8bfd&spaceId=e356c91b-b91d-4db6-a60d-8969d0bcddb6&expirationTimestamp=1728986400000&signature=iEuNdo6O9Nft0M4_QejtsWDiXDQ3YGOklA-D2KRYyKM&downloadName=gantt+chart.png" />
-</p>
-
-</br>
-
-## ERD 및 전체 다이어그램
+## 🗞️ 아키텍쳐
 
 <p align="center">
-  <img src="https://file.notion.so/f/f/e356c91b-b91d-4db6-a60d-8969d0bcddb6/6739af05-1492-4626-9810-2afb3be28a14/ERD_test_image3.png?table=block&id=2975ceb7-adb5-483b-8881-6c928d5dacad&spaceId=e356c91b-b91d-4db6-a60d-8969d0bcddb6&expirationTimestamp=1728986400000&signature=irUAP9CNVSG6oInbzIeyAA3plyFoHMlGV5cq7ee0ZxQ&downloadName=ERD+test+image3.png" />
+  <img src="https://github.com/ds5105119/tangerineAPI/blob/TG-127--issue-148/readme_img/tangerine-arch.jpg?raw=true" />
 </p>
 
 
-</br>
+## 📅 Work breakdown structure
+JIRA를 사용하여 체계적으로 관리되었습니다.
 
-## API 명세서
-API는 Swagger를 통해 확인할 수 있으며, Swagger UI를 사용하면 API 엔드포인트, 요청 및 응답 형식을 손쉽게 시각적으로 확인하고 테스트할 수 있습니다.
+```mermaid
+gantt
+    dateFormat YYYY-MM-DD
+    axisFormat %m/%d
+
+    section 초기 설정
+    개발 초기 환경 설정 :2024-09-13, 2d
+    JIRA 연동 설정 :2024-09-14, 3d
+    프로젝트 구조 설정 :2024-09-14, 3d
+
+    section 앱 개발
+    accounts 앱 구현 :2024-09-15, 6d
+    일반 로그인 로직 구현 :2024-09-15, 1d
+    account 앱 업그레이드 :2024-09-15, 6d
+    팔로워 팔로잉 앱 업그레이드 :2024-09-17, 1d
+    profiles 앱 전체 리팩토링 :2024-09-20, 3d
+    product app 생성 및 개발 :2024-09-24, 1d
+    Product App 고도화 :2024-09-25, 6d
+    Chat 앱 구현 :2024-09-25, 1d
+    chat 기능 추가 :2024-09-27, 10d
+    likes 좋아요 기능 :2024-09-23, 3d
+    Report App 생성 :2024-10-11, 3d
+    images 앱 개발 :2024-10-11, 2d
+
+    section 기능 구현
+    팔로우/팔로잉 수 구현 :2024-09-15, 6d
+    chat 기능 추가 :2024-09-18, 10d
+
+    section 테스트
+    Tests 폴더 및 test 파일 생성 :2024-09-27, 4d
+    좋아요(likes)앱 test 파일, 기능 추가 :2024-10-02, 2d
+    test_product 보완 :2024-10-02, 9d
+    likes앱 views.py annotate 적용, 테스트 코드 수정 :2024-10-08, 2d
+
+    section 프론트엔드
+    프론트엔드 개발 :2024-09-22, 23d
+
+    section 버그 수정
+    일반 로그인 유저 소셜 로그인 연동 버그 :2024-09-26, 2d
+    API 유저 생성 시 profile_id null 허용 안 함 :2024-09-23, 1d
+```
 
 
-주소 : /api/schema/swagger-ui/
+## 🖌️ Entity Relationship Diagram
 
-| **API 분류** | **엔드포인트** | **메서드** | **설명** | **권한** |
-| --- | --- | --- | --- | --- |
-| **Accounts** |  |  |  |  |
-|  | `/accounts/google/login/` | POST | Google OAuth2를 통한 소셜 로그인 | AllowAny |
-|  | `/accounts/users/{handle}/` | GET | 특정 사용자 정보 조회 | AllowAny |
-|  | `/accounts/users/` | GET | 사용자 리스트 조회 | IsAuthenticated |
-|  | `/accounts/users/{handle}/` | PATCH | 사용자 정보 부분 업데이트 | IsAuthenticated |
-|  | `/accounts/users/{handle}/` | PUT | 사용자 정보 전체 업데이트 | IsAuthenticated |
-|  | `/accounts/users/{handle}/` | DELETE | 사용자 삭제 | IsAuthenticated |
-|  | `/accounts/password/reset/` | POST | 비밀번호 초기화 요청 | AllowAny |
-|  | `/accounts/password/change/` | POST | 비밀번호 변경 | IsAuthenticated |
-|  | `/accounts/login/` | POST | 이메일/비밀번호 로그인 | AllowAny |
-|  | `/accounts/logout/` | POST | 로그아웃 | IsAuthenticated |
-|  | `/accounts/token/refresh/` | POST | 토큰 갱신 | AllowAny |
-| **Posts** |  |  |  |  |
-|  | `/posts/p/` | POST | 게시글 생성 | IsAuthenticated |
-|  | `/posts/p/{uuid}/` | GET | 게시글 상세 조회 | AllowAny |
-|  | `/posts/p/{uuid}/` | PUT, PATCH | 게시글 수정 | IsAuthenticated |
-|  | `/posts/p/{uuid}/` | DELETE | 게시글 삭제 | IsAuthenticated |
-|  | `/posts/latest/` | GET | 최신 게시글 조회 | AllowAny |
-|  | `/posts/latest/{handle}/` | GET | 특정 사용자의 최신 게시글 조회 | AllowAny |
-|  | `/posts/presigned/` | POST | AWS S3 Presigned URL 요청 | IsAuthenticated |
-| **Comments** |  |  |  |  |
-|  | `/comments/` | GET, POST | 댓글 목록 조회 및 생성 | IsAuthenticated |
-|  | `/comments/user/` | GET | 특정 사용자 댓글 목록 조회 | IsAuthenticated |
-|  | `/comments/{id}/` | DELETE | 댓글 삭제 | IsAuthenticated |
-| **Follows** |  |  |  |  |
-|  | `/follows/` | POST | 팔로우 생성 | IsAuthenticated |
-|  | `/follows/{handle}/follows/` | GET | 팔로우 목록 조회 | IsAuthenticated |
-|  | `/follows/{handle}/followers/` | GET | 팔로워 목록 조회 | IsAuthenticated |
-|  | `/follows/{handle}/unfollow/` | DELETE | 언팔로우 | IsAuthenticated |
-|  | `/follows/{handle}/unfollower/` | DELETE | 팔로워 삭제 | IsAuthenticated |
-| **Products** |  |  |  |  |
-|  | `/products/` | POST | 상품 생성 | IsAuthenticated |
-|  | `/products/` | GET | 상품 목록 조회 | AllowAny |
-|  | `/products/{uuid}/` | GET | 상품 상세 조회 | AllowAny |
-|  | `/products/{uuid}/` | PUT | 상품 업데이트 | IsAuthenticated |
-|  | `/products/{uuid}/` | DELETE | 상품 삭제 | IsAuthenticated |
-|  | `/products/recommend/` | GET | 추천 상품 조회 | AllowAny |
-|  | `/products/latest/{handle}/` | GET | 특정 사용자의 최신 상품 조회 | AllowAny |
-| **Likes** |  |  |  |  |
-|  | `/likes/post-likes/` | POST | 게시글 좋아요 추가 | IsAuthenticated |
-|  | `/likes/post-likes/{uuid}/` | DELETE | 게시글 좋아요 취소 | IsAuthenticated |
-|  | `/likes/post-likes/` | GET | 게시글 좋아요 사용자 목록 조회 | IsAuthenticated |
-|  | `/likes/comment-likes/` | POST | 댓글 좋아요 추가 | IsAuthenticated |
-|  | `/likes/comment-likes/{uuid}/` | DELETE | 댓글 좋아요 취소 | IsAuthenticated |
-|  | `/likes/comment-likes/` | GET | 댓글 좋아요 사용자 목록 조회 | IsAuthenticated |
-|  | `/likes/comment-likes/{uuid}/` | GET | 댓글 좋아요 수 조회 | IsAuthenticated |
-|  | `/likes/reply-likes/` | POST | 답글 좋아요 추가 | IsAuthenticated |
-|  | `/likes/reply-likes/{uuid}/` | DELETE | 답글 좋아요 취소 | IsAuthenticated |
-|  | `/likes/reply-likes/` | GET | 답글 좋아요 사용자 목록 조회 | IsAuthenticated |
-|  | `/likes/reply-likes/{uuid}/` | GET | 답글 좋아요 수 조회 | IsAuthenticated |
+```mermaid
+erDiagram
+    USER {
+        datetime last_login
+        boolean is_active
+        boolean is_superuser
+        varchar username
+        varchar email
+        varchar password
+        datetime created_at
+        datetime updated_at
+        varchar uuid
+        bigint id
+    }
+    POSTS_POST {
+        bigint id
+        text text
+        int user_id
+        varchar status
+        datetime created_at
+        datetime updated_at
+        varchar uuid
+    }
+    POSTS_CATEGORY {
+        int id
+        varchar name
+        int user_id
+    }
+    POSTS_UTILDIGESTITEM {
+        bigint id
+    }
+    LIKES_POSTLIKE {
+        bigint id
+        datetime created_at
+        int like_user_id
+        int post_id
+        varchar uuid
+    }
+    LIKES_COMMENTLIKE {
+        bigint id
+        datetime created_at
+        int comment_id
+        int like_user_id
+        varchar uuid
+    }
+    LIKES_REPLYLIKE {
+        bigint id
+        datetime created_at
+        int reply_id
+        int like_user_id
+        varchar uuid
+    }
+    COMMENT {
+        bigint id
+        varchar content
+        int post_id
+        int user_id
+        datetime created_at
+        datetime updated_at
+        varchar uuid
+    }
+    REPLY {
+        bigint id
+        varchar content
+        int comment_id
+        int user_id
+        datetime created_at
+        datetime updated_at
+        varchar uuid
+    }
+    FOLLOW {
+        bigint id
+        int follower_id
+        int followed_id
+        datetime created_at
+    }
+    IMAGES_POSTIMAGE {
+        bigint id
+        varchar name
+        varchar content_type
+        varchar key
+        varchar policy
+        varchar split
+        int user_id
+        varchar uuid
+    }
+    PRODUCTS_PRODUCT {
+        bigint id
+        varchar name
+        varchar product_image_link
+        varchar product_link
+        datetime created_at
+        datetime updated_at
+        varchar uuid
+    }
+    PROFILES_PROFILE {
+        bigint id
+        varchar link_1
+        varchar link_2
+        varchar profile_image
+        boolean is_active
+        boolean is_superuser
+    }
+    CHAT_ROOM {
+        varchar name
+        varchar owner_id
+        varchar uuid
+        bigint id
+    }
+    CHAT_MEMBER {
+        int member_id
+        int chat_id
+        datetime updated_at
+    }
+    CHAT_MESSAGE {
+        int member_id
+        int chat_id
+        datetime created_at
+        text text
+        bigint id
+    }
+    USER_GROUPS {
+        int user_id
+        int group_id
+        bigint id
+    }
+    USER_PERMISSIONS {
+        int user_id
+        int permission_id
+        bigint id
+    }
+    ACCOUNT_EMAILADDRESS {
+        varchar email
+        boolean verified
+        boolean primary
+        int user_id
+        bigint id
+    }
+    ACCOUNT_EMAILCONFIRMATION {
+        varchar email
+        datetime created
+        datetime sent
+        bigint id
+    }
+    SOCIALACCOUNT_SOCIALACCOUNT {
+        varchar provider
+        varchar uid
+        datetime last_login
+        datetime date_joined
+        bigint id
+    }
+    SOCIALACCOUNT_SOCIALAPPTOKEN {
+        varchar token
+        datetime expires_at
+        varchar app_id
+        bigint id
+    }
+    SOCIALACCOUNT_SOCIALAPP {
+        varchar name
+        varchar client_id
+        varchar secret
+        varchar provider
+        bigint id
+    }
+
+    USER ||--o{ POSTS_POST : "writes"
+    POSTS_POST ||--o{ LIKES_POSTLIKE : "receives"
+    USER ||--o{ COMMENT : "makes"
+    COMMENT ||--o{ LIKES_COMMENTLIKE : "receives"
+    USER ||--o{ FOLLOW : "follows"
+    USER ||--o{ IMAGES_POSTIMAGE : "uploads"
+    USER ||--o{ PRODUCTS_PRODUCT : "creates"
+    USER ||--o{ PROFILES_PROFILE : "has"
+    USER ||--o{ CHAT_ROOM : "owns"
+    CHAT_ROOM ||--o{ CHAT_MEMBER : "contains"
+    CHAT_ROOM ||--o{ CHAT_MESSAGE : "includes"
+    USER ||--o{ USER_GROUPS : "belongs_to"
+    USER ||--o{ USER_PERMISSIONS : "assigned_to"
+    USER ||--o{ ACCOUNT_EMAILADDRESS : "has"
+    ACCOUNT_EMAILADDRESS ||--o{ ACCOUNT_EMAILCONFIRMATION : "confirms"
+    USER ||--o{ SOCIALACCOUNT_SOCIALACCOUNT : "linked_to"
+    SOCIALACCOUNT_SOCIALACCOUNT ||--o{ SOCIALACCOUNT_SOCIALAPPTOKEN : "uses"
+    SOCIALACCOUNT_SOCIALAPPTOKEN ||--o{ SOCIALACCOUNT_SOCIALAPP : "associated_with"
+```
+
+<a href src="https://github.com/ds5105119/tangerineAPI/blob/TG-127--issue-148/readme_img/tangerine-erd.png?raw=true">이미지 보기</a>
 
 </br>
 
@@ -272,9 +420,6 @@ graph TD
 
     U[이슈 템플릿]
     U -.-> A
-
-    V[Lightspeed Development]
-    V -.-> T
 ```
 
 5. **지속적 통합 및 지속적 배포(CI/CD)**
@@ -451,13 +596,9 @@ graph TD
 
 ## 화면
 
-| **페인페이지** |  |  |  |
-| --- | --- | --- | --- |
-|  |  |  |  |
-|  |  |  |  |
-|  |  |  |  |
-|  |  |  |  |
-|  |  |  |  |
+<p align="center">
+  <img src="https://github.com/ds5105119/tangerineAPI/blob/TG-127--issue-148/readme_img/tangerine-image.jpg?raw=true" />
+</p>
 
 ### 시연 영상
 </br>
@@ -513,16 +654,6 @@ graph TD
 
 </br>
 
-## 배포주소
-
-> **개발 버전**
->
->**프론트 서버**
->
->**백엔드 서버**
-
-</br>
-
 ## 트러블슈팅
 
 1. **Alluth 호환성 문제**
@@ -569,5 +700,68 @@ graph TD
 - **팀 협업**을 통해 코드 리뷰의 중요성을 인식하고 기술 리더십과 의사소통 능력도 향상되었습니다. 이번 프로젝트로 Django 개발의 기반을 다지고, 더 큰 규모의 프로젝트에 도전할 준비를 마쳤습니다. :)
 
 
-## 관련자료
-- 발표 PPT : https://www.figma.com/slides/RSDOtRS8czig44KfS2KIsz/%EA%B0%90%EA%B7%A4%EB%A7%88%EC%BC%93?node-id=45-998&t=SbiKTlXGDagBqhHY-1
+# 기타
+**프레젠테이션** : https://www.figma.com/slides/RSDOtRS8czig44KfS2KIsz/%EA%B0%90%EA%B7%A4%EB%A7%88%EC%BC%93?node-id=45-998&t=SbiKTlXGDagBqhHY-1
+
+### API 명세서
+API는 Swagger를 사용하여 관리하였으며, Postman을 사용하여 체계적으로 API 엔드포인트, 요청 및 응답을 테스트 하였습니다.
+
+
+주소 : /api/schema/swagger-ui/
+
+예시 엔드포인트
+
+| **API 분류** | **엔드포인트** | **메서드** | **설명** | **권한** |
+| --- | --- | --- | --- | --- |
+| **Accounts** |  |  |  |  |
+|  | `/accounts/google/login/` | POST | Google OAuth2를 통한 소셜 로그인 | AllowAny |
+|  | `/accounts/users/{handle}/` | GET | 특정 사용자 정보 조회 | AllowAny |
+|  | `/accounts/users/` | GET | 사용자 리스트 조회 | IsAuthenticated |
+|  | `/accounts/users/{handle}/` | PATCH | 사용자 정보 부분 업데이트 | IsAuthenticated |
+|  | `/accounts/users/{handle}/` | PUT | 사용자 정보 전체 업데이트 | IsAuthenticated |
+|  | `/accounts/users/{handle}/` | DELETE | 사용자 삭제 | IsAuthenticated |
+|  | `/accounts/password/reset/` | POST | 비밀번호 초기화 요청 | AllowAny |
+|  | `/accounts/password/change/` | POST | 비밀번호 변경 | IsAuthenticated |
+|  | `/accounts/login/` | POST | 이메일/비밀번호 로그인 | AllowAny |
+|  | `/accounts/logout/` | POST | 로그아웃 | IsAuthenticated |
+|  | `/accounts/token/refresh/` | POST | 토큰 갱신 | AllowAny |
+| **Posts** |  |  |  |  |
+|  | `/posts/p/` | POST | 게시글 생성 | IsAuthenticated |
+|  | `/posts/p/{uuid}/` | GET | 게시글 상세 조회 | AllowAny |
+|  | `/posts/p/{uuid}/` | PUT, PATCH | 게시글 수정 | IsAuthenticated |
+|  | `/posts/p/{uuid}/` | DELETE | 게시글 삭제 | IsAuthenticated |
+|  | `/posts/latest/` | GET | 최신 게시글 조회 | AllowAny |
+|  | `/posts/latest/{handle}/` | GET | 특정 사용자의 최신 게시글 조회 | AllowAny |
+|  | `/posts/presigned/` | POST | AWS S3 Presigned URL 요청 | IsAuthenticated |
+| **Comments** |  |  |  |  |
+|  | `/comments/` | GET, POST | 댓글 목록 조회 및 생성 | IsAuthenticated |
+|  | `/comments/user/` | GET | 특정 사용자 댓글 목록 조회 | IsAuthenticated |
+|  | `/comments/{id}/` | DELETE | 댓글 삭제 | IsAuthenticated |
+| **Follows** |  |  |  |  |
+|  | `/follows/` | POST | 팔로우 생성 | IsAuthenticated |
+|  | `/follows/{handle}/follows/` | GET | 팔로우 목록 조회 | IsAuthenticated |
+|  | `/follows/{handle}/followers/` | GET | 팔로워 목록 조회 | IsAuthenticated |
+|  | `/follows/{handle}/unfollow/` | DELETE | 언팔로우 | IsAuthenticated |
+|  | `/follows/{handle}/unfollower/` | DELETE | 팔로워 삭제 | IsAuthenticated |
+| **Products** |  |  |  |  |
+|  | `/products/` | POST | 상품 생성 | IsAuthenticated |
+|  | `/products/` | GET | 상품 목록 조회 | AllowAny |
+|  | `/products/{uuid}/` | GET | 상품 상세 조회 | AllowAny |
+|  | `/products/{uuid}/` | PUT | 상품 업데이트 | IsAuthenticated |
+|  | `/products/{uuid}/` | DELETE | 상품 삭제 | IsAuthenticated |
+|  | `/products/recommend/` | GET | 추천 상품 조회 | AllowAny |
+|  | `/products/latest/{handle}/` | GET | 특정 사용자의 최신 상품 조회 | AllowAny |
+| **Likes** |  |  |  |  |
+|  | `/likes/post-likes/` | POST | 게시글 좋아요 추가 | IsAuthenticated |
+|  | `/likes/post-likes/{uuid}/` | DELETE | 게시글 좋아요 취소 | IsAuthenticated |
+|  | `/likes/post-likes/` | GET | 게시글 좋아요 사용자 목록 조회 | IsAuthenticated |
+|  | `/likes/comment-likes/` | POST | 댓글 좋아요 추가 | IsAuthenticated |
+|  | `/likes/comment-likes/{uuid}/` | DELETE | 댓글 좋아요 취소 | IsAuthenticated |
+|  | `/likes/comment-likes/` | GET | 댓글 좋아요 사용자 목록 조회 | IsAuthenticated |
+|  | `/likes/comment-likes/{uuid}/` | GET | 댓글 좋아요 수 조회 | IsAuthenticated |
+|  | `/likes/reply-likes/` | POST | 답글 좋아요 추가 | IsAuthenticated |
+|  | `/likes/reply-likes/{uuid}/` | DELETE | 답글 좋아요 취소 | IsAuthenticated |
+|  | `/likes/reply-likes/` | GET | 답글 좋아요 사용자 목록 조회 | IsAuthenticated |
+|  | `/likes/reply-likes/{uuid}/` | GET | 답글 좋아요 수 조회 | IsAuthenticated |
+
+</br>
