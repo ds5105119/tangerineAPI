@@ -4,6 +4,12 @@
   </p>
 </div>
 
+## 목차
+- [1. 🍊 프로젝트 개요](#1-🍊-프로젝트-개요)
+- [2. 👨‍⚕️ 팀 & 팀원 소개](#2-👨‍⚕️-팀-&-팀원-소개)
+- [3. 📐 프로젝트 설계](#3-📐-프로젝트-설계)
+- [# 4. 📚 기술스택](#4-📚-기술스택)
+
 # 1. 🍊 프로젝트 개요
 
 <img src="https://img.shields.io/badge/python-3776AB?style=flat-square&logo=python&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/django-092E20?style=flat-square&logo=django&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/djangorestframework-DA291C?style=flat-square"/>&nbsp;<img src="https://img.shields.io/badge/gunicorn-499848?style=flat-square&logo=gunicorn&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/uvicorn-00AF9C?style=flat-square"/>&nbsp;<img src="https://img.shields.io/badge/opencv-5C3EE8?style=flat-square&logo=opencv&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/milvus-00A1EA?style=flat-square&logo=milvus&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/apachepulsar-188FFF?style=flat-square&logo=apachepulsar&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/postman-FF6C37?style=flat-square&logo=postman&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/docker-2496ED?style=flat-square&logo=docker&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/amazonwebservices-232F3E?style=flat-square&logo=amazonwebservices&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/typescript-3178C6?style=flat-square&logo=typescript&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/nextdotjs-000000?style=flat-square&logo=nextdotjs&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/reactquery-FF4154?style=flat-square&logo=reactquery&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/axios-5A29E4?style=flat-square&logo=axios&logoColor=white"/>&nbsp; 등 백엔드, 프론트엔드, ML 분야의 다양한 기술이 집약된 SNS, $\bf{\color{#F26E22}감귤마켓}$입니다.
