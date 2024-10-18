@@ -1,6 +1,6 @@
 <div align="center">
   <p align="center">
-    <img src="./readme_img/tangerine-cover.jpg" />
+    <img src="https://raw.githubusercontent.com/ds5105119/tangerineAPI/main/readme_img/tangerine-cover.jpg" />
   </p>
 </div>
 
@@ -106,7 +106,7 @@
 
 ## 3.1. 🗞️ 아키텍쳐
 <p align="center">
-  <img src="https://github.com/ds5105119/tangerineAPI/blob/TG-127--issue-148/readme_img/tangerine-arch.jpg?raw=true" />
+  <img src="https://raw.githubusercontent.com/ds5105119/tangerineAPI/main/readme_img/tangerine-arch.jpg" />
 </p>
 
 ## 3.2. 📅 Work breakdown structure
@@ -340,12 +340,12 @@ erDiagram
     SOCIALACCOUNT_SOCIALACCOUNT ||--o{ SOCIALACCOUNT_SOCIALAPPTOKEN : "uses"
     SOCIALACCOUNT_SOCIALAPPTOKEN ||--o{ SOCIALACCOUNT_SOCIALAPP : "associated_with"
 ```
-🔗 <a href src="https://github.com/ds5105119/tangerineAPI/blob/TG-127--issue-148/readme_img/tangerine-erd.png?raw=true">이미지로 보기</a>
+🔗 <a href src="https://raw.githubusercontent.com/ds5105119/tangerineAPI/main/readme_img/tangerine-erd.png">이미지로 보기</a>
 
 ## 3.4. 화면
 
 <p align="center">
-  <img src="https://github.com/ds5105119/tangerineAPI/blob/TG-127--issue-148/readme_img/tangerine-image.jpg?raw=true" />
+  <img src="https://raw.githubusercontent.com/ds5105119/tangerineAPI/main/readme_img/tangerine-image.jpg" />
 </p>
 
 <br />
@@ -481,8 +481,8 @@ erDiagram
 
 **🍊 회원 정보**
 
-- **소셜계정(google)을 활용한 회원가입 및 로그인**
-- **프로필 관리**
+- 소셜계정(google)을 활용한 회원가입 및 로그인
+- 프로필 관리
     - 사용자 정보 조회 및 수정
     - 작성 글/댓글 목록
 
@@ -565,13 +565,21 @@ erDiagram
 
 **김동현**
 
-어느때보다 정신없이 지나간 3주가 아닌가 싶습니다. 단기간에 소수의 인원으로 프론트와 백, ML의 다양한 기술들을 다루며 배포까지 진행해야 하는 하는 도전적인 프로젝트였습니다. 각자의 역할을 넘어서는 과정을 거치며 성장하는 것을 볼 수 있을 정도였던 것 같습니다. 마지막날까지 밤새도록 작업에 몰두해주신 두 팀원분들께 감사인사를 전합니다.
+어느때보다 정신없이 지나간 3주가 아닌가 싶습니다. 이제야 무언가 부족한 것이 없었는지 이제야 아쉬움이 느껴집니다. 
+
+이 프로젝트는 소규모의 팀으로 단기간에 프론트와 백, ML이라는 세 가지 주요 도메인을 다루며 풀스택 개발을 완수해야 하는 도전적인 프로젝트였습니다. 그럼에도 Django와 Next.js를 기반으로 한 견고한 풀스택 아키텍처 구축, Apache Pulsar를 활용한 실시간 메시징 시스템, 그리고 Milvus 기반 추천 시스템 및 CI/CD 및 취약점 분석까지 현대 소프트웨어 개발의 핵심 기술들을 성공적으로 도입하였습니다.
+
+이렇게 성공적으로 프로젝트를 마무리 할 수 있도록 마지막날까지 밤새도록 작업에 몰두해주신 두 팀원분들께 감사인사를 전합니다.
+
+<br />
 
 **권용인**
 
 프로젝트를 시작하기 전에는 막연하게 DRF generics를 활용하는 방법 외에는 생각하지 못했는데 이번 프로젝트를 통해 RESTful API에 대한 디자인, 보안을 생각한 접근, Read Only용도의 Serializer 작성 등 배우고 알게된 것이 많습니다.
 
 맡은 부분의 기능을 구현하는데 보람을 느껴서 시간이 가는 줄 모를 정도로 몰두할 수 있었고 Apache Pulsar를 활용한 실시간 채팅 기능과 Milvus DB를 체험해볼 수 있는 값진 경험을 얻게 되었습니다.
+
+<br />
 
 **공미희**
 
