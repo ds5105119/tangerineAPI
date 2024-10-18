@@ -6,7 +6,7 @@
 
 # 1. 🍊 프로젝트 개요
 
-<img src="https://img.shields.io/badge/python-3776AB?style=flat-square&logo=python&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/django-092E20?style=flat-square&logo=django&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/djangorestframework-DA291C?style=flat-square"/>&nbsp;<img src="https://img.shields.io/badge/gunicorn-499848?style=flat-square&logo=gunicorn&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/uvicorn-00AF9C?style=flat-square"/>&nbsp;<img src="https://img.shields.io/badge/opencv-5C3EE8?style=flat-square&logo=opencv&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/milvus-00A1EA?style=flat-square&logo=milvus&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/apachepulsar-188FFF?style=flat-square&logo=apachepulsar&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/postman-FF6C37?style=flat-square&logo=postman&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/docker-2496ED?style=flat-square&logo=docker&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/amazonwebservices-232F3E?style=flat-square&logo=amazonwebservices&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/typescript-3178C6?style=flat-square&logo=typescript&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/nextdotjs-000000?style=flat-square&logo=nextdotjs&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/reactquery-FF4154?style=flat-square&logo=reactquery&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/axios-5A29E4?style=flat-square&logo=axios&logoColor=white"/>&nbsp; 등 백엔드, 프론트엔드, ML 분야의 다양한 기술이 집약된 SNS, $\bf{\color{#F26E22}감귤마켓}$입니다.
+<img src="https://img.shields.io/badge/python-3776AB?style=flat-square&logo=python&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/django-092E20?style=flat-square&logo=django&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/djangorestframework-DA291C?style=flat-square"/>&nbsp;<img src="https://img.shields.io/badge/gunicorn-499848?style=flat-square&logo=gunicorn&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/uvicorn-00AF9C?style=flat-square"/>&nbsp;<img src="https://img.shields.io/badge/opencv-5C3EE8?style=flat-square&logo=opencv&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/milvus-00A1EA?style=flat-square&logo=milvus&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/apachepulsar-188FFF?style=flat-square&logo=apachepulsar&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/postman-FF6C37?style=flat-square&logo=postman&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/docker-2496ED?style=flat-square&logo=docker&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/amazonwebservices-232F3E?style=flat-square&logo=amazonwebservices&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/typescript-3178C6?style=flat-square&logo=typescript&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/nextdotjs-000000?style=flat-square&logo=nextdotjs&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/reactquery-FF4154?style=flat-square&logo=reactquery&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/axios-5A29E4?style=flat-square&logo=axios&logoColor=white"/>&nbsp;<img src="https://img.shields.io/badge/pm2-2B037A?style=flat-square&logo=pm2&logoColor=white"/>&nbsp; 등 백엔드, 프론트엔드, ML 분야의 다양한 기술이 집약된 SNS, $\bf{\color{#F26E22}감귤마켓}$입니다.
 
 ## 1.1. 목적(컨셉)
 
@@ -90,7 +90,7 @@
     - 신고(Reports) 앱
         - 신고 처리 워크플로우 설계 및 개발
         - 관리자 대시보드를 위한 신고 통계 API 구현
-    - **pytest** 를 통한 테스트 작성 및 관리
+    - **Pytest** 를 통한 테스트 작성 및 관리
         - conftest.py를 통한 테스트 픽스처 관리
         - 각 앱별 test 파일 작성 등 체계적인 테스트 구조 확립
 - **문서 작업 및 프레젠테이션**
@@ -352,7 +352,7 @@ erDiagram
 ## 4.1. 환경(Environment)
 
 1. **IDE: Pycharm, VSCode**
-   1. 두 IDE 모두 VCS 및 Jira와의 원활한 통합 지원하여 생산성을 높였습니다.
+   1. 두 IDE 모두 VCS 및 Jira와 통합하여 지원하여 생산성을 높였습니다.
 2. **언어(Language): Python, TypeScript**
    1. **Poetry**를 사용하여 파이썬 패키지를 효율적으로 관리하였습니다.
 3. **프로젝트 관리(Project Management System): Jira**
@@ -605,17 +605,11 @@ graph TD
 ## 회고
 
 - GitHub와 Jira를 활용한 **체계적인 프로젝트 관리**의 중요성을 깨달았습니다.
-
 - 데이터베이스 쿼리 최적화, 코드 재사용성 향상, 보안 기능 구현 과정에서 **코드 모듈화의 필요성을 체감**하며 많은 것을 배웠습니다.
-
 - RESTful API와 Pulsar 기반 실시간 채팅 시스템 구현을 통해 **확장 가능한 아키텍처 설계의 중요성을 직접 경험**했습니다.
-
 - **CI/CD 파이프라인 구축**과 다양한 개발 도구 활용으로 생산성이 크게 향상되었고, **open CV, Milvus를 이용한 유사도 검색 구현**으로 성능을 개선한 시간 또한 뜻깊은 경험이었습니다.
-
 - JWT와 Presigned POST URL을 활용한 **보안 강화 경험**은 실제 서비스 운영에 큰 도움이 될 것 같습니다.
-
 - **AWS 서비스 활용**으로 클라우드 네이티브 개발에 대한 이해도 깊어졌습니다.
-
 - **팀 협업**을 통해 코드 리뷰의 중요성을 인식하고 기술 리더십과 의사소통 능력도 향상되었습니다. 이번 프로젝트로 Django 개발의 기반을 다지고, 더 큰 규모의 프로젝트에 도전할 준비를 마쳤습니다. :)
 
 ### 개인 회고
@@ -642,14 +636,16 @@ graph TD
 
 
 # 기타
-**프레젠테이션** : https://www.figma.com/slides/RSDOtRS8czig44KfS2KIsz/%EA%B0%90%EA%B7%A4%EB%A7%88%EC%BC%93?node-id=45-998&t=SbiKTlXGDagBqhHY-1
+### 링크
+🔗 <a href="https://www.figma.com/slides/RSDOtRS8czig44KfS2KIsz/%EA%B0%90%EA%B7%A4%EB%A7%88%EC%BC%93?node-id=45-998&t=SbiKTlXGDagBqhHY-1">Figma 프레젠테이션</a>
+
+🔗 <a href="https://www.figma.com/slides/RSDOtRS8czig44KfS2KIsz/%EA%B0%90%EA%B7%A4%EB%A7%88%EC%BC%93?node-id=45-998&t=SbiKTlXGDagBqhHY-1">Notion</a>
 
 ### API 명세서
 API는 Swagger를 사용하여 관리하였으며, Postman을 사용하여 체계적으로 API 엔드포인트, 요청 및 응답을 테스트 하였습니다.
 
-주소 : /api/schema/swagger-ui/
-
-예시 엔드포인트
+<details>
+  <summary>주요 엔드포인트</summary>
 
 | **API 분류** | **엔드포인트** | **메서드** | **설명** | **권한** |
 | --- | --- | --- | --- | --- |
@@ -704,4 +700,5 @@ API는 Swagger를 사용하여 관리하였으며, Postman을 사용하여 체�
 |  | `/likes/reply-likes/` | GET | 답글 좋아요 사용자 목록 조회 | IsAuthenticated |
 |  | `/likes/reply-likes/{uuid}/` | GET | 답글 좋아요 수 조회 | IsAuthenticated |
 
+</details>
 </br>
