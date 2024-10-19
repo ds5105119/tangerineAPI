@@ -679,7 +679,12 @@ graph TD
 
 ### 시연 영상
 
+<details>
+  <summary>영상 보기</summary>
+  
+https://github.com/user-attachments/assets/2528f96a-0024-4fa2-9c19-213d4d746f52
 
+</details>
 
 ### API 명세서
 
