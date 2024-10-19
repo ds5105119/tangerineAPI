@@ -1,6 +1,6 @@
 <div align="center">
   <p align="center">
-    <img src="https://raw.githubusercontent.com/ds5105119/tangerineAPI/refs/heads/main/readme_img/tangerine-cover.jpg" />
+    <img src="https://raw.githubusercontent.com/tangerinenee/tangerinee/refs/heads/main/assets/tangerine-cover.jpg" />
   </p>
 </div>
 
@@ -106,7 +106,7 @@
 
 ## 3.1. 🗞️ 아키텍쳐
 <p align="center">
-  <img src="https://raw.githubusercontent.com/ds5105119/tangerineAPI/refs/heads/main/readme_img/tangerine-arch.jpg" />
+  <img src="https://raw.githubusercontent.com/tangerinenee/tangerinee/refs/heads/main/assets/tangerine-arch.jpg" />
 </p>
 
 ## 3.2. 📅 Work breakdown structure
@@ -342,13 +342,13 @@ erDiagram
 ```
 <details>
   <summary>이미지로 보기</summary>
-  <img src="https://raw.githubusercontent.com/ds5105119/tangerineAPI/refs/heads/main/readme_img/tangerine-erd.png" />
+  <img src="https://raw.githubusercontent.com/tangerinenee/tangerinee/refs/heads/main/assets/tangerine-erd.png" />
 </details>
 
 ## 3.4. 화면
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/ds5105119/tangerineAPI/refs/heads/main/readme_img/tangerine-image.jpg" />
+  <img src="https://raw.githubusercontent.com/tangerinenee/tangerinee/refs/heads/main/assets/tangerine-image.jpg" />
 </p>
 
 <br />
@@ -603,24 +603,24 @@ erDiagram
 <table align="center">
   <tr>
     <td align="center">
-      <img width="600" src="https://raw.githubusercontent.com/ds5105119/tangerineAPI/main/readme_img/jira.png" />
+      <img width="600" src="https://raw.githubusercontent.com/tangerinenee/tangerinee/refs/heads/main/assets/jira.png" />
       <br>
       <strong>Jira 통합 및 자동화</strong>
     </td>
     <td align="center">
-      <img width="600" src="https://raw.githubusercontent.com/ds5105119/tangerineAPI/main/readme_img/github_codeql.png" />
+      <img width="600" src="https://raw.githubusercontent.com/tangerinenee/tangerinee/refs/heads/main/assets/github_codeql.png" />
       <br>
       <strong>GitHub CodeQL 보안 취약점 탐지</strong>
     </td>
   </tr>
   <tr>
     <td align="center">
-      <img width="600" src="https://raw.githubusercontent.com/ds5105119/tangerineAPI/main/readme_img/code_review.png" />
+      <img width="600" src="https://raw.githubusercontent.com/tangerinenee/tangerinee/refs/heads/main/assets/code_review.png" />
       <br>
       <strong>지속 가능한 코드 리뷰 문화</strong>
     </td>
     <td align="center">
-      <img width="600" src="https://raw.githubusercontent.com/ds5105119/tangerineAPI/main/readme_img/notion.png" />
+      <img width="600" src="https://raw.githubusercontent.com/tangerinenee/tangerinee/refs/heads/main/assets/notion.png" />
       <br>
       <strong>Notion을 통한 문서화</strong>
     </td>
