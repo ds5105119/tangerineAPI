@@ -340,7 +340,10 @@ erDiagram
     SOCIALACCOUNT_SOCIALACCOUNT ||--o{ SOCIALACCOUNT_SOCIALAPPTOKEN : "uses"
     SOCIALACCOUNT_SOCIALAPPTOKEN ||--o{ SOCIALACCOUNT_SOCIALAPP : "associated_with"
 ```
-🔗 <a href src="https://github.com/ds5105119/tangerineAPI/blob/main/readme_img/tangerine-erd.png">이미지로 보기</a>
+<details>
+  <summary>이미지로 보기</summary>
+  <img src="https://raw.githubusercontent.com/ds5105119/tangerineAPI/refs/heads/main/readme_img/tangerine-erd.png" />
+</details>
 
 ## 3.4. 화면
 
