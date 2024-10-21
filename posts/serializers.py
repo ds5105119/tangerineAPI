@@ -4,7 +4,7 @@ from rest_framework import serializers
 from accounts.serializers import ReadOnlyUserExternalSerializer
 from comments.serializers import ReadOnlyCommentSerializer, ReplySerializer
 
-from .models import Post
+from .models import Category, Post
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -55,3 +55,23 @@ class PostSerializer(serializers.ModelSerializer):
                 }
             )
         return comment_data
+
+    def create(self, validated_data):
+        category_name = validated_data.pop("category", None)
+        user = self.context["request"].user
+
+        if category_name:
+            category, _ = Category.objects.get_or_create(name=category_name, user=user)
+            validated_data["category"] = category
+
+        validated_data["user"] = user
+        return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        category_name = validated_data.pop("category", None)
+
+        if category_name:
+            category, _ = Category.objects.get_or_create(name=category_name, user=instance.user)
+            validated_data["category"] = category
+
+        return super().update(instance, validated_data)
